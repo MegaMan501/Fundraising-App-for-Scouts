@@ -6,6 +6,7 @@ CSCE 4901: Capstone Project
 - Jacob Roquemore
 - Samuel Smetana
 - Khang Tran
+- Natnael Tsegaselassie
 
 ## Repository Structure
 |   Location |  Description |
