@@ -13,6 +13,7 @@ CSCE 4901: Capstone Project
 |---|---|
 |  [Doc](/Doc) |  Documentation for the project. |
 
-## Software
-- GitHub
-- Trello
+## Team Management Software
+- Telegram
+- [Trello](https://trello.com/b/pdx3dVVM/406-not-acceptable) 
+
