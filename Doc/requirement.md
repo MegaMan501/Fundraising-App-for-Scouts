@@ -43,6 +43,16 @@ List the Priority as 1 (High Priority - Critical) to 3 (Low Priority – Would b
 |  R7  |                 |             |          | 
 |  R8  |Offline database synchronization|Troop leader and scout can input the store data offline. Once connected to the Internet, the data will be updated to the online database             | 3         | 
 
+## Non-Functional Requirements
+ 
+•	NoSQL based technologies cannot be used.
+
+•	Security for all the record in the database and https/ssl for the website.
+
+### Sponsor Requirements
+
+I have read and approve the material in this document.  If there is no external sponsor, the TA or instructor will sign it for accuracy/scope.
+
 
 
 
