@@ -33,13 +33,8 @@ Provide a numbered list of features (F1, F2, etc.) that concisely, clearly, and 
 List the Priority as 1 (High Priority - Critical) to 3 (Low Priority – Would be nice if we have time)
 
 | No.| User Story Name | Description | Priority |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
+| ------ | ------------| ----------- | -------- |
+
 
 
 
