@@ -33,7 +33,15 @@ Provide a numbered list of features (F1, F2, etc.) that concisely, clearly, and 
 List the Priority as 1 (High Priority - Critical) to 3 (Low Priority – Would be nice if we have time)
 
 | No.| User Story Name | Description | Priority |
-| ------ | ------------| ----------- | -------- |
+| ---| ----------------| ----------- | -------- |
+|  R1  |Sales Tracking |The Troop leader should be able to view overall sales for individual scouts. They should also be able to set goals for the group and view progress towards the goals. A scout should be able to view their overall sales and the group sales, as well as group goals and the progress for those goals.             |     1     |   
+|  R2  |Inventory Management |The troop leader can view the troop’s inventory and change product details.  |     1     | 
+|  R3  |Individual sales tracking |The troop leader can view an individual scout’s sales records and filter results using a date range.             |     2     | 
+|  R4  |Event tracking  |The troop leader can create events and allocate inventory for the event.            |     2     | 
+|  R5  |Information Security|Troup leader and scout’s personal information, password will be hidden and can only be seen by its owner             |    2      | 
+|  R6  |Registration  |Troup leaders will have the ability to add accounts for the scouts.             |   1       | 
+|  R7  |                 |             |          | 
+|  R8  |Offline database synchronization|Troop leader and scout can input the store data offline. Once connected to the Internet, the data will be updated to the online database             | 3         | 
 
 
 
