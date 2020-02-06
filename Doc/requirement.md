@@ -45,9 +45,9 @@ List the Priority as 1 (High Priority - Critical) to 3 (Low Priority – Would b
 
 ## Non-Functional Requirements
  
-•	NoSQL based technologies cannot be used.
+- NoSQL based technologies cannot be used.
 
-•	Security for all the record in the database and https/ssl for the website.
+- Security for all the record in the database and https/ssl for the website.
 
 ### Sponsor Requirements
 
