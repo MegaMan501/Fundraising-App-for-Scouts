@@ -1,0 +1,48 @@
+$accent: rgb(111, 178, 241);
+$primary: rgb(255, 136, 85);
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 250px;
+  background-color: $accent;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.hidden {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+a:hover {
+  color: $accent;
+}
+
+.ico {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 5px solid $accent;
+  background-color: $primary;
+}

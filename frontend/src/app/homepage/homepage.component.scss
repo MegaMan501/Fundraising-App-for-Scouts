@@ -1,0 +1,52 @@
+.jumbotron {
+  background-color: rgb(88, 110, 233);
+}
+
+.jumbotron h1, p {
+  color: white;
+}
+
+@media screen and (min-width: 1200px) {
+  .homepage {
+    display: grid;
+    height: 100vh;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+    "jumbotron jumbotron jumbotron"
+    ;
+  }
+
+  .inventory {
+    grid-area: inventory;
+  }
+
+  .inventory-marketing {
+    grid-area: inventory-marketing;
+  }
+
+  .sales {
+    grid-area: sales;
+  }
+
+  .sales-marketing {
+    grid-area: sales-marketing;
+  }
+
+
+}
+
+@media screen and (min-width: 600px) {
+  .homepage {
+    display: grid;
+    height: 100vh;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+    "jumbotron jumbotron"
+    ;
+  }
+}
+
