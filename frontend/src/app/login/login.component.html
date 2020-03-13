@@ -1,1 +1,52 @@
-<p>login works!</p>
+<div class="login">
+  <div class="spacer1"></div>
+
+  <!-- Card -->
+  <mat-card class="acard">
+
+    <!-- Header -->
+    <mat-card-header>
+      <img mat-card-avatar src="../../assets/logo.svg" alt="logo">
+      <mat-card-title>Login</mat-card-title>
+      <mat-card-subtitle>GS Fundraising Platform</mat-card-subtitle>
+    </mat-card-header>
+
+    <!-- Content -->
+    <mat-card-content>
+      <form class="form">
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+                 placeholder="Ex. pat@example.com">
+          <!-- <mat-hint>Use the email that your Cookie Mom assigned to you.</mat-hint> -->
+          <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="emailFormControl.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+
+    <!-- Actions -->
+    <mat-card-actions>
+      <button mat-raised-button color="primary">Login</button>
+    </mat-card-actions>
+
+    <!-- Footer -->
+    <mat-card-footer>
+      <p>Verison 0.0.1</p>
+    </mat-card-footer>
+  </mat-card>
+
+  <div class="spacer2"></div>
+</div>

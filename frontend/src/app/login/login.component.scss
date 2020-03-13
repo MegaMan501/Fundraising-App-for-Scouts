@@ -1,0 +1,80 @@
+.full-width {
+  width: 100%;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+mat-card-actions {
+  text-align: center;
+  padding-top: 30px;
+}
+
+mat-card-footer {
+  text-align: right;
+  font-size: smaller;
+}
+
+.acard {
+  grid-area: acard;
+  max-height: 400px;
+  padding: 50px 50px 50px 50px;
+  margin: 100px 20px 100px 20px;
+  background-color: rgb(255, 255, 255);
+}
+
+.spacer1 {
+  grid-area: spacer1;
+  width: 200px;
+}
+.spacer2 {
+  grid-area: spacer2;
+  width: 200px;
+}
+
+@supports not (display: grid) {
+  .site {
+    max-width: 50em;
+    margin: 0 auto;
+  }
+}
+
+@supports (display: grid) {
+  @media screen and (min-width: 600px) {
+    .login {
+      display: grid;
+      height: 100vh;
+      grid-gap: 0px;
+      margin: 0;
+      padding: 0;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+      "spacer1 spacer1"
+      "acard acard"
+      "spacer2 spacer2"
+      ;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .login {
+      display: grid;
+      height: 100vh;
+      grid-gap: 0px;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-areas:
+      "spacer1 acard spacer2"
+      "spacer1 acard spacer2";
+    }
+  }
+}
+
+
+
+

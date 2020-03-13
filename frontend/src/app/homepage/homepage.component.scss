@@ -1,52 +1,113 @@
-.jumbotron {
-  background-color: rgb(88, 110, 233);
+
+@supports not (display: grid) {
+	.site {
+		max-width: 50em;
+		margin: 0 auto;
+	}
 }
 
-.jumbotron h1, p {
-  color: white;
-}
+@supports (display: grid) {
 
-@media screen and (min-width: 1200px) {
-  .homepage {
-    display: grid;
-    height: 100vh;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-areas:
-    "jumbotron jumbotron jumbotron"
-    ;
+  img {
+    height: auto;
+    max-width: 100%;
+  }
+
+  .jumbotron {
+    background-color: rgb(88, 110, 233);
+    grid-area: jumbotron;
+    height: 100%;
+    margin: 0;
+  }
+
+  .jumbotron h1 {
+    color: white;
   }
 
   .inventory {
     grid-area: inventory;
+    background-color: rgb(22, 169, 214);
+    padding: 20px 50px 20px 50px;
   }
 
-  .inventory-marketing {
-    grid-area: inventory-marketing;
+  .i-marketing {
+    grid-area: i-marketing;
   }
 
   .sales {
     grid-area: sales;
+    background-color: rgb(79, 238, 185);
+    padding: 20px 20px 20px 20px;
   }
 
-  .sales-marketing {
-    grid-area: sales-marketing;
+  .s-marketing {
+    grid-area: s-marketing;
   }
 
+  .events {
+    grid-area: events;
+    background-color: rgb(200, 117, 255);
+    padding: 20px 20px 20px 20px;
+  }
 
+  .e-marketing {
+    grid-area: e-marketing;
+  }
+
+  .footer {
+    grid-area: footer;
+    background-color: rgb(66, 131, 66);
+    height: 50px;
+    color: white;
+    text-align: center;
+    padding-top: 15px;
+  }
+
+  @media screen and (min-width: 600px) {
+    .homepage {
+      display: grid;
+      height: 100vh;
+      grid-gap: 0px;
+      margin: 0;
+      padding: 0;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+      "jumbotron jumbotron"
+      "i-marketing i-marketing"
+      "inventory inventory"
+      "s-marketing s-marketing"
+      "sales sales"
+      "e-marketing e-marketing"
+      "events events"
+      "footer footer"
+      ;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .homepage {
+      display: grid;
+      height: 100vh;
+      grid-gap: 0px;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-areas:
+      "jumbotron jumbotron jumbotron"
+      "i-marketing inventory inventory"
+      "sales sales s-marketing"
+      "e-marketing events events"
+      "footer footer footer"
+      ;
+    }
+
+    .i-marketing, .s-marketing, .e-marketing {
+      min-width: 40rem;
+    }
+
+    .jumbotron {
+      min-height: 340px;
+    }
+  }
 }
 
-@media screen and (min-width: 600px) {
-  .homepage {
-    display: grid;
-    height: 100vh;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-    "jumbotron jumbotron"
-    ;
-  }
-}
+
 

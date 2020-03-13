@@ -7,7 +7,10 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>GS-Fundraising</mat-toolbar>
+    <mat-toolbar>
+      <img src="../../assets/logo.svg" alt="logo">
+      GS-Fundraising
+    </mat-toolbar>
     <mat-nav-list>
       <a mat-list-item href="#">Explore</a>
       <a mat-list-item href="#">Login</a>
@@ -24,7 +27,7 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <a href="" [ngClass]="{hidden: (isHandset$ | async) === true}" class="ico"></a>
+      <a href="" [ngClass]="{hidden: (isHandset$ | async) === true}"><img src="../../assets/logo.svg" alt="logo"></a>
       <span class="spacer"></span>
       <a [routerLink]="['/']" routerLinkActive="mat-accent">Explore</a>
       <a [routerLink]="['/login']" routerLinkActive="mat-accent" >Login</a>

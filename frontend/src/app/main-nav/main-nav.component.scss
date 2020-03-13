@@ -1,8 +1,12 @@
-$accent: rgb(111, 178, 241);
-$primary: rgb(255, 136, 85);
+// $accent: rgb(255, 34, 126);
+$accent: #f995c2ff;
+$primary: rgb(209, 236, 255);
 
 .sidenav-container {
-  height: 100%;
+  height: 100vh;
+  background-image: url("../../assets/overlapping-circles.svg"),
+      url("../../assets/noisy-texture-300x300-blue.png");
+  background-repeat: repeat;
 }
 
 .sidenav {
@@ -31,18 +35,24 @@ $primary: rgb(255, 136, 85);
 a {
   text-decoration: none;
   color: white;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 a:hover {
   color: $accent;
 }
 
-.ico {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 5px solid $accent;
-  background-color: $primary;
+.sidenav a:hover {
+  color: white;
+}
+
+
+img {
+  width: 45px;
+  height: 45px;
+  // background-image: url("../../assets/logo.svg");
+  // border-radius: 50%;
+  // border: 5px solid $accent;
+  // background-color: $primary;
 }

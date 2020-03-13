@@ -11,6 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+
 import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardLeaderComponent } from './dashboard-leader/dashboard-leader.component';
@@ -20,6 +23,7 @@ import { EventsLeaderComponent } from './events-leader/events-leader.component';
 import { SalesLeaderComponent } from './sales-leader/sales-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -38,12 +42,16 @@ import { RequestsScoutComponent } from './requests-scout/requests-scout.componen
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     LayoutModule,
     MatToolbarModule,
     MatButtonModule,
+    MatInputModule,
     MatSidenavModule,
     MatIconModule,
+    MatCardModule,
     MatListModule
   ],
   providers: [],
