@@ -1,0 +1,2 @@
+Any certificate files (.pem, etc.), needed to connect to a remote database can
+be placed in this directory
