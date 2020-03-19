@@ -5,33 +5,33 @@ const db = require('../config/database');
  * can be found here:
  * https://sequelize.org/master/manual/model-basics.html#data-types
  */
-const User = db.define('users', {
-	user_id: {
+const Sale_Goal = db.define('sales_goals', {
+	goal_id: {
 		type: Sequelize.INTEGER(11),
 		primaryKey: true,
 		allowNull: false
 	},
+	user_id: {
+		type: Sequelize.INTEGER(11)
+	},
 	group_id: {
 		type: Sequelize.INTEGER(11)
 	},
-	full_name: {
-		type: Sequelize.STRING(100)
+	sales_goal: {
+		type: Sequelize.FLOAT
 	},
-	email: {
-		type: Sequelize.STRING(255)
+	due_date: {
+		type: Sequelize.DATEONLY
 	},
-	hash_pass: {
-		type: Sequelize.STRING(255)
+	due_time: {
+		type: Sequelize.TIME
 	},
-	leader_flag: {
-		type: Sequelize.BOOLEAN
+	fin_goal: {
+		type: Sequelize.FLOAT
 	},
-	admin_flag: {
-		type: Sequelize.BOOLEAN
-	},
-	verified: {
-		type: Sequelize.BOOLEAN
+	notif_int: {
+		type: Sequelize.INTEGER(11)
 	}
 });
 
-module.exports = User;
+module.exports = Sale_Goal;

@@ -5,33 +5,27 @@ const db = require('../config/database');
  * can be found here:
  * https://sequelize.org/master/manual/model-basics.html#data-types
  */
-const User = db.define('users', {
-	user_id: {
+const Product = db.define('products', {
+	product_id: {
 		type: Sequelize.INTEGER(11),
 		primaryKey: true,
 		allowNull: false
 	},
-	group_id: {
-		type: Sequelize.INTEGER(11)
+	prod_name: {
+		type: Sequelize.STRING(64)
 	},
-	full_name: {
-		type: Sequelize.STRING(100)
-	},
-	email: {
+	description: {
 		type: Sequelize.STRING(255)
 	},
-	hash_pass: {
-		type: Sequelize.STRING(255)
+	weight: {
+		type: Sequelize.FLOAT
 	},
-	leader_flag: {
-		type: Sequelize.BOOLEAN
+	cost: {
+		type: Sequelize.FLOAT
 	},
-	admin_flag: {
-		type: Sequelize.BOOLEAN
-	},
-	verified: {
-		type: Sequelize.BOOLEAN
+	sales_price: {
+		type: Sequelize.FLOAT
 	}
 });
 
-module.exports = User;
+module.exports = Product;
