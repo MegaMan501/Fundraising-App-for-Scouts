@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component'
 import { DashboardLeaderComponent } from './dashboard-leader/dashboard-leader.component';
 import { InventoryLeaderComponent } from './inventory-leader/inventory-leader.component';
 import { MembersLeaderComponent } from './members-leader/members-leader.component';
@@ -31,6 +32,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MainNavComponent,
     HomepageComponent,
     LoginComponent,
+    ForgotPasswordComponent,
     DashboardLeaderComponent,
     InventoryLeaderComponent,
     MembersLeaderComponent,

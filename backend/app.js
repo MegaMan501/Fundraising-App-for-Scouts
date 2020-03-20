@@ -28,6 +28,7 @@ app.get('/', (req, res) => res.send('INDEX'));
 //User routes (testing for now. All user data will not be viewable in final 
 //product unless user is admin)
 app.use('/users', require('./routes/users'));
+//app.use('/emailtest', require('./routes/emailtest'));
 
 /* Listening on port 5000, or what the process environments port is set as */
 const PORT = process.env.PORT || 5000;
