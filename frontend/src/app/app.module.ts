@@ -24,6 +24,7 @@ import { SalesLeaderComponent } from './sales-leader/sales-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ChartsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     LayoutModule,
