@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartType, ChartOptions } from 'chart.js';
+import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
@@ -14,7 +14,7 @@ export class SalesLeaderComponent implements OnInit {
   public pieChartOptions: ChartOptions = {
     responsive: true,
     legend: {
-      position: 'top',
+      position: 'right',
     },
     plugins: {
       datalabels: {
@@ -25,16 +25,43 @@ export class SalesLeaderComponent implements OnInit {
       },
     }
   };
-  public pieChartLabels: Label[] = [['Download', 'Sales'], ['In', 'Store', 'Sales'], 'Mail Sales'];
+  public pieChartLabels: Label[] = [['Oreo'], ['Chocolate Chip'], 'Thin Mint'];
   public pieChartData: number[] = [300, 500, 100];
   public pieChartType: ChartType = 'pie';
   public pieChartLegend = true;
   public pieChartPlugins = [pluginDataLabels];
   public pieChartColors = [
     {
-      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
+      backgroundColor: ['rgba(153,255,102,0.9)', 'rgba(255,153,51,0.9)', 'rgba(255,255,102,0.9)'],
     },
   ];
+
+  public barChartOptions: ChartOptions = {
+    responsive: true,
+    // We use these empty structures as placeholders for dynamic theming.
+    scales: { xAxes: [{}], yAxes: [{}] },
+    plugins: {
+      datalabels: {
+        anchor: 'end',
+        align: 'end',
+      }
+    }
+  };
+  public barChartLabels: Label[] = ['Oreo', 'Chocolate Chip', 'Thin Mint', 'Smores'];
+  public barChartType: ChartType = 'bar';
+  public barChartLegend = true;
+  public barChartPlugins = [pluginDataLabels];
+
+  public barChartData: ChartDataSets[] = [
+    { data: [300, 500, 100, 81], label: 'Total' },
+    { data: [170, 190, 60, 45], label: 'Sold' }
+  ];
+  public barChartColors = [
+    {
+      backgroundColor: ['rgba(102,153,255,1)', 'rgba(153,102,102,1)'],
+    },
+  ];
+
 
   constructor() { }
 
@@ -48,6 +75,19 @@ export class SalesLeaderComponent implements OnInit {
 
   public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
+  }
+
+  public randomize(): void {
+    // Only Change 3 values
+    const data = [
+      Math.round(Math.random() * 100),
+      59,
+      80,
+      (Math.random() * 100),
+      56,
+      (Math.random() * 100),
+      40];
+    this.barChartData[0].data = data;
   }
 
   changeLabels() {
