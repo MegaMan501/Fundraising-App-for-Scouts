@@ -1,22 +1,39 @@
 <div>
   <div>
-    <div class="chart">
-      <canvas baseChart
-        [data]="pieChartData"
-        [labels]="pieChartLabels"
-        [chartType]="pieChartType"
-        [options]="pieChartOptions"
-        [plugins]="pieChartPlugins"
-        [colors]="pieChartColors"
-        [legend]="pieChartLegend">
-      </canvas>
+    <div style="display: block; width: 50%; height: 50%">
+      <div class="chart">
+        <canvas baseChart
+          [data]="pieChartData"
+          [labels]="pieChartLabels"
+          [chartType]="pieChartType"
+          [options]="pieChartOptions"
+          [colors]="pieChartColors"
+          [legend]="pieChartLegend">
+        </canvas>
+      </div>
     </div>
   </div>
 </div>
 <div>
-  <button mat-button mat-raised-button color="primary" (click)="pieChartLegend=!pieChartLegend">Toggle Legend</button>
+  <!--<button mat-button mat-raised-button color="primary" (click)="pieChartLegend=!pieChartLegend">Toggle Legend</button>
   <button mat-button mat-raised-button color="primary" (click)="changeLabels()">Change Labels</button>
   <button mat-button mat-raised-button color="primary" (click)="addSlice()">Add Slice</button>
   <button mat-button mat-raised-button color="primary" (click)="removeSlice()">Remove Slice</button>
-  <button mat-button mat-raised-button color="primary" (click)="changeLegendPosition()">Change Legend Position</button>
+  <button mat-button mat-raised-button color="primary" (click)="changeLegendPosition()">Change Legend Position</button>-->
+</div>
+
+<div>
+  <div>
+    <div style="display: block; width: 50%; height: 50%">
+      <canvas baseChart
+        [datasets]="barChartData"
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [plugins]="barChartPlugins"
+        [legend]="barChartLegend"
+        [chartType]="barChartType">
+      </canvas>
+    </div>
+    <!--<button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button>-->
+  </div>
 </div>
