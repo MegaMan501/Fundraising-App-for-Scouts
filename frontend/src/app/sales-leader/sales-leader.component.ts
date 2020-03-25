@@ -32,7 +32,7 @@ export class SalesLeaderComponent implements OnInit {
   public pieChartPlugins = [pluginDataLabels];
   public pieChartColors = [
     {
-      backgroundColor: ['rgba(153,255,102,0.9)', 'rgba(255,153,51,0.9)', 'rgba(255,255,102,0.9)'],
+      backgroundColor: ['rgba(0,153,102,0.85)', 'rgba(0,51,102,0.85)', 'rgba(255,255,102,0.85)'],
     },
   ];
 
