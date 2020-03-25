@@ -1,6 +1,125 @@
-<div>
-  <div>
-    <div style="display: block; width: 50%; height: 50%">
+  <div class="container">
+    <div class="div3">
+      <div class="row">
+        <div class="col-md">
+          <!--Card-->
+          <mdb-card cascade="true" wider="true">
+
+            <!--Card image-->
+            <div class="view view-cascade overlay waves-light" mdbWavesEffect>
+              <mdb-card-img src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera-course-photos.s3.amazonaws.com/70/d0d980933311e7bbd09b5119705dcb/5--Sales-Strategy-Final-Project.jpg?auto=format%2Ccompress&dpr=1"></mdb-card-img>
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+            <!--/Card image-->
+
+            <mdb-card-body cascade="true" class="text-center">
+              <!--Card content-->
+              <!--Title-->
+              <h4 class="card-title">
+                <strong>Total Sales</strong>
+              </h4>
+              <h5 class="indigo-text">
+                <strong></strong>
+              </h5>
+
+              <mdb-card-text>
+                $21,560
+              </mdb-card-text>
+
+            </mdb-card-body>
+            <!--/.Card content-->
+
+          </mdb-card>
+          <!--/.Card-->
+        </div>
+
+        <div class="col-md">
+          <!--Card-->
+          <mdb-card cascade="true" wider="true">
+
+            <!--Card image-->
+            <div class="view view-cascade overlay waves-light" mdbWavesEffect>
+              <mdb-card-img src="https://blog.leonardo.com/wp-content/uploads/2017/11/Revenue-going-up.jpg"></mdb-card-img>
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+            <!--/Card image-->
+
+            <mdb-card-body cascade="true" class="text-center">
+              <!--Card content-->
+              <!--Title-->
+              <h4 class="card-title">
+                <strong>Actual Revenue</strong>
+              </h4>
+              <h5 class="indigo-text">
+                <strong></strong>
+              </h5>
+
+              <mdb-card-text>
+                $8,250
+              </mdb-card-text>
+
+            </mdb-card-body>
+            <!--/.Card content-->
+
+          </mdb-card>
+          <!--/.Card-->
+        </div>
+
+        <div class="col-md">
+          <!--Card-->
+          <mdb-card cascade="true" wider="true">
+
+            <!--Card image-->
+            <div class="view view-cascade overlay waves-light" mdbWavesEffect>
+              <mdb-card-img src="https://ungerboeck.com/images/blog/images/AAEAAQAAAAAAAAUwAAAAJDA2ZmMwYjU4LTBlNTYtNGRlOS1iOGQ5LTU4ZjczMzQ3YTU3MQ.jpg"></mdb-card-img>
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+            <!--/Card image-->
+
+            <mdb-card-body cascade="true" class="text-center">
+              <!--Card content-->
+              <!--Title-->
+              <h4 class="card-title">
+                <strong>Total Event Sales</strong>
+              </h4>
+              <h5 class="indigo-text">
+                <strong></strong>
+              </h5>
+
+              <mdb-card-text>
+                $15,400
+              </mdb-card-text>
+
+            </mdb-card-body>
+            <!--/.Card content-->
+
+          </mdb-card>
+          <!--/.Card-->
+        </div>
+    </div>
+  </div>
+
+  <div class="mt-5 col-md-12"></div>
+
+  <div class="div1">
+    <div style="display: block; width: 50%; height: 50%; float: left;">
+      <canvas baseChart
+        [datasets]="barChartData"
+        [labels]="barChartLabels"
+        [options]="barChartOptions"
+        [plugins]="barChartPlugins"
+        [legend]="barChartLegend"
+        [chartType]="barChartType">
+      </canvas>
+    </div>
+
+    <div style="display: block; width: 50%; height: 50%; float: right;">
       <div class="chart">
         <canvas baseChart
           [data]="pieChartData"
@@ -13,27 +132,15 @@
       </div>
     </div>
   </div>
-</div>
-<div>
-  <!--<button mat-button mat-raised-button color="primary" (click)="pieChartLegend=!pieChartLegend">Toggle Legend</button>
+
+<!--<div>
+  <button mat-button mat-raised-button color="primary" (click)="pieChartLegend=!pieChartLegend">Toggle Legend</button>
   <button mat-button mat-raised-button color="primary" (click)="changeLabels()">Change Labels</button>
   <button mat-button mat-raised-button color="primary" (click)="addSlice()">Add Slice</button>
   <button mat-button mat-raised-button color="primary" (click)="removeSlice()">Remove Slice</button>
-  <button mat-button mat-raised-button color="primary" (click)="changeLegendPosition()">Change Legend Position</button>-->
+  <button mat-button mat-raised-button color="primary" (click)="changeLegendPosition()">Change Legend Position</button>
 </div>
 
 <div>
-  <div>
-    <div style="display: block; width: 50%; height: 50%">
-      <canvas baseChart
-        [datasets]="barChartData"
-        [labels]="barChartLabels"
-        [options]="barChartOptions"
-        [plugins]="barChartPlugins"
-        [legend]="barChartLegend"
-        [chartType]="barChartType">
-      </canvas>
-    </div>
-    <!--<button mat-button mat-raised-button color="primary" (click)="randomize()">Update</button>-->
-  </div>
-</div>
+
+</div>-->
