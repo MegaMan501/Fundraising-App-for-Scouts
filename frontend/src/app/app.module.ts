@@ -25,6 +25,8 @@ import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.compo
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { ChartsModule } from 'ng2-charts';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     LayoutModule,
+    MDBBootstrapModule,
+    MatGridListModule,
     MatToolbarModule,
     MatButtonModule,
     MatInputModule,
