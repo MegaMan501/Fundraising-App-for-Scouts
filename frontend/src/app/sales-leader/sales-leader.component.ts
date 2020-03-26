@@ -10,7 +10,7 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
   styleUrls: ['./sales-leader.component.scss']
 })
 export class SalesLeaderComponent implements OnInit {
-
+  // pie chart components
   public pieChartOptions: ChartOptions = {
     responsive: true,
     legend: {
@@ -36,6 +36,7 @@ export class SalesLeaderComponent implements OnInit {
     },
   ];
 
+  /*
   public barChartOptions: ChartOptions = {
     responsive: true,
     // We use these empty structures as placeholders for dynamic theming.
@@ -61,7 +62,67 @@ export class SalesLeaderComponent implements OnInit {
       backgroundColor: ['rgba(102,153,255,1)', 'rgba(153,102,102,1)'],
     },
   ];
+  */
 
+ public chartType = 'bar';
+
+ public chartDatasets: Array<any> = [
+   { data: [300, 170, 95, 81, 140], label: 'Sold' },
+   { data: [120, 70, 42, 64, 98], label: 'Unsold Inventory' },
+ ];
+
+ public chartLabels: Array<any> = ['Oreo', 'Thin Mints', 'Chocolate Chip', 'Smores', 'Crackers'];
+
+   public chartColors: Array<any> = [
+     {
+       backgroundColor: [
+         'rgba(0,51,102,0.8)',
+         'rgba(0,51,102,0.8)',
+         'rgba(0,51,102,0.8)',
+         'rgba(0,51,102,0.8)',
+         'rgba(0,51,102,0.8)'
+       ],
+       borderColor: [
+         'rgba(0,51,102,1)',
+         'rgba(0,51,102,1)',
+         'rgba(0,51,102,1)',
+         'rgba(0,51,102,1)',
+         'rgba(0,51,102,1)'
+       ],
+       borderWidth: 2,
+     },
+     {
+       backgroundColor: [
+         'rgba(255,255,102,0.8)',
+         'rgba(255,255,102,0.8)',
+         'rgba(255,255,102,0.8)',
+         'rgba(255,255,102,0.8)',
+         'rgba(255,255,102,0.8)'
+       ],
+       borderColor: [
+         'rgba(255,255,102,1)',
+         'rgba(255,255,102,1)',
+         'rgba(255,255,102,1)',
+         'rgba(255,255,102,1)',
+         'rgba(255,255,102,1)'
+       ],
+       borderWidth: 2,
+     },
+     ];
+
+     public chartOptions: any = {
+       responsive: true,
+         scales: {
+           xAxes: [{
+             stacked: true
+             }],
+           yAxes: [
+           {
+             stacked: true
+           }
+         ]
+       }
+     };
 
   constructor() { }
 
@@ -76,7 +137,7 @@ export class SalesLeaderComponent implements OnInit {
   public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
   }
-
+/*
   public randomize(): void {
     // Only Change 3 values
     const data = [
@@ -89,7 +150,7 @@ export class SalesLeaderComponent implements OnInit {
       40];
     this.barChartData[0].data = data;
   }
-
+*/
   changeLabels() {
     const words = ['hen', 'variable', 'embryo', 'instal', 'pleasant', 'physical', 'bomber', 'army', 'add', 'film',
       'conductor', 'comfortable', 'flourish', 'establish', 'circumstance', 'chimney', 'crack', 'hall', 'energy',
