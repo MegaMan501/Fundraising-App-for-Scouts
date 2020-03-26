@@ -1,1 +1,56 @@
-<p>members-leader works!</p>
+<div class="container-1">
+  <div class="cards-1">
+      <span class="group-title">Choose Groups</span>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon class="group-title material-icons">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+          <ng-template matMenuContent let-name="group">
+              <button mat-menu-item *ngFor="let groupName of groups" (click)="onSelect($event)">{{groupName}}</button>
+          </ng-template>
+      </mat-menu>
+  </div>
+</div>
+<!--End of class container-1-->
+
+
+
+<div class="container-2">
+  <div class="cards tble-1">
+      <caption>Group Name: </caption>
+      <table>
+          <tr>
+              <th>Name</th>
+              <th>Cookies</th>
+              <th>Revenue</th>
+              <th>Remaining Cookies</th>
+              <th>Something</th>
+          </tr>
+          <!-- List of members -->
+          <!-- <ng-container *ngIf="available==false; else available">
+              <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+              </tr>
+          </ng-container> -->
+
+          <ng-container *ngFor="let member of members">
+              <tr>
+                  <th>{{member.name}}</th>
+                  <th>{{member.revenue}}</th>
+                  <th>{{member.cookies}}</th>
+                  <th>{{member.remain}}</th>
+                  <th>{{member.something}}</th>
+              </tr>
+          </ng-container>
+
+      </table>
+
+  </div>
+
+
+</div>
+<!-- </div>  end of container-2 class -->
