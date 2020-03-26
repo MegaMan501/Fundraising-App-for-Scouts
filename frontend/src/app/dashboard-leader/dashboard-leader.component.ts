@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard-leader.component.scss']
 })
 export class DashboardLeaderComponent implements OnInit {
+  panelOpenState = false;
 
   constructor() { }
 

@@ -1,1 +1,47 @@
-<p>dashboard-leader works!</p>
+<div class="container">
+  <div class="cards">
+
+    <span class="title ">Choose Groups</span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon class="material-icons ">arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <ng-template matMenuContent let-name="group">
+        <button mat-menu-item>Group 1</button>
+        <button mat-menu-item>Group 2</button>
+      </ng-template>
+    </mat-menu>
+
+
+  </div>
+
+
+
+  <div class="cards">
+    <a [routerLink]="['/members-leader']"><h1 class="title ">Members</h1></a>
+  </div>
+
+
+  <div class="cards">
+    <a [routerLink]="['/events-leader']"><h1 class="title ">Event/Tasks</h1></a>
+  </div>
+
+
+  <div class="cards">
+    <a [routerLink]="['/sales-leader']"><h1 class="title ">Sales</h1></a>
+  </div>
+
+
+  <div class="cards">
+    <h1 class="title ">Others</h1>
+  </div>
+
+
+  <div class="cards">
+    <a [routerLink]="['/inventory-leader']"
+      ><h1 class="title ">Inventory</h1></a
+    >
+  </div>
+
+
+</div> <!-- end class="container" div -->

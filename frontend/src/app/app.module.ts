@@ -1,6 +1,6 @@
+// Angular Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,9 +14,15 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
+// External Modules
+import { ChartsModule } from 'ng2-charts';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+
+// Angular Components
 import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardLeaderComponent } from './dashboard-leader/dashboard-leader.component';
@@ -53,11 +59,14 @@ import { ErrorInterceptor } from './error/error.interceptor';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     LayoutModule,
+    ChartsModule,
+    MDBBootstrapModule.forRoot(),
     MatToolbarModule,
     MatButtonModule,
     MatInputModule,
     MatSidenavModule,
     MatIconModule,
+    MatMenuModule,
     MatCardModule,
     MatListModule,
     MatProgressSpinnerModule,
