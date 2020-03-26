@@ -105,20 +105,24 @@
     </div>
   </div>
 
-  <div class="mt-5 col-md-12"></div>
+  <div class="mt-5 col-md-16"></div>
 
+  <!--/.Bar Graph content-->
   <div class="div1">
     <div style="display: block; width: 50%; height: 50%; float: left;">
-      <canvas baseChart
-        [datasets]="barChartData"
-        [labels]="barChartLabels"
-        [options]="barChartOptions"
-        [plugins]="barChartPlugins"
-        [legend]="barChartLegend"
-        [chartType]="barChartType">
+      <canvas mdbChart
+              [chartType]="chartType"
+              [datasets]="chartDatasets"
+              [labels]="chartLabels"
+              [colors]="chartColors"
+              [options]="chartOptions"
+              [legend]="true"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)">
       </canvas>
     </div>
 
+    <!--/.Pie Chart content-->
     <div style="display: block; width: 50%; height: 50%; float: right;">
       <div class="chart">
         <canvas baseChart
