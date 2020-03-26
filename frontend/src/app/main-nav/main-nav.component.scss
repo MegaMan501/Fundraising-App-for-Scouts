@@ -4,13 +4,12 @@ $primary: rgb(209, 236, 255);
 
 .sidenav-container {
   height: 100vh;
-  background-image: url("../../assets/overlapping-circles.svg"),
-      url("../../assets/noisy-texture-300x300-blue.png");
+  background-color: $primary;
   background-repeat: repeat;
 }
 
 .sidenav {
-  width: 250px;
+  min-width: 270px;
   background-color: $accent;
 }
 
@@ -18,11 +17,11 @@ $primary: rgb(209, 236, 255);
   background: inherit;
 }
 
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
+// .mat-toolbar.mat-primary {
+//   position: sticky;
+//   top: 0;
+//   z-index: 1;
+// }
 
 .spacer {
   flex: 1 1 auto;
@@ -47,10 +46,20 @@ a:hover {
   color: white;
 }
 
+mat-toolbar a {
+  text-align: center;
+  text-decoration: none;
+  color: white;
+}
+
+mat-toolbar a:hover {
+  text-decoration: none;
+  color: $accent;
+}
 
 img {
-  width: 45px;
-  height: 45px;
+  width: 44px;
+  height: 44px;
   // background-image: url("../../assets/logo.svg");
   // border-radius: 50%;
   // border: 5px solid $accent;

@@ -6,41 +6,81 @@
 
     <!-- Header -->
     <mat-card-header>
-      <img mat-card-avatar src="../../assets/logo.svg" alt="logo">
+      <img mat-card-avatar src="../../assets/cookie-svgrepo-com.svg" alt="logo">
       <mat-card-title>Login</mat-card-title>
       <mat-card-subtitle>GS Fundraising Platform</mat-card-subtitle>
     </mat-card-header>
 
     <!-- Content -->
     <mat-card-content>
-      <form class="form">
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+      <form (submit)="onLogin(loginForm)" #loginForm="ngForm" class="form" *ngIf="!isLoading">
+
+        <!-- Email Input -->
+        <!-- [formControl]="emailFormControl"
+        [errorStateMatcher]="matcher" -->
         <mat-form-field appearance="standard" class="full-width">
           <mat-label>Email</mat-label>
-          <input matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
-                 placeholder="Ex. pat@example.com">
+          <input
+            matInput
+            name="email"
+            ngModel
+            type="email"
+            #emailInput="ngModel"
+            placeholder="Ex. example@example.com"
+            autocomplete="email"
+            required>
+          <mat-error *ngIf="emailInput.invalid">
+            Please enter a <strong>valid</strong> email address.
+          </mat-error>
           <!-- <mat-hint>Use the email that your Cookie Mom assigned to you.</mat-hint> -->
-          <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+          <!-- <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
             Please enter a valid email address
           </mat-error>
           <mat-error *ngIf="emailFormControl.hasError('required')">
             Email is <strong>required</strong>
-          </mat-error>
+          </mat-error> -->
         </mat-form-field>
+
+        <!-- Password Input -->
         <mat-form-field appearance="standard" class="full-width">
           <mat-label>Password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'">
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
-            [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+          <input
+            matInput
+            name="password"
+            ngModel
+            #passwordInput="ngModel"
+            [type]="hide ? 'password' : 'text'"
+            password
+            required
+            autocomplete="current-password">
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide Password'"
+            [attr.aria-pressed]="hide"
+            *ngIf="!isLoading">
+            <mat-icon>
+              {{hide ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
           </button>
         </mat-form-field>
-      </form>
-    </mat-card-content>
 
-    <!-- Actions -->
-    <mat-card-actions>
-      <button mat-raised-button color="primary">Login</button>
-    </mat-card-actions>
+        <!-- Actions -->
+        <mat-card-actions>
+            <div class="formsubmit">
+              <button
+                  type="submit"
+                  *ngIf="!isLoading"
+                  mat-raised-button
+                  color="primary">Login</button>
+            </div>
+        </mat-card-actions>
+      </form>
+
+
+    </mat-card-content>
 
     <!-- Footer -->
     <mat-card-footer>

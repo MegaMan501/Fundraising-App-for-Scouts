@@ -1,4 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
+
+  <!-- Side Nav -->
   <mat-sidenav
       #drawer
       class="sidenav"
@@ -7,18 +9,43 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
+
+    <!-- Top Side Nav -->
     <mat-toolbar>
-      <img src="../../assets/logo.svg" alt="logo">
-      GS-Fundraising
+      <a [routerLink]="['/']">
+        <img src="../../assets/cookie-svgrepo-com.svg" alt="logo">
+        GS-Fundraising
+      </a>
     </mat-toolbar>
+
+    <!-- Side Nav Routes -->
     <mat-nav-list>
-      <a mat-list-item href="#">Explore</a>
-      <a mat-list-item href="#">Login</a>
-      <!-- <a mat-list-item href="#"></a> -->
+      <a mat-list-item [routerLink]="['/']">Explore</a>
+      <a *ngIf="!userIsAuth" mat-list-item [routerLink]="['/login']">Login</a>
+
+       <!-- Leader/Admin Routes -->
+       <div *ngIf="userIsAdmin || userIsLeader">
+         <a *ngIf="userIsAuth" [routerLink]="['/dashboard-leader']" mat-list-item>Dashboard</a>
+         <a *ngIf="userIsAuth" [routerLink]="['/inventory-leader']" mat-list-item>Inventory</a>
+         <a *ngIf="userIsAuth" [routerLink]="['/members-leader']"   mat-list-item>Members</a>
+         <a *ngIf="userIsAuth" [routerLink]="['/events-leader']"    mat-list-item>Events</a>
+         <a *ngIf="userIsAuth" [routerLink]="['/sales-leader']"     mat-list-item>Sales</a>
+       </div>
+
+       <!-- Scout Routes -->
+       <div *ngIf="!userIsAdmin || !userIsLeader">
+         <a *ngIf="userIsAuth" [routerLink]="['/dashboard-scout']"  mat-list-item>Dashboard</a>
+         <a *ngIf="userIsAuth" [routerLink]="['/request-scout']"    mat-list-item>Request</a>
+       </div>
     </mat-nav-list>
+
   </mat-sidenav>
+
+  <!-- Top Toolbar -->
   <mat-sidenav-content>
     <mat-toolbar color="primary">
+
+      <!-- Hamburger Menu -->
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -27,11 +54,45 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <a href="" [ngClass]="{hidden: (isHandset$ | async) === true}"><img src="../../assets/logo.svg" alt="logo"></a>
+
+      <!-- Routes -->
+      <a href="" [ngClass]="{hidden: (isHandset$ | async) === true}">
+        <img src="../../assets/cookie-svgrepo-com.svg" alt="logo">
+      </a>
       <span class="spacer"></span>
-      <a [routerLink]="['/']" routerLinkActive="mat-accent">Explore</a>
-      <a [routerLink]="['/login']" routerLinkActive="mat-accent" >Login</a>
+
+      <!-- Show these Only When in handset mode -->
+      <div *ngIf="((isHandset$ | async) === false)">
+
+        <!-- Homepage Route -->
+        <a *ngIf="!userIsAuth" [routerLink]="['/']" routerLinkActive="mat-accent">Explore</a>
+
+        <!-- Leader/Admin Routes -->
+        <div *ngIf="userIsAdmin || userIsLeader">
+          <a *ngIf="userIsAuth" [routerLink]="['/dashboard-leader']" routerLinkActive="mat-accent">Dashboard</a>
+          <a *ngIf="userIsAuth" [routerLink]="['/inventory-leader']" routerLinkActive="mat-accent">Inventory</a>
+          <a *ngIf="userIsAuth" [routerLink]="['/members-leader']" routerLinkActive="mat-accent">Members</a>
+          <a *ngIf="userIsAuth" [routerLink]="['/events-leader']" routerLinkActive="mat-accent">Events</a>
+          <a *ngIf="userIsAuth" [routerLink]="['/sales-leader']" routerLinkActive="mat-accent">Sales</a>
+        </div>
+
+        <!-- Scout Routes -->
+        <div *ngIf="!userIsAdmin || !userIsLeader">
+          <a *ngIf="userIsAuth" [routerLink]="['/dashboard-scout']" routerLinkActive="mat-accent">Dashboard</a>
+          <a *ngIf="userIsAuth" [routerLink]="['/request-scout']" routerLinkActive="mat-accent">Request</a>
+        </div>
+
+      </div>
+
+      <!-- Login Route -->
+      <a *ngIf="!userIsAuth" [routerLink]="['/login']" routerLinkActive="mat-accent">Login</a>
+
+      <!-- Logout -->
+      <button mat-flat-button *ngIf="userIsAuth" color="warn" (click)="onLogout()">Logout</button>
     </mat-toolbar>
+
+    <!-- Angular Content Projection -->
     <ng-content></ng-content>
   </mat-sidenav-content>
+
 </mat-sidenav-container>

@@ -1,3 +1,4 @@
+
 .full-width {
   width: 100%;
 }
@@ -11,9 +12,11 @@ input.example-right-align {
   -moz-appearance: textfield;
 }
 
-mat-card-actions {
+.formsubmit {
+  display: block;
   text-align: center;
-  padding-top: 30px;
+
+  padding-top: 1rem;
 }
 
 mat-card-footer {
@@ -21,11 +24,15 @@ mat-card-footer {
   font-size: smaller;
 }
 
+mat-spinner {
+  margin: auto;
+}
+
 .acard {
   grid-area: acard;
   max-height: 400px;
-  padding: 50px 50px 50px 50px;
-  margin: 100px 20px 100px 20px;
+  padding: 50px 30px 50px 30px;
+  margin: 10rem 2rem 10rem 2rem;
   background-color: rgb(255, 255, 255);
 }
 
@@ -38,18 +45,19 @@ mat-card-footer {
   width: 200px;
 }
 
-@supports not (display: grid) {
-  .site {
-    max-width: 50em;
-    margin: 0 auto;
-  }
-}
+// @supports not (display: grid) {
+//   .login {
+//     max-width: 50em;
+//     margin: 0 auto;
+//   }
+// }
 
 @supports (display: grid) {
   @media screen and (min-width: 600px) {
     .login {
       display: grid;
-      height: 100vh;
+      // height: 100vh;
+      // width: 100vw;
       grid-gap: 0px;
       margin: 0;
       padding: 0;
@@ -65,12 +73,17 @@ mat-card-footer {
   @media screen and (min-width: 1200px) {
     .login {
       display: grid;
-      height: 100vh;
+      // height: 100vh;
+      // width: 100vw;
       grid-gap: 0px;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-areas:
       "spacer1 acard spacer2"
       "spacer1 acard spacer2";
+    }
+
+    .acard {
+      min-width: 700px;
     }
   }
 }
