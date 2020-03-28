@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev-backend": "nodemon server.js"
+    "backend": "node -r dotenv/config server.js",
+    "dev-backend": "nodemon -r dotenv/config server.js"
   },
   "author": "",
   "license": "ISC",

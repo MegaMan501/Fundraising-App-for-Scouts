@@ -32,7 +32,7 @@ mat-spinner {
   grid-area: acard;
   max-height: 400px;
   padding: 50px 30px 50px 30px;
-  margin: 10rem 2rem 10rem 2rem;
+  margin: 8rem 2rem 8rem 2rem;
   background-color: rgb(255, 255, 255);
 }
 
@@ -45,12 +45,12 @@ mat-spinner {
   width: 200px;
 }
 
-// @supports not (display: grid) {
-//   .login {
-//     max-width: 50em;
-//     margin: 0 auto;
-//   }
-// }
+@supports not (display: grid) {
+  .login {
+    max-width: 50em;
+    margin: 0 auto;
+  }
+}
 
 @supports (display: grid) {
   @media screen and (min-width: 600px) {

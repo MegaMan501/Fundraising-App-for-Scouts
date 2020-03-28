@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -64,6 +65,7 @@ import { ErrorInterceptor } from './error/error.interceptor';
     MatToolbarModule,
     MatButtonModule,
     MatInputModule,
+    MatExpansionModule,
     MatSidenavModule,
     MatIconModule,
     MatMenuModule,

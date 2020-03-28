@@ -34,62 +34,65 @@ app.use((req, res, next) => {
 });
 
 // add a admin to the database if there is none
-// INSERT INTO user (`full_name`, `email`, `hash_pass`, `leader_flag`, `admin_flag`, `verified`) VALUES ('john doe', 'test@test.com', 'qwerty', 1, 1, 1);
 addAdmin = (name, email, pass) => {
-    bcrypt.hash(pass, 10).then( hash => {
+    const qry = 'INSERT INTO user (`full_name`, `email`, `hash_pass`, `leader_flag`, `admin_flag`, `verified`) VALUES (?, ?, ?, 1, 1, 1)';
+    email = email.toLowerCase();
+    // hash the password and then send it to the database
+    bcrypt.hash(pass, 10)
+    .then(hash => {
         pass = hash; 
-        mysqlconn.query(
-            'INSERT INTO user (`full_name`, `email`, `hash_pass`, `leader_flag`, `admin_flag`, `verified`) VALUES (?, ?, ?, 1, 1, 1)',
-             [name, email, pass], (err, results, fields) => {
-                if(err) throw err; 
-                console.log("Successfully Added a Admin.");
-                // console.log(results); 
-             }); 
+        mysqlconn.query(qry, [name, email, pass], (err, results, fields) => {
+            if(err) throw err; 
+            console.log("Successfully Added a Admin.");
+        }); 
+    }).catch( error => {
+        if(error) throw error;
     }); 
 }
 
+// adds a scout to the database // helper function
 addScout = (name, email, pass) => {
+    const qry = 'INSERT INTO user (`full_name`, `email`, `hash_pass`, `leader_flag`, `admin_flag`, `verified`) VALUES (?, ?, ?, 0, 0, 1)';
+    email = email.toLowerCase();
     bcrypt.hash(pass, 10).then( hash => {
         pass = hash; 
-        mysqlconn.query(
-            'INSERT INTO user (`full_name`, `email`, `hash_pass`, `leader_flag`, `admin_flag`, `verified`) VALUES (?, ?, ?, 0, 0, 1)',
-             [name, email, pass], (err, results, fields) => {
-                if(err) throw err; 
+        mysqlconn.query( qry, [name, email, pass], (err, results, fields) => {
+            if(err) {
+                console.error(err.code, err.sqlMessage);
+            } else {
                 console.log("Successfully Added a Scout.");
-                // console.log(results); 
-             }); 
+            }
+        }); 
+    }).catch( error => {
+            console.error("HASH: ", error);
     }); 
 }
 
-
-// check if there is a admin in the database
+// query data
 hasAdmin = () => {
-    mysqlconn.query('SELECT COUNT(admin_flag) as admin FROM user', (err, rows, fields) => {
+    mysqlconn.query('SELECT COUNT(admin_flag) as admin FROM user where admin_flag=true', (err, rows, fields) => {
         if (err) throw err; 
-        // console.log('The solution is: ', rows[0].admin);
-        if(rows[0].admin>0) {
-            console.log("Admin User already exists"); 
-        } else {
-            console.log("Create Admin account"); 
-
-            r1.question("Enter Full Name: ", (name) => {
-                r1.question("Enter Email Address: ", (email) => {
-                    r1.question("Enter Password: ", (pass) => {
-                        addAdmin(name, email, pass);
-                        r1.close();
+            if (rows[0].admin == 0) {
+                console.log("Create an initial admin account!"); 
+                r1.question("Enter Full Name: ", (name) => {
+                    r1.question("Enter Email Address: ", (email) => {
+                        r1.question("Enter Password: ", (pass) => {
+                            addAdmin(name, email, pass);
+                            r1.close();
+                        });
                     });
-                });
-            }); 
-        }
+                }); 
+            }
+        // console.log("Admin User already exists"); 
+        // console.log('The solution is: ', rows[0].admin);
+        // console.log(rows);
     });
 }
 
-// msg user that read has closed
-// r1.on("close", () => {
-//     console.log("\nClosing stdin");
-// });
-
+// Check if admin account exists
 hasAdmin();
+
+// Add a scout if necessary
 // addScout("test","test@test.com","qwerty");
 
 // the API routes
