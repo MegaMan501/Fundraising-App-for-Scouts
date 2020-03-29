@@ -6,6 +6,7 @@ var db;
 function connDatabase() {
     if(!db) {
         db = mysql.createConnection({
+            port: process.env.MYSQL_PORT,
             host: process.env.MYSQL_HOST,
             user: process.env.MYSQL_USER,
             password: process.env.MYSQL_PWD,
@@ -20,7 +21,7 @@ function connDatabase() {
 
     db.connect((err) => {
         if(err) throw err; 
-        console.log("MySQL Server is Connected on: ", process.env.MYSQL_HOST+":"+process.env.PORT);
+        console.log("MySQL Server is Connected on: ", process.env.MYSQL_HOST+":"+process.env.MYSQL_PORT);
     }); 
 
     return db;

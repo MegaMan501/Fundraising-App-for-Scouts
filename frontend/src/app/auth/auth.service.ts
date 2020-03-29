@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-const BACKEND_URL = 'http://localhost:3306/api/users';
+const BACKEND_URL = 'http://localhost:45213/api/users';
 
 @Injectable({ providedIn: 'root'})
 export class AuthService {
