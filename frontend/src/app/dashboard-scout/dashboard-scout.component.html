@@ -1,1 +1,21 @@
 <p>dashboard-scout works!</p>
+<mat-card>
+    <mat-card-content>
+        <form (submit)="onSale()" [formGroup]="saleForm" >
+            <mat-form-field appearance="standard" class="full-width">
+                <mat-label>Cookie</mat-label>
+                <input
+                matInput
+                name="name"
+                type="name"
+                formControlName="name"
+                placeholder="EX: cookie">
+            </mat-form-field>
+            
+            <button
+                type="submit"
+                mat-raised-button
+                color="primary">Add Sale</button>
+        </form>
+    </mat-card-content>
+</mat-card>

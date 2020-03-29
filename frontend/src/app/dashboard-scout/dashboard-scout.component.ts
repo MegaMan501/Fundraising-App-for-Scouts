@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { SaleService } from '../sale/sale.service';
 
 @Component({
   selector: 'app-dashboard-scout',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardScoutComponent implements OnInit {
 
-  constructor() { }
+  saleForm: FormGroup;
+
+  constructor(public saleService: SaleService ) {     
+    this.saleForm = new FormGroup({
+    name: new FormControl(''),});
+  }
 
   ngOnInit(): void {
+  }
+
+  onSale()
+  {
+    this.saleService.addSale(this.saleForm.value.name);
   }
 
 }
