@@ -9,7 +9,7 @@ $primary: rgb(209, 236, 255);
 }
 
 .sidenav {
-  min-width: 300px;
+  min-width: 280px;
   background-color: $accent;
 }
 
@@ -43,14 +43,14 @@ a:hover {
 }
 
 .sidenav a:hover {
-  color: white;
+  color: rgb(7, 255, 201);
 }
 
 img {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 70%;
+  width: 60%;
   padding: 15px;
 }
 
@@ -80,5 +80,5 @@ mat-nav-list h1 {
 }
 
 .activeRoute {
-  color: white;
+  color: rgb(244, 254, 255);
 }

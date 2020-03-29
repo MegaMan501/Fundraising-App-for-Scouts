@@ -1,34 +1,175 @@
 <div class="dashboard">
 
-  <div class="troops">
-    <p>troops</p>
+  <div class="troops-overview">
+    <mat-card class="trp-over">
+      <h1>Troops</h1>
+      <div style="display: block">
+        <canvas mdbChart
+            [chartType]="chartTypeTrp"
+            [datasets]="chartDatasetsTrp"
+            [labels]="chartLabelsTrp"
+            [colors]="chartColorsTrp"
+            [options]="chartOptionsTrp"
+            [legend]="true"
+            (chartHover)="chartHoveredTrp($event)"
+            (chartClick)="chartClickedTrp($event)">
+        </canvas>
+      </div>
+    </mat-card>
+  </div>
+  <div class="troops" id="troops-d">
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="groupid">
+        <th mat-header-cell *matHeaderCellDef> Group ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.groupid}} </td>
+      </ng-container>
+
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="members">
+        <th mat-header-cell *matHeaderCellDef> Members Total </th>
+        <td mat-cell *matCellDef="let element"> {{element.members}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [length]="100"
+            [pageSize]="10"
+            [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+
+
   </div>
 
-  <div class="members">
-    <p>members</p>
+  <div class="members-overview">
+    <mat-card class="mmb-overview">
+      <h1>Members</h1>
+      <table mat-table [dataSource]="dataSourceMembers" class="mat-elevation-z8">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="groupid">
+          <th mat-header-cell *matHeaderCellDef> Group ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.groupid}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsMembers"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsMembers;"></tr>
+      </table>
+
+      <mat-paginator [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]">
+      </mat-paginator>
+    </mat-card>
+  </div>
+  <div class="members" id="members-d">
+    <mat-card class="mmb">
+      <h1>Total Members in Troop</h1>
+      <h2>230 Members</h2>
+      <button mat-flat-button color="accent">View</button>
+    </mat-card>
   </div>
 
-  <div class="events">
-    <p>events</p>
-  </div>
-
-  <div class="Sales">
-    <p>sales</p>
-  </div>
-
-  <div class="inventory">
-    <div style="display: block">
+  <div class="events-overview">
+    <mat-card class="evn-overview">
       <canvas mdbChart
-              [chartType]="chartType"
-              [datasets]="chartDatasets"
-              [labels]="chartLabels"
-              [colors]="chartColors"
-              [options]="chartOptions"
-              [legend]="true"
-              (chartHover)="chartHovered($event)"
-              (chartClick)="chartClicked($event)">
+        [chartType]="chartTypeEvn"
+        [datasets]="chartDatasetsEvn"
+        [labels]="chartLabelsEvn"
+        [colors]="chartColorsEvn"
+        [options]="chartOptionsEvn"
+        [legend]="true"
+        (chartHover)="chartHoveredEvn($event)"
+        (chartClick)="chartClickedEvn($event)">
       </canvas>
-    </div>
-    <p>inventory</p>
+    </mat-card>
   </div>
+  <div class="events" id="events-d">
+    <mat-card class="evn">
+      <h1>Next Event</h1>
+      <h2>Febuary 34, 2021</h2>
+      <hr>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis mollitia velit voluptate numquam nemo ut ipsam eum dignissimos dolores qui odio, fugit delectus similique nihil ab dolorum deleniti quos aliquid.</p>
+      <button mat-flat-button color="accent">View</button>
+    </mat-card>
+  </div>
+
+  <div class="sales-overview">
+    <mat-card class="sal-overview">
+      <canvas mdbChart
+        [chartType]="chartTypeSal"
+        [datasets]="chartDatasetsSal"
+        [labels]="chartLabelsSal"
+        [colors]="chartColorsSal"
+        [options]="chartOptionsSal"
+        [legend]="true"
+        (chartHover)="chartHoveredSal($event)"
+        (chartClick)="chartClickedSal($event)">
+      </canvas>
+    </mat-card>
+  </div>
+  <div class="sales" id="sales-d">
+    <mat-card class="sal">
+      <h1>Total Sales</h1>
+      <h2>$45,123</h2>
+      <button mat-flat-button color="accent">View</button>
+    </mat-card>
+  </div>
+
+  <div class="inventory-overview">
+    <mat-card class="inv-overview">
+      <div style="display: block">
+          <canvas mdbChart
+                  [chartType]="chartType"
+                  [datasets]="chartDatasets"
+                  [labels]="chartLabels"
+                  [colors]="chartColors"
+                  [options]="chartOptions"
+                  [legend]="true"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)">
+          </canvas>
+      </div>
+    </mat-card>
+  </div>
+  <div class="inventory" id="inventory-d">
+    <mat-card class="inv">
+      <h1>Total Remaining Inventory</h1>
+      <h2>453 Items</h2>
+      <hr>
+      <h1>Total Items Sold</h1>
+      <h2>3259 Items</h2>
+      <button mat-flat-button color="accent">View</button>
+    </mat-card>
+  </div>
+
+
 </div>
