@@ -1,21 +1,40 @@
-<p>dashboard-scout works!</p>
-<mat-card>
-    <mat-card-content>
-        <form (submit)="onSale()" [formGroup]="saleForm" >
-            <mat-form-field appearance="standard" class="full-width">
-                <mat-label>Cookie</mat-label>
-                <input
-                matInput
-                name="name"
-                type="name"
-                formControlName="name"
-                placeholder="EX: cookie">
-            </mat-form-field>
-            
-            <button
-                type="submit"
-                mat-raised-button
-                color="primary">Add Sale</button>
-        </form>
-    </mat-card-content>
-</mat-card>
+<div class="sale-input">
+    <mat-card>
+        <mat-card-content>
+            <form (submit)="onSale()" [formGroup]="saleForm" >
+                <mat-form-field appearance="standard" class="full-width">
+                    <mat-label>Cookie Name</mat-label>
+                    <input
+                    matInput
+                    name="name"
+                    type="name"
+                    formControlName="name"
+                    placeholder="EX: cookie">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Quantity</mat-label>
+                    <mat-select formControlName="quantity">
+                    <mat-option *ngFor="let q of quantityList" [value]="q">{{q}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Sale Date</mat-label>
+                    <input 
+                    matInput
+                    name="date"
+                    formControlName="date"
+                    [matDatepicker]="picker">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                
+                <button
+                    type="submit"
+                    mat-raised-button
+                    color="primary">Add Sale</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
