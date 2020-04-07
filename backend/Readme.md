@@ -1,12 +1,13 @@
 # Readme file for backend
 Follow these instructions to get up and running quickly.
 
-## Setup for .env file
-Replace <> with respective values.
+## Setup for `.env` file
+Replace **< some variable >** with respective values.
 
 ```
 PORT="<port number>"
 MYSQL_HOST="<ip address>"
+MYSQL_PORT="3306"
 MYSQL_USER="<database user>"
 MYSQL_PWD="<user password>"
 MYSQL_DB="<database name>"
@@ -17,7 +18,7 @@ JWT_KEY="<very very long secret password>"
 ```
 
 # How to install dependences? 
-> npm i
+`> npm i`
 
 # How to Run Backend Node Server? 
-> npm run dev-backend
+`> npm run dev-backend`

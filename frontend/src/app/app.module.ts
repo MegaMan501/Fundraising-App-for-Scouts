@@ -16,6 +16,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
@@ -68,7 +70,9 @@ import { ErrorInterceptor } from './error/error.interceptor';
     MatExpansionModule,
     MatSidenavModule,
     MatIconModule,
+    MatPaginatorModule,
     MatMenuModule,
+    MatTableModule,
     MatCardModule,
     MatListModule,
     MatProgressSpinnerModule,

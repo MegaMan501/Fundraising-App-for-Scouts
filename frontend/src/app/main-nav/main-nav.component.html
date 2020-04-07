@@ -22,7 +22,7 @@
         <!-- Homepage -->
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <a mat-list-item [routerLink]="['/']">
+            <a mat-list-item [routerLink]="['/homepage']" routerLinkActive="activeRoute">
               <mat-icon >
                 explore
               </mat-icon>
@@ -93,11 +93,11 @@
               </a>
              </mat-expansion-panel-header>
              <!-- dashboard items -->
-             <mat-list-item><a href="#">test</a></mat-list-item>
-             <mat-list-item><a href="#">test</a></mat-list-item>
-             <mat-list-item><a href="#">test</a></mat-list-item>
-             <mat-list-item><a href="#">test</a></mat-list-item>
-             <mat-list-item><a href="#">test</a></mat-list-item>
+             <mat-list-item><a href="/dashboard-leader/#troops-d">Troops</a></mat-list-item>
+             <mat-list-item><a href="/dashboard-leader/#members-d">Members</a></mat-list-item>
+             <mat-list-item><a href="/dashboard-leader/#events-d">Events</a></mat-list-item>
+             <mat-list-item><a href="/dashboard-leader/#sales-d">Sales</a></mat-list-item>
+             <mat-list-item><a href="/dashboard-leader/#inventory-d">Inventory</a></mat-list-item>
             </mat-expansion-panel>
             <mat-divider></mat-divider>
 

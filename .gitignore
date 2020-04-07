@@ -45,3 +45,6 @@ baseline.json
 
 # Ignore Environment variables
 .env
+
+# Others
+package-lock.json
