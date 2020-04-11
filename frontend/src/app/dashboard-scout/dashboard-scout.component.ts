@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, FormArray } from '@angular/forms';
 import { SaleService } from '../sale/sale.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';
 
 
@@ -15,8 +16,10 @@ export class DashboardScoutComponent implements OnInit {
   saleForm: FormGroup;
   quantityList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   uid = localStorage.getItem('userId');
-  displayedColumns: string[] = ['product_id', 'quantity', 'price', 'sale_date'];
+  displayedColumns: string[] = ['prod_name', 'quantity', 'price', 'sale_date'];
   dataSource = new MatTableDataSource<String>();
+
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(public saleService: SaleService) {     
     this.saleForm = new FormGroup({
@@ -25,15 +28,16 @@ export class DashboardScoutComponent implements OnInit {
     date: new FormControl('')
   })}
 
-  ngOnInit(): void {
-    this.getSales();
+  async ngOnInit(){
+    await this.getSales(1);
+    this.dataSource.sort = this.sort;
   }
 
   async onSale()
   {
     //price, and productid have to be retrieved from the database before they can be added
-    let temp = await this.addSale(1);
-    this.getSales();
+    await this.addSale(1);
+    this.getSales(1);
   }
 
   addSale(x)
@@ -46,8 +50,11 @@ export class DashboardScoutComponent implements OnInit {
     });
   }
 
-  getSales()
+  getSales(x)
   {
-    this.saleService.getSales(this.uid, this.dataSource);
+    return new Promise( resolve => {
+      this.saleService.getSales(this.uid, this.dataSource);
+      setTimeout(() => {resolve(x);}, 100);
+    });
   }
 }

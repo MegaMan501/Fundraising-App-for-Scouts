@@ -33,7 +33,7 @@ exports.addSale = (req, res, next) => {
 exports.getSales = (req, res) => {
 
     db.query(
-        'SELECT * FROM sale WHERE user_id=?',
+        'SELECT product.prod_name, sale.quantity, sale.price, sale.sale_date FROM sale INNER JOIN product ON sale.product_id=product.product_id WHERE sale.user_id=?',
         [req.body.uid],
         (err, rows, fields) => {
             if(err) { 
