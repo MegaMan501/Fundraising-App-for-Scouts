@@ -38,6 +38,7 @@ import { MembersLeaderComponent } from './members-leader/members-leader.componen
 import { EventsLeaderComponent } from './events-leader/events-leader.component';
 import { SalesLeaderComponent } from './sales-leader/sales-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
+import { SalesScoutComponent } from './sales-scout/sales-scout.component';
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './auth/auth.interceptor';
@@ -56,6 +57,7 @@ import { ErrorInterceptor } from './error/error.interceptor';
     EventsLeaderComponent,
     SalesLeaderComponent,
     DashboardScoutComponent,
+    SalesScoutComponent,
     RequestsScoutComponent
   ],
   imports: [

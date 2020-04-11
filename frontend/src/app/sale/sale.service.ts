@@ -15,7 +15,7 @@ export class SaleService {
   {
     const data = {name, quantity, date, uid};
     this.http.post(BACKEND_URL + '/addSale', data).subscribe(res => {
-      return res;
+      return;
     });
   }
 
@@ -24,8 +24,7 @@ export class SaleService {
     const data = {uid}
     this.http.post<{rows}>(BACKEND_URL + '/getSales', data).subscribe(res => {
       datasource.data = res.rows;
-
-      return res.rows;
+      return;
     });
   }
 }
