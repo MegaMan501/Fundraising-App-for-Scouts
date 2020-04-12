@@ -19,6 +19,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 // External Modules
@@ -34,6 +38,7 @@ import { MembersLeaderComponent } from './members-leader/members-leader.componen
 import { EventsLeaderComponent } from './events-leader/events-leader.component';
 import { SalesLeaderComponent } from './sales-leader/sales-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
+import { SalesScoutComponent } from './sales-scout/sales-scout.component';
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './auth/auth.interceptor';
@@ -52,6 +57,7 @@ import { ErrorInterceptor } from './error/error.interceptor';
     EventsLeaderComponent,
     SalesLeaderComponent,
     DashboardScoutComponent,
+    SalesScoutComponent,
     RequestsScoutComponent
   ],
   imports: [
@@ -76,11 +82,16 @@ import { ErrorInterceptor } from './error/error.interceptor';
     MatCardModule,
     MatListModule,
     MatProgressSpinnerModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    MatSortModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    MatDatepickerModule
   ],
   bootstrap: [AppComponent],
   entryComponents: [ErrorComponent]
