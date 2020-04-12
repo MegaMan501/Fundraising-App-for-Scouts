@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false })); // allow url encoding
 // Express Routes 
 const userRoutes = require("./routes/user-route");
 const saleRoutes = require("./routes/sale-route");
+const inventoryRoutes = require("./routes/inventory-route");
 
 // settup the access controll headers and methods 
 app.use((req, res, next) => {
@@ -99,5 +100,6 @@ hasAdmin();
 // the API routes
 app.use("/api/users", userRoutes);
 app.use("/api/sales", saleRoutes);
+app.use("/api/inventory", inventoryRoutes);
 
 module.exports = app; 
