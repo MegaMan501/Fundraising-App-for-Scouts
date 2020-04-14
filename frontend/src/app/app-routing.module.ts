@@ -10,6 +10,7 @@ import { SalesLeaderComponent } from './sales-leader/sales-leader.component';
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
 import { AuthGuard } from './auth/auth.guard';
 import { EventsLeaderComponent } from './events-leader/events-leader.component';
+import { SalesScoutComponent } from './sales-scout/sales-scout.component';
 
 const routes: Routes = [
   {path: '', component: HomepageComponent},
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path: 'request-leader', component: RequestsScoutComponent, canActivate: [AuthGuard]},
   {path: 'dashboard-scout', component: DashboardScoutComponent, canActivate: [AuthGuard]},
   {path: 'request-scout', component: RequestsScoutComponent, canActivate: [AuthGuard]},
+  {path: 'sales-scout', component: SalesScoutComponent, canActivate: [AuthGuard]},
   {path: '**', redirectTo: ''}
 ];
 
