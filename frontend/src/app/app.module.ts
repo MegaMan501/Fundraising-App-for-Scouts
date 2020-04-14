@@ -16,6 +16,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatBadgeModule} from '@angular/material/badge';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -69,6 +70,7 @@ import { ErrorInterceptor } from './error/error.interceptor';
     MatInputModule,
     MatExpansionModule,
     MatSidenavModule,
+    MatBadgeModule,
     MatIconModule,
     MatPaginatorModule,
     MatMenuModule,

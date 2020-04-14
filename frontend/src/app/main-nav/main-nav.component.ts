@@ -3,6 +3,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-nav',
@@ -17,7 +18,7 @@ export class MainNavComponent {
   private adminListner: Subscription;
   private leaderListner: Subscription;
 
-  constructor(private authService: AuthService, private breakpointObserver: BreakpointObserver) {}
+  constructor(private authService: AuthService, private breakpointObserver: BreakpointObserver, private router: Router) {}
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -51,6 +52,14 @@ export class MainNavComponent {
 
   onLogout() {
     this.authService.logout();
+  }
+
+  onLogin() {
+    this.router.navigate(['/login']);
+  }
+
+  onSetting() {
+    this.router.navigate(['/settings']);
   }
 
   ngOnDestroy(): void {

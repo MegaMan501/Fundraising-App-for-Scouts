@@ -50,8 +50,8 @@ img {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 60%;
-  padding: 15px;
+  width: 200px;
+  height: 200px;
 }
 
 mat-toolbar a {
@@ -70,6 +70,7 @@ mat-expansion-panel {
   -moz-box-shadow: none;
   box-shadow: none !important;
   background-color: transparent;
+
 }
 
 mat-nav-list h1 {
@@ -81,4 +82,9 @@ mat-nav-list h1 {
 
 .activeRoute {
   color: rgb(244, 254, 255);
+}
+
+.userIcon {
+  width: 50px;
+  height: 50px;
 }
