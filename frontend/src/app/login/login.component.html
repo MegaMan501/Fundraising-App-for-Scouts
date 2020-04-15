@@ -71,6 +71,12 @@
                   [disabled]="!loginForm.valid"
                   color="primary">Login</button>
             </div>
+            <div class="forgotpassword">
+              <a routerLink="/forgot-password"><button
+                  *ngIf="!isLoading"
+                  mat-raised-button
+                  color="secondary">Forgot Your Password?</button></a>
+            </div>
         </mat-card-actions>
       </form>
 
