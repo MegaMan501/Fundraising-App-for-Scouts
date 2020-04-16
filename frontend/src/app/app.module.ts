@@ -42,7 +42,7 @@ import { SalesLeaderComponent } from './sales-leader/sales-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
 import { SalesScoutComponent } from './sales-scout/sales-scout.component';
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { ErrorComponent } from './error/error.component';
 import { ErrorInterceptor } from './error/error.interceptor';
@@ -87,10 +87,14 @@ import { ErrorInterceptor } from './error/error.interceptor';
     MatListModule,
     MatProgressSpinnerModule,
     MatDialogModule,
+<<<<<<< HEAD
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
     MatSortModule
+=======
+
+>>>>>>> khang
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
