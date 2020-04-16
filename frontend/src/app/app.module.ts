@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
@@ -51,6 +52,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     BrowserAnimationsModule,
     LayoutModule,
     MDBBootstrapModule,
+    MatMenuModule,
     MatGridListModule,
     MatToolbarModule,
     MatButtonModule,

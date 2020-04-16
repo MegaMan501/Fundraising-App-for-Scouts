@@ -1,0 +1,23 @@
+.divLeft {
+    width:800px;
+    display:block;
+    float: left;
+}
+.divRight {
+    width:200px;
+    display:block;
+    float: right;
+    background-color: rgb(0, 217, 255);
+}
+@media all and (min-width: 768px) {
+  tr  {
+    td {
+      vertical-align: bottom !important;
+    }
+    span {
+      &:not([class]) {
+        padding: 1rem 1rem;
+      }
+    }
+  }
+}
