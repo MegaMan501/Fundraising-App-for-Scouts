@@ -3,9 +3,6 @@ const jwt = require("jsonwebtoken");
 const app = require("../app");
 const db = require("../db"); 
 
-exports.createUser = (req, res, next) => {
-    
-}
 
 exports.userLogin = (req, res, next) => {
     db.query(
@@ -60,4 +57,53 @@ exports.userLogin = (req, res, next) => {
             // console.error("User: " + req.body.email, "Pass: " + req.body.password); 
         });
 }
+
+// get user info from user table
+exports.getAllUser = (req, res, next) => {
+    db.query("SELECT * FROM user",
+    (err, rows, fields) => {
+         // Catch and DB errors.
+         if(err) { 
+            console.error(err);
+            return res.status(401).json({
+                message: "Database Error"
+            }); 
+        };
+       
+        // return if sucessfully connected to database
+        // fetch all data rows from table
+        return res.status(200).json({
+            rows: rows
+        })
+        
+        }
+       
+
+    );
+}
+
+
+// insert new regular user info into user table
+exports.createUser = (req, res, next) => {
+  db.query("INSERT INTO user (full_name, email, hash_pass, leader_flag, admin_flag, verified) VALUES ('"+req.body.name+"' ,'"+req.body.email+"', "+0+", "+req.body.leader_flag+", "+req.body.admin_flag+", "+1+")",
+  (err, rows, fields) => {
+       // Catch and DB errors.
+       if(err) { 
+          console.error(err);
+          return res.status(401).json({
+              message: "Database Error"
+          }); 
+      };
+    
+      // return if sucessfully connected to database
+      // fetch all data rows from table
+      return res.status(200).json({
+          rows: rows
+      })
+
+      }
+  );
+    
+}
+
 

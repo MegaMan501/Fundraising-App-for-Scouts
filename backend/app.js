@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false })); // allow url encoding
 // Express Routes 
 const userRoutes = require("./routes/user-route");
 
+
 // settup the access controll headers and methods 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -97,5 +98,6 @@ hasAdmin();
 
 // the API routes
 app.use("/api/users", userRoutes);
+
 
 module.exports = app; 

@@ -24,10 +24,17 @@ html {
 
 .cards{
   display:grid;
-
   padding: 40px 40px 40px 40px;
   grid-template-columns: 1fr;
 }
+.cards-1{
+  grid-template-areas: cards-1;
+  display:grid;
+  background-color: white;
+  padding: 40px 40px 40px 40px;
+  grid-template-columns: 1fr ;
+}
+
 
 
 /* Table Structure */
@@ -51,6 +58,48 @@ table {
 tr.mat-footer-row {
   font-weight: bold;
 }
+
+
+/* Input Field */
+.input-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.input-form-full-width {
+  width: 100%;
+}
+
+/* Input/Button style */
+
+button[type="submit"]{
+  background: rgba(255, 255, 255, 0.767);
+  padding: 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  color: black;
+  border: 0;
+  box-shadow: 2px 2px 2px rgba(20,20,20,0.1);
+  font-size: 16px;
+
+}
+
+button:hover[type="submit"]{
+  background-color: rgba(61, 61, 223, 0.829);
+  color:white;
+  transition-duration: 0.4s;
+}
+
+
+button:active {
+  transform: translateY(4px);
+  opacity: 0.7;
+  transition: 0.5s;
+
+}
+
+
 
 
 
@@ -83,9 +132,9 @@ tr.mat-footer-row {
       margin: 0;
       padding: 50px 50px 50px 50px;
       grid-template-columns: 1fr 1fr;
-      grid-template-areas:
-      "groups"
-      ;
+      // grid-template-areas:
+      // "cards-1"
+      // ;
     }
   }
 
@@ -96,10 +145,12 @@ tr.mat-footer-row {
       grid-gap: 20px;
       padding: 50px 50px 50px 50px;
       align-items: center;
-      grid-template-columns: 1fr 1fr ;
+      grid-template-columns: 1fr  ;
       grid-template-areas:
-      "groups"
+      "cards-1"
       ;
+
+
     }
   }
 }
