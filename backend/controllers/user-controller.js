@@ -59,7 +59,7 @@ exports.userLogin = (req, res, next) => {
 }
 
 // get user info from user table
-exports.getAllUser = (req, res, next) => {
+exports.getUser = (req, res, next) => {
     db.query("SELECT * FROM user",
     (err, rows, fields) => {
          // Catch and DB errors.
