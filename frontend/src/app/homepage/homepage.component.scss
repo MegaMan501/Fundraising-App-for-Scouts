@@ -63,7 +63,7 @@
     padding-top: 15px;
   }
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: 1999px) {
     .homepage {
       display: grid;
       height: 100vh;
@@ -100,11 +100,11 @@
     }
 
     .i-marketing, .s-marketing, .e-marketing {
-      min-width: 40rem;
+      min-width: 100%;
     }
 
     .jumbotron {
-      min-height: 340px;
+      min-height: 300px;
     }
   }
 }

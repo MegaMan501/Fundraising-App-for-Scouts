@@ -1,16 +1,15 @@
-// $accent: rgb(255, 34, 126);
-$accent: #f995c2ff;
+$accent: rgb(252, 98, 162);
+// $accent: #ffafd3;
 $primary: rgb(209, 236, 255);
 
 .sidenav-container {
   height: 100vh;
-  background-image: url("../../assets/overlapping-circles.svg"),
-      url("../../assets/noisy-texture-300x300-blue.png");
+  background-color: $primary;
   background-repeat: repeat;
 }
 
 .sidenav {
-  width: 250px;
+  min-width: 280px;
   background-color: $accent;
 }
 
@@ -18,18 +17,18 @@ $primary: rgb(209, 236, 255);
   background: inherit;
 }
 
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
+// .mat-toolbar.mat-primary {
+//   position: sticky;
+//   top: 0;
+//   z-index: 1;
+// }
 
 .spacer {
   flex: 1 1 auto;
 }
 
-.hidden {
-  display: none;
+.spacer2 {
+  width: 10px;
 }
 
 a {
@@ -44,15 +43,48 @@ a:hover {
 }
 
 .sidenav a:hover {
+  color: rgb(7, 255, 201);
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+  height: 200px;
+}
+
+mat-toolbar a {
+  text-align: center;
+  text-decoration: none;
   color: white;
 }
 
+mat-toolbar a:hover {
+  text-decoration: none;
+  color: $accent;
+}
 
-img {
-  width: 45px;
-  height: 45px;
-  // background-image: url("../../assets/logo.svg");
-  // border-radius: 50%;
-  // border: 5px solid $accent;
-  // background-color: $primary;
+mat-expansion-panel {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none !important;
+  background-color: transparent;
+
+}
+
+mat-nav-list h1 {
+  font-size: 1.8rem;
+  text-align: center;
+  color: white;
+  padding-bottom: 10px;
+}
+
+.activeRoute {
+  color: rgb(244, 254, 255);
+}
+
+.userIcon {
+  width: 50px;
+  height: 50px;
 }

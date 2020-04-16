@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null) : boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
+import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { AuthService } from '../auth/auth.service';
+import { Subscription } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -15,19 +10,37 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
+  private authStatusSub: Subscription;
+  loginForm: FormGroup;
+  isLoading = false;
   hide = true;
+  version = environment.version;
 
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email
-  ]);
+  constructor(public authService: AuthService) {
+    this.loginForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required])
+    });
+  }
 
-  matcher = new MyErrorStateMatcher();
+  ngOnInit() {
+    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
+      authStatus => {
+        this.isLoading = false;
+      }
+    );
+  }
 
-  constructor() { }
+  onLogin() {
+    if (this.loginForm.invalid) {
+      return;
+    }
+    this.isLoading = true;
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.password);
+  }
 
-  ngOnInit(): void {
+  ngOnDestroy() {
+    this.authStatusSub.unsubscribe();
   }
 
 }
