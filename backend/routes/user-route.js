@@ -7,6 +7,6 @@ router.post("/login", UserController.userLogin);
 
 // route to user-controller.js
 router.get("/getUser", UserController.getUser);   
-router.post("/createUser", UserController.createUser);
+router.post("/addUser", UserController.addUser);
 
 module.exports = router;

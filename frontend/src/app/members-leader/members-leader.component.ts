@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Chart } from 'chart.js';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 
 import { MemberLeaderService } from '../memberServices/member-leader.service'
 // import * as angular from 'angular';
@@ -43,15 +43,35 @@ export interface memberData {
 
 export class MembersLeaderComponent implements OnInit {
 
+  memberForm: FormGroup;
+
+  isLoading = false;
+
+
   constructor(public MemberLeaderService:MemberLeaderService) {
+    this.memberForm = new FormGroup({
+      name: new FormControl('', Validators.required),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern("[^ @]*@[^ @]*")
+      ]),
+    })
+
+
 
    }
-  groups = ['Group 1', 'Group2', 'Group3'];
+
+   public arr = []
 
   ngOnInit(): void {
 
+      // this.MemberLeaderService.getUser().subscribe(data => this.arr = data)
+      this.MemberLeaderService.getUser()
   };
 
+
+
+  groups = ['Group 1', 'Group2', 'Group3'];
   members: memberData[] = [
     {id: 1, name: 'Sarah Corner', groupID: 1, email:'test@gmail.com',revenue: 250},
     {id: 2, name: 'Colton Nicolas', groupID: 1,email:'test@gmail.com', revenue: 350},
@@ -65,22 +85,78 @@ export class MembersLeaderComponent implements OnInit {
     {id: 10, name: 'Alba Flores', groupID: 1, email:'test@gmail.com',revenue: 384}
   ];
 
+  retreiveUser() {
 
 
-
-
-  addMember = function() {
-
-    // this.members.push({
+   // this.members.push({
     //   id: 1,
     //   name: 'sdfsdf',
     //   groupID: 1,
     //   email: 'something@sth',
     //   revenue: 1000
     // });
-    console.log("worked")
+    // let data = JSON.parse(this.MemberLeaderService.getUser());
 
-    this.MemberLeaderService.createUser()
+    // this.members.push(data)
+  }
+
+  // get value from user input (form submit)
+  logKeyValuePairs(group: FormGroup) {
+    Object.keys(group.controls).forEach((key: string) => {
+
+      let arr: any[]
+
+      // Get a reference to the control using the FormGroup.get() method
+      const abstractControl = group.get(key);
+
+      // If the control is an instance of FormGroup i.e a nested FormGroup
+      // then recursively call this same method (logKeyValuePairs) passing it
+      // the FormGroup so we can get to the form controls in it
+      if (abstractControl instanceof FormGroup) {
+        this.logKeyValuePairs(abstractControl);
+        // If the control is not a FormGroup then we know it's a FormControl
+      }
+      else {
+       // console.log('Key = ' + key + ' && Value = ' + abstractControl.value);
+
+        console.log(key)
+
+        for(var i = 0; i < abstractControl.value; ++i)
+        {
+          console.log(i);
+        }
+
+        console.log(abstractControl.value)
+
+
+        // this.MemberLeaderService.addUser(abstractControl.value, abstractControl.value)
+        // for(var i = 0; i < arr.length; ++i) {
+        //     console.log(arr[i]);
+        // }
+      }
+
+    });
+  }
+  addMember = function() {
+    // invalid input
+    if(this.memberForm.invalid) {
+      console.log("Invalid Input!")
+    }
+    // valid input
+    if(this.memberForm.valid) {
+      console.log("Form Submitted", this.memberForm.value)
+
+      // get data from the user input
+      this.logKeyValuePairs(this.memberForm);
+
+      // reset user input after successfully submitted
+      this.memberForm.reset();
+    }
+
+    // get user from database
+    // this.MemberLeaderService.getUser();
+
+
 
     //console.log(this.members.length)
 
@@ -95,7 +171,7 @@ export class MembersLeaderComponent implements OnInit {
   }
 
 
-  displayedColumns: string[] = ['id', 'name', 'groupID', 'email','revenue'];
+  displayedColumns: string[] = ['id', 'name', 'groupID', 'email','revenue', 'update','delete'];
   dataSource = new MatTableDataSource(this.members);
 
   applyFilter(event: Event) {
@@ -103,14 +179,20 @@ export class MembersLeaderComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
- /** Gets the total cost of all transactions. */
+ /* Gets the total cost of all transactions. */
   getTotalCost() {
     return this.members.map(t => t.revenue).reduce((acc, value) => acc + value, 0);
   }
 
+  /* Update user*/
+  public redirectToUpdate = (id: string) => {
 
+  }
 
+  /* Delete user */
+    public redirectToDelete = (id: string) => {
 
+  }
 
   /* Chart */
   public chartType: string = 'bar';

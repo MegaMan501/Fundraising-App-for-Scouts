@@ -60,7 +60,7 @@ exports.userLogin = (req, res, next) => {
 
 // get user info from user table
 exports.getUser = (req, res, next) => {
-    db.query("SELECT * FROM user",
+    db.query("SELECT group_id,full_name, email FROM user",
     (err, rows, fields) => {
          // Catch and DB errors.
          if(err) { 
@@ -84,8 +84,8 @@ exports.getUser = (req, res, next) => {
 
 
 // insert new regular user info into user table
-exports.createUser = (req, res, next) => {
-  db.query("INSERT INTO user (full_name, email, hash_pass, leader_flag, admin_flag, verified) VALUES ('"+req.body.name+"' ,'"+req.body.email+"', "+0+", "+req.body.leader_flag+", "+req.body.admin_flag+", "+1+")",
+exports.addUser = (req, res, next) => {
+  db.query("INSERT INTO user (full_name, email) VALUES ('"+req.body.name+"' ,'"+req.body.email+"')",
   (err, rows, fields) => {
        // Catch and DB errors.
        if(err) { 

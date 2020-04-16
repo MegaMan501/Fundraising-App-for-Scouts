@@ -26,6 +26,7 @@ html {
   display:grid;
   padding: 40px 40px 40px 40px;
   grid-template-columns: 1fr;
+
 }
 .cards-1{
   grid-template-areas: cards-1;
@@ -132,6 +133,7 @@ button:active {
       margin: 0;
       padding: 50px 50px 50px 50px;
       grid-template-columns: 1fr 1fr;
+
       // grid-template-areas:
       // "cards-1"
       // ;
@@ -141,6 +143,7 @@ button:active {
   @media screen and (min-width: 1200px) {
     .dashboard {
       display: grid;
+
       // height: 100vh;
       grid-gap: 20px;
       padding: 50px 50px 50px 50px;

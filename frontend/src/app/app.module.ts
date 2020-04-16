@@ -35,7 +35,7 @@ import { EventsLeaderComponent } from './events-leader/events-leader.component';
 import { SalesLeaderComponent } from './sales-leader/sales-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { ErrorComponent } from './error/error.component';
 import { ErrorInterceptor } from './error/error.interceptor';
