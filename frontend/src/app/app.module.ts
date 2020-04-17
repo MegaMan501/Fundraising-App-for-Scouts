@@ -16,6 +16,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import {MatBadgeModule} from '@angular/material/badge';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -32,6 +33,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 // Angular Components
 import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { DashboardLeaderComponent } from './dashboard-leader/dashboard-leader.component';
 import { InventoryLeaderComponent } from './inventory-leader/inventory-leader.component';
 import { MembersLeaderComponent } from './members-leader/members-leader.component';
@@ -40,7 +42,7 @@ import { SalesLeaderComponent } from './sales-leader/sales-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
 import { SalesScoutComponent } from './sales-scout/sales-scout.component';
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { ErrorComponent } from './error/error.component';
 import { ErrorInterceptor } from './error/error.interceptor';
@@ -51,6 +53,7 @@ import { ErrorInterceptor } from './error/error.interceptor';
     MainNavComponent,
     HomepageComponent,
     LoginComponent,
+    ForgotPasswordComponent,
     DashboardLeaderComponent,
     InventoryLeaderComponent,
     MembersLeaderComponent,
@@ -65,6 +68,7 @@ import { ErrorInterceptor } from './error/error.interceptor';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ChartsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     LayoutModule,
@@ -75,6 +79,7 @@ import { ErrorInterceptor } from './error/error.interceptor';
     MatInputModule,
     MatExpansionModule,
     MatSidenavModule,
+    MatBadgeModule,
     MatIconModule,
     MatPaginatorModule,
     MatMenuModule,
@@ -87,6 +92,7 @@ import { ErrorInterceptor } from './error/error.interceptor';
     MatNativeDateModule,
     MatSelectModule,
     MatSortModule
+
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

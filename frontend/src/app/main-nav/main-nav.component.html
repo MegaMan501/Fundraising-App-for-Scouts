@@ -204,10 +204,41 @@
       </div> -->
 
       <!-- Login Route -->
-      <a *ngIf="!userIsAuth" [routerLink]="['/login']" routerLinkActive="mat-accent">Login</a>
+      <!-- <a *ngIf="!userIsAuth" [routerLink]="['/login']" routerLinkActive="mat-accent">Login</a> -->
 
       <!-- Logout -->
-      <button mat-flat-button *ngIf="userIsAuth" color="warn" (click)="onLogout()">Logout</button>
+      <!-- <button mat-flat-button *ngIf="userIsAuth" color="warn" (click)="onLogout()">Logout</button> -->
+
+      <div *ngIf="userIsAuth">
+        <button mat-icon-button [matMenuTriggerFor]="notifications" aria-label="Notifications">
+          <mat-icon matBadge="15" matBadgeColor="warn">notifications</mat-icon>
+        </button>
+        <mat-menu #notifications="matMenu">
+
+        </mat-menu>
+      </div>
+
+
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="User Menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" class="userIcon">
+        <button mat-menu-item *ngIf="!userIsAuth" (click)="onLogin()">
+          <mat-icon>keyboard_arrow_right</mat-icon>
+          <span>Sign In</span>
+        </button>
+
+        <!-- Logout -->
+        <button mat-menu-item *ngIf="userIsAuth" (click)="onLogout()">
+          <mat-icon>keyboard_arrow_left</mat-icon>
+          <span>Log Out</span>
+        </button>
+
+        <button mat-menu-item *ngIf="userIsAuth">
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </button>
+      </mat-menu>
     </mat-toolbar>
 
     <!-- Angular Content Projection -->
