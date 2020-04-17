@@ -68,6 +68,7 @@ import { ErrorInterceptor } from './error/error.interceptor';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ChartsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     LayoutModule,
