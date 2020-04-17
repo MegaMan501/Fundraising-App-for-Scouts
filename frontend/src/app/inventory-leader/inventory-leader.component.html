@@ -1,5 +1,5 @@
 <div class="divLeft">
-  <div style="display: block; width: 100%; height: 100%; float: left;">
+  <div style="display: block; width: 50%; height: 50%;">
     <canvas mdbChart
             [chartType]="chartType"
             [datasets]="chartDatasets"
@@ -19,13 +19,13 @@
       <mat-icon class="group-title material-icons">arrow_drop_down</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-
+      <button mat-menu-item *ngFor="let groupName of groups" (click)="onSelect($event)">{{groupName}}</button>
     </mat-menu>
 </div>
 
 <!-- Editable table -->
-<div class="card">
-  <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Editable table</h3>
+<div class="divBottom">
+  <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Inventory Table</h3>
   <div class="card-body">
     <div id="table" class="table-editable">
       <span class="table-add float-bottom mb-3 mr-2">
@@ -35,29 +35,29 @@
       </span>
       <table class="table table-bordered table-responsive-md table-striped text-center">
         <tr>
-          <th class="text-center">Person Name</th>
-          <th class="text-center">Age</th>
-          <th class="text-center">Company Name</th>
-          <th class="text-center">Country</th>
-          <th class="text-center">City</th>
+          <th class="text-center">Item</th>
+          <th class="text-center">Cost ($)</th>
+          <th class="text-center">Price ($)</th>
+          <th class="text-center">Quantity</th>
+          <th class="text-center">Description</th>
           <th class="text-center">Sort</th>
           <th class="text-center">Remove</th>
         </tr>
-        <tr *ngFor="let person of personList; let id = index">
+        <tr *ngFor="let person of inventoryList; let id = index">
           <td>
-            <span (keyup)="changeValue(id, 'name', $event)" (blur)="updateList(id, 'name', $event)" contenteditable="true">{{person.name}}</span>
+            <span (keyup)="changeValue(id, 'item', $event)" (blur)="updateList(id, 'item', $event)" contenteditable="true">{{person.item}}</span>
           </td>
           <td>
-            <span contenteditable="true" (keyup)="changeValue(id, 'age', $event)" (blur)="updateList(id, 'age', $event)">{{person.age}}</span>
+            <span contenteditable="true" (keyup)="changeValue(id, 'cost', $event)" (blur)="updateList(id, 'cost', $event)">{{person.cost}}</span>
           </td>
           <td>
-            <span contenteditable="true" (keyup)="changeValue(id, 'companyName', $event)" (blur)="updateList(id, 'companyName', $event)">{{person.companyName}}</span>
+            <span contenteditable="true" (keyup)="changeValue(id, 'price', $event)" (blur)="updateList(id, 'price', $event)">{{person.price}}</span>
           </td>
           <td>
-            <span contenteditable="true" (keyup)="changeValue(id, 'country', $event)" (blur)="updateList(id, 'country', $event)">{{person.country}}</span>
+            <span contenteditable="true" (keyup)="changeValue(id, 'quantity', $event)" (blur)="updateList(id, 'quantity', $event)">{{person.quantity}}</span>
           </td>
           <td>
-            <span contenteditable="true" (keyup)="changeValue(id, 'city', $event)" (blur)="updateList(id, 'city', $event)">{{person.city}}</span>
+            <span contenteditable="true" (keyup)="changeValue(id, 'description', $event)" (blur)="updateList(id, 'description', $event)">{{person.description}}</span>
           </td>
           <td>
             <span class="table-up">
