@@ -87,14 +87,11 @@ import { ErrorInterceptor } from './error/error.interceptor';
     MatListModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-<<<<<<< HEAD
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
     MatSortModule
-=======
 
->>>>>>> khang
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
