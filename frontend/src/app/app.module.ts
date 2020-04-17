@@ -14,9 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
-<<<<<<< HEAD
-import { MatMenuModule } from '@angular/material/menu';
-=======
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatBadgeModule} from '@angular/material/badge';
@@ -32,7 +29,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 // External Modules
 import { ChartsModule } from 'ng2-charts';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
->>>>>>> master
 
 // Angular Components
 import { HomepageComponent } from './homepage/homepage.component';
@@ -47,15 +43,9 @@ import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.compo
 import { SalesScoutComponent } from './sales-scout/sales-scout.component';
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-<<<<<<< HEAD
-import { ChartsModule } from 'ng2-charts';
-import {MatGridListModule} from '@angular/material/grid-list';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
-=======
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { ErrorComponent } from './error/error.component';
 import { ErrorInterceptor } from './error/error.interceptor';
->>>>>>> master
 
 @NgModule({
   declarations: [
@@ -82,14 +72,8 @@ import { ErrorInterceptor } from './error/error.interceptor';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     LayoutModule,
-<<<<<<< HEAD
-    MDBBootstrapModule,
-    MatMenuModule,
-    MatGridListModule,
-=======
     ChartsModule,
     MDBBootstrapModule.forRoot(),
->>>>>>> master
     MatToolbarModule,
     MatButtonModule,
     MatInputModule,

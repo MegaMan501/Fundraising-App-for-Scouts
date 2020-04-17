@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { MdbTableDirective, MdbTablePaginationComponent } from 'angular-bootstrap-md';
 
 @Component({
   selector: 'app-inventory-leader',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InventoryLeaderComponent implements OnInit {
 
+  constructor() { }
+
   public chartType = 'bar';
+  searchText = '';
 
   public chartDatasets: Array<any> = [
     { data: [300, 170, 95, 81, 140], label: 'Sold' },
@@ -67,28 +71,29 @@ export class InventoryLeaderComponent implements OnInit {
         }
       };
       editField: string;
-      personList: Array<any> = [
-        { id: 1, name: 'Aurelia Vega', age: 30, companyName: 'Deepends', country: 'Spain', city: 'Madrid' },
-        { id: 2, name: 'Guerra Cortez', age: 45, companyName: 'Insectus', country: 'USA', city: 'San Francisco' },
-        { id: 3, name: 'Guadalupe House', age: 26, companyName: 'Isotronic', country: 'Germany', city: 'Frankfurt am Main' },
-        { id: 4, name: 'Aurelia Vega', age: 30, companyName: 'Deepends', country: 'Spain', city: 'Madrid' },
-        { id: 5, name: 'Elisa Gallagher', age: 31, companyName: 'Portica', country: 'United Kingdom', city: 'London' },
+      inventoryList: Array<any> = [
+        { id: 1, item: 'Oreo', cost: 2.50, price: 3.50, quantity: 420, description: 'Vegan - dairy free' },
+        { id: 2, item: 'Thin Mints', cost: 1.99, price: 2.99, quantity: 240, description: 'Vegan - dairy free' },
+        { id: 3, item: 'Chocolate Chip', cost: 3.99, price: 4.99, quantity: 137, description: 'Contains dairy - non-vegan' },
+        { id: 4, item: 'Smores', cost: 4.99, price: 5.99, quantity: 145, description: 'Contains dairy - non-vegan' },
+        { id: 5, item: 'Crackers', cost: 2.99, price: 3.99, quantity: 238, description: 'Contains dairy - non-vegan' },
       ];
 
-      awaitingPersonList: Array<any> = [
-        { id: 6, name: 'George Vega', age: 28, companyName: 'Classical', country: 'Russia', city: 'Moscow' },
-        { id: 7, name: 'Mike Low', age: 22, companyName: 'Lou', country: 'USA', city: 'Los Angeles' },
-        { id: 8, name: 'John Derp', age: 36, companyName: 'Derping', country: 'USA', city: 'Chicago' },
-        { id: 9, name: 'Anastasia John', age: 21, companyName: 'Ajo', country: 'Brazil', city: 'Rio' },
-        { id: 10, name: 'John Maklowicz', age: 36, companyName: 'Mako', country: 'Poland', city: 'Bialystok' },
+      awaitinginventoryList: Array<any> = [
+        { id: 6, item: 'Oreo', cost: 2.50, price: 3.50, quantity: 420, description: 'Vegan - dairy free' },
+        { id: 7, item: 'Thin Mints', cost: 1.99, price: 2.99, quantity: 240, description: 'Vegan - dairy free' },
+        { id: 8, item: 'Chocolate Chip', cost: 3.99, price: 4.99, quantity: 137, description: 'Contains dairy - non-vegan' },
+        { id: 9, item: 'Smores', cost: 4.99, price: 5.99, quantity: 145, description: 'Contains dairy - non-vegan' },
+        { id: 10, item: 'Crackers', cost: 2.99, price: 3.99, quantity: 238, description: 'Contains dairy - non-vegan' },
       ];
 
-  constructor() { }
+  groups = ['Group 1', 'Group2', 'Group3'];
+
 
   ngOnInit(): void {
   }
 
-  // events
+  // chart
   public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
     console.log(event, active);
   }
@@ -99,24 +104,28 @@ export class InventoryLeaderComponent implements OnInit {
 
   updateList(id: number, property: string, event: any) {
     const editField = event.target.textContent;
-    this.personList[id][property] = editField;
+    this.inventoryList[id][property] = editField;
   }
 
   remove(id: any) {
-    this.awaitingPersonList.push(this.personList[id]);
-    this.personList.splice(id, 1);
+    this.awaitinginventoryList.push(this.inventoryList[id]);
+    this.inventoryList.splice(id, 1);
   }
 
   add() {
-    if (this.awaitingPersonList.length > 0) {
-      const person = this.awaitingPersonList[0];
-      this.personList.push(person);
-      this.awaitingPersonList.splice(0, 1);
+    if (this.awaitinginventoryList.length > 0) {
+      const person = this.awaitinginventoryList[0];
+      this.inventoryList.push(person);
+      this.awaitinginventoryList.splice(0, 1);
     }
   }
 
   changeValue(id: number, property: string, event: any) {
     this.editField = event.target.textContent;
+  }
+
+  onSelect(inventory) {
+
   }
 
 }
