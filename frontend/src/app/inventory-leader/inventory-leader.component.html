@@ -65,7 +65,7 @@
           </td>
           <td>
             <span class="table-update">
-              <button type="button" mdbBtn color="primary" rounded="true" size="sm" class="my-0" (click)="update(id)">Update</button>
+              <button type="button" mdbBtn color="primary" rounded="true" size="sm" class="my-0" (click)="update(id)" [disabled]="!showButton[id]">{{inventoryList[id].product_id == -1 ? 'Add Product' : 'Update'}}</button>
             </span>
           </td>
           <td>

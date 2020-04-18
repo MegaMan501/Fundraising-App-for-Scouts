@@ -22,8 +22,10 @@ exports.addSale = (req, res, next) => {
                             message: "Database Error"
                         }); 
                     };
-                    
-                    console.log("sale added!")                    
+
+                    return res.status(200).json({
+                        message: "Sale Added!"
+                    })                
                 }
             );
         }

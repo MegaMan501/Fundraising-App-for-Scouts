@@ -13,6 +13,7 @@ export class InventoryLeaderComponent implements OnInit {
 
   public chartType = 'bar';
   searchText = '';
+  showButton = new Array();
 
   public chartDatasets: Array<any> = [
     { data: [300, 170, 95, 81, 140], label: 'Sold' },
@@ -80,6 +81,11 @@ export class InventoryLeaderComponent implements OnInit {
 
   async ngOnInit(){
     await this.getInventory(1)
+    this.showButton.splice(0, this.showButton.length);
+    for(var i = 0; i < this.inventoryList.length; i++)
+    {
+      this.showButton.push(false);
+    }
     this.awaitinginventoryList = this.inventoryList
   }
 
@@ -102,6 +108,11 @@ export class InventoryLeaderComponent implements OnInit {
     try {
       await this.deleteInventory(1, id);
       await this.getInventory(1);
+      this.showButton.splice(0, this.showButton.length);
+      for(var i = 0; i < this.inventoryList.length; i++)
+      {
+        this.showButton.push(false);
+      }
       return;
     }
     catch(err){
@@ -119,6 +130,7 @@ export class InventoryLeaderComponent implements OnInit {
   }
 
   async update(id: any) {
+    this.showButton[id] = false;
     let item = this.inventoryList[id]
     console.log(this.inventoryList[id].product_id);
     if(item.product_id == -1)
@@ -126,6 +138,11 @@ export class InventoryLeaderComponent implements OnInit {
       await this.addInventory(1, id);
       await this.getInventory(1);
       this.awaitinginventoryList = this.inventoryList;
+      this.showButton.splice(0, this.showButton.length);
+      for(var i = 0; i < this.inventoryList.length; i++)
+      {
+        this.showButton.push(false);
+      }
       
     }
     else
@@ -139,6 +156,7 @@ export class InventoryLeaderComponent implements OnInit {
 
   changeValue(id: number, property: string, event: any) {
     this.editField = event.target.textContent;
+    this.showButton[id] = true;
     return;
   }
 
