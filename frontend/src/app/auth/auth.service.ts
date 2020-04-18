@@ -201,7 +201,7 @@ export class AuthService {
           this.role = 1;
           this.roleStatusListner.next(1);
         }
-        if (res.admin_flag === false && res.leader === false) {
+        if (!res.admin_flag && !res.leader) {
           this.role = 2;
           this.roleStatusListner.next(2);
         }

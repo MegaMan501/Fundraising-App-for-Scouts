@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
       for (const r in route.data.roles) {
         if (route.data.roles.hasOwnProperty(r)) {
           const element = route.data.roles[r];
-          // console.log(element, "=", userRole);
+          // console.log(element, '=', userRole);
           if (element === userRole) {
             return true;
           }
