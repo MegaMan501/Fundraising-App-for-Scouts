@@ -21,7 +21,7 @@ export class SalesScoutComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public saleService: SaleService) {     
+  constructor(public saleService: SaleService) {
     this.saleForm = new FormGroup({
     name: new FormControl(''),
     quantity: new FormControl(''),

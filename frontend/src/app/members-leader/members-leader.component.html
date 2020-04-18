@@ -2,10 +2,6 @@
   <div class="cards" style="background-color: white;">
     <form class="input-form" (ngSubmit)="addMember()" [formGroup]="memberForm" novalidate>
 
-      <!-- < ngModelGroup="User"> -->
-      <!-- {{ userForm.value | json}} -->
-      <pre>{{memberForm.value | json}}</pre>
-
       <!-- input name field -->
       <mat-form-field class="input-form-full-width">
 
@@ -18,7 +14,7 @@
                 class="form-control"
                 placeholder="Ex. David Dobrik" autocomplete="off">
         <mat-error
-          *ngIf="memberForm.controls.name.invalid && memberForm.controls.name.dirty && memberForm.controls.name.touched">
+          *ngIf="memberForm.controls.name.invalid && memberForm.controls.name.touched">
           Please enter a valid <strong>name</strong>!
         </mat-error>
 
@@ -34,20 +30,24 @@
                 formControlName="email"
                 class="form-control"
                 placeholder="Ex. karen@gmail.com" autocomplete="off">
-
-
           <mat-error *ngIf="memberForm.controls.email.invalid && memberForm.controls.email.touched">The email address must contain at least the
             <strong>@</strong></mat-error>
 
-
       </mat-form-field>
 
+      <br>
+      <br>
+
+      <div class="form-group">
+        <select class="form-control">
+          <option value="">Please select a group</option>
+          <option *ngFor="let group of groups"
+                  [value]="group">
+                  {{group}}</option>
+        </select>
+      </div>
 
 
-
-      <!-- <mat-error *ngIf="memberForm.controls.email.invalid && memberForm.controls.email.dirty && memberForm.controls.email.touched">
-The email address must contain at least the <strong>@</strong>
-</mat-error> -->
 
 
 
@@ -89,39 +89,39 @@ The email address must contain at least the <strong>@</strong>
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 ">
 
         <!-- Position Column -->
-        <ng-container matColumnDef="id">
+        <ng-container matColumnDef="user_id">
           <th mat-header-cell *matHeaderCellDef> ID </th>
-          <td mat-cell *matCellDef="let member"> {{member.id}} </td>
-          <td mat-footer-cell *matFooterCellDef> Total: </td>
+          <td mat-cell *matCellDef="let member"> {{member.user_id}} </td>
+          <!-- <td mat-footer-cell *matFooterCellDef> Total: </td> -->
         </ng-container>
 
         <!-- Name Column -->
-        <ng-container matColumnDef="name">
+        <ng-container matColumnDef="full_name">
           <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let member"> {{member.name}} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
+          <td mat-cell *matCellDef="let member"> {{member.full_name}} </td>
+          <!-- <td mat-footer-cell *matFooterCellDef></td> -->
         </ng-container>
 
         <!-- GroupID Column -->
-        <ng-container matColumnDef="groupID">
+        <!-- <ng-container matColumnDef="groupID">
           <th mat-header-cell *matHeaderCellDef> Group ID </th>
-          <td mat-cell *matCellDef="let member"> {{member.groupID}} </td>
+          <td mat-cell *matCellDef="let member"> {{member.group_id}} </td>
           <td mat-footer-cell *matFooterCellDef></td>
-        </ng-container>
+        </ng-container> -->
 
         <!-- Email Column -->
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef> Email </th>
           <td mat-cell *matCellDef="let member"> {{member.email}} </td>
-          <td mat-footer-cell *matFooterCellDef></td>
+          <!-- <td mat-footer-cell *matFooterCellDef></td> -->
         </ng-container>
 
         <!-- Revenue Column -->
-        <ng-container matColumnDef="revenue">
+        <!-- <ng-container matColumnDef="revenue">
           <th mat-header-cell *matHeaderCellDef> Sale ($) </th>
           <td mat-cell *matCellDef="let member"> {{member.revenue | currency}} </td>
           <td mat-footer-cell *matFooterCellDef>{{getTotalCost() | currency}}</td>
-        </ng-container>
+        </ng-container> -->
 
         <!-- Update Column -->
         <ng-container matColumnDef="update">
@@ -131,7 +131,7 @@ The email address must contain at least the <strong>@</strong>
                 <mat-icon class="mat-18">update</mat-icon>
             </button>
           </td>
-          <td mat-footer-cell *matFooterCellDef></td>
+          <!-- <td mat-footer-cell *matFooterCellDef></td> -->
         </ng-container>
 
         <!-- Delete Column -->
@@ -142,7 +142,7 @@ The email address must contain at least the <strong>@</strong>
                   <mat-icon class="mat-18">delete</mat-icon>
               </button>
             </td>
-          <td mat-footer-cell *matFooterCellDef></td>
+          <!-- <td mat-footer-cell *matFooterCellDef></td> -->
           </ng-container>
 
 
@@ -150,8 +150,7 @@ The email address must contain at least the <strong>@</strong>
         <!-- Total Row -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky:true"></tr>
-
+        <!-- <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky:true"></tr> -->
 
       </table>
 
@@ -161,15 +160,11 @@ The email address must contain at least the <strong>@</strong>
 
 
 
-
   <div class="cards-1">
     <canvas mdbChart [chartType]="chartType" [datasets]="chartDatasets" [labels]="chartLabels" [colors]="chartColors"
       [options]="chartOptions" [legend]="true" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
     </canvas>
   </div>
-
-
-
 
 
 </div>

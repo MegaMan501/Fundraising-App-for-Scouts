@@ -9,5 +9,6 @@ router.post("/login", UserController.userLogin);
 // route to user-controller.js
 router.get("/getUser", UserController.getUser);   
 router.post("/addUser", UserController.addUser);
+router.delete("/deleteUser", UserController.deleteUser);
 
 module.exports = router;

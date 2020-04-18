@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Chart } from 'chart.js';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
-
+import { MatSort } from '@angular/material/sort';
 import { MemberLeaderService } from '../memberServices/member-leader.service'
-// import * as angular from 'angular';
+import { DataSource } from '@angular/cdk/table';
 
-// import { MatTableDataSource } from '@angular/material/table';
 
 
 export interface memberData {
@@ -16,21 +15,6 @@ export interface memberData {
   revenue: number;
   email: string;
 }
-
-// var app = angular.module("myApp",[])
-
-// app.controller('memberController',['$scope', function($scope){
-//   $scope.addMember = function(){
-//     $scope.members.push({
-//         name: $scope.new_members.name,
-//         email: $scope.new_members.email,
-//         id: 1,
-//         gropuID: 1,
-//         revenue: 100
-//     })
-//   }
-// }])
-
 
 
 
@@ -44,9 +28,9 @@ export interface memberData {
 export class MembersLeaderComponent implements OnInit {
 
   memberForm: FormGroup;
+  public members = [];
 
-  isLoading = false;
-
+   dataSource = new MatTableDataSource
 
   constructor(public MemberLeaderService:MemberLeaderService) {
     this.memberForm = new FormGroup({
@@ -57,109 +41,54 @@ export class MembersLeaderComponent implements OnInit {
       ]),
     })
 
-
-
    }
-
-   public arr = []
 
   ngOnInit(): void {
 
       // this.MemberLeaderService.getUser().subscribe(data => this.arr = data)
-      this.MemberLeaderService.getUser()
+      this.retreiveUser()
+
   };
 
 
+/* function to get user from database */
+  retreiveUser = function() {
 
-  groups = ['Group 1', 'Group2', 'Group3'];
-  members: memberData[] = [
-    {id: 1, name: 'Sarah Corner', groupID: 1, email:'test@gmail.com',revenue: 250},
-    {id: 2, name: 'Colton Nicolas', groupID: 1,email:'test@gmail.com', revenue: 350},
-    {id: 3, name: 'Diane Nicolas', groupID: 1, email:'test@gmail.com', revenue: 264},
-    {id: 4, name: 'Christian Arthur', groupID: 1, email:'test@gmail.com',revenue: 126},
-    {id: 5, name: 'Geralt Rivia', groupID: 1, email:'test@gmail.com',revenue: 345},
-    {id: 6, name: 'Chris Hemsworth', groupID: 1, email:'test@gmail.com',revenue: 218},
-    {id: 7, name: 'Álvaro Morte', groupID: 1, email:'test@gmail.com',revenue: 453},
-    {id: 8, name: 'Úrsula Corberó', groupID: 1, email:'test@gmail.com',revenue: 554},
-    {id: 9, name: 'Itziar Itũno', groupID: 1, email:'test@gmail.com',revenue: 150},
-    {id: 10, name: 'Alba Flores', groupID: 1, email:'test@gmail.com',revenue: 384}
-  ];
-
-  retreiveUser() {
-
-
-   // this.members.push({
-    //   id: 1,
-    //   name: 'sdfsdf',
-    //   groupID: 1,
-    //   email: 'something@sth',
-    //   revenue: 1000
-    // });
-    // let data = JSON.parse(this.MemberLeaderService.getUser());
-
-    // this.members.push(data)
+    this.MemberLeaderService.getUser().subscribe(data =>{
+      this.dataSource = data.rows
+    })
   }
 
-  // get value from user input (form submit)
-  logKeyValuePairs(group: FormGroup) {
-    Object.keys(group.controls).forEach((key: string) => {
-
-      let arr: any[]
-
-      // Get a reference to the control using the FormGroup.get() method
-      const abstractControl = group.get(key);
-
-      // If the control is an instance of FormGroup i.e a nested FormGroup
-      // then recursively call this same method (logKeyValuePairs) passing it
-      // the FormGroup so we can get to the form controls in it
-      if (abstractControl instanceof FormGroup) {
-        this.logKeyValuePairs(abstractControl);
-        // If the control is not a FormGroup then we know it's a FormControl
-      }
-      else {
-       // console.log('Key = ' + key + ' && Value = ' + abstractControl.value);
-
-        console.log(key)
-
-        for(var i = 0; i < abstractControl.value; ++i)
-        {
-          console.log(i);
-        }
-
-        console.log(abstractControl.value)
 
 
-        // this.MemberLeaderService.addUser(abstractControl.value, abstractControl.value)
-        // for(var i = 0; i < arr.length; ++i) {
-        //     console.log(arr[i]);
-        // }
-      }
-
-    });
-  }
+/* function to submit user input and save it into database */
   addMember = function() {
     // invalid input
     if(this.memberForm.invalid) {
-      console.log("Invalid Input!")
+
+      setTimeout(() => { alert("Input Invalid!"); }, 150);
     }
     // valid input
     if(this.memberForm.valid) {
       console.log("Form Submitted", this.memberForm.value)
 
-      // get data from the user input
-      this.logKeyValuePairs(this.memberForm);
+    // confirm submit
+    if (setTimeout(()=>confirm("Are you sure to all of the information is correct?"),150)) {
+        setTimeout(()=> alert("You have successfully added a scout!") ,150);
+
+      // get data from the user input and save into database
+      this.MemberLeaderService.addUser(this.memberForm.value.name, this.memberForm.value.email)
+
+      }
+
+
 
       // reset user input after successfully submitted
       this.memberForm.reset();
+
+      // refresh table
+      this.retreiveUser()
     }
-
-    // get user from database
-    // this.MemberLeaderService.getUser();
-
-
-
-    //console.log(this.members.length)
-
   };
 
 
@@ -170,19 +99,41 @@ export class MembersLeaderComponent implements OnInit {
     // console.log(this.selectGroup);
   }
 
+  groups: string[] = ['Group 1', 'Group2', 'Group3'];
 
-  displayedColumns: string[] = ['id', 'name', 'groupID', 'email','revenue', 'update','delete'];
-  dataSource = new MatTableDataSource(this.members);
+
+
+  // members = [
+  //   {user_id: 1, full_name: 'Sarah Corner', group_id: 1, email:'test@gmail.com'},
+  //   {user_id: 2, full_name: 'Colton Nicolas', group_id: 1,email:'test@gmail.com'},
+  //   {user_id: 3, full_name: 'Diane Nicolas', group_id: 1, email:'test@gmail.com'},
+  //   {user_id: 4, full_name: 'Christian Arthur', group_id: 1, email:'test@gmail.com'},
+  //   {id: 5, name: 'Geralt Rivia', groupID: 1, email:'test@gmail.com'},
+  //   {id: 6, name: 'Chris Hemsworth', groupID: 1, email:'test@gmail.com'},
+  //   {id: 7, name: 'Álvaro Morte', groupID: 1, email:'test@gmail.com'},
+  //   {id: 8, name: 'Úrsula Corberó', groupID: 1, email:'test@gmail.com'},
+  //   {id: 9, name: 'Itziar Itũno', groupID: 1, email:'test@gmail.com'},
+  //   {id: 10, name: 'Alba Flores', groupID: 1, email:'test@gmail.com'}
+  // ];
+
+
+  displayedColumns: string[] = ['user_id', 'full_name', 'email', 'update','delete'];
+  //dataSource = new MatTableDataSource(this.members)
+
+
+
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
+    // this.dataSource = new MatTableDataSource(this.members)
+    // console.log(filterValue)
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
  /* Gets the total cost of all transactions. */
-  getTotalCost() {
-    return this.members.map(t => t.revenue).reduce((acc, value) => acc + value, 0);
-  }
+  // getTotalCost() {
+  //   return this.members.map(t => t.revenue).reduce((acc, value) => acc + value, 0);
+  // }
 
   /* Update user*/
   public redirectToUpdate = (id: string) => {
@@ -190,9 +141,13 @@ export class MembersLeaderComponent implements OnInit {
   }
 
   /* Delete user */
-    public redirectToDelete = (id: string) => {
+  public redirectToDelete = (id: string) => {
 
   }
+
+
+
+
 
   /* Chart */
   public chartType: string = 'bar';
