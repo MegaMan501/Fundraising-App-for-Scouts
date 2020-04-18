@@ -12,12 +12,15 @@ import { RequestsScoutComponent } from './requests-scout/requests-scout.componen
 import { AuthGuard } from './auth/auth.guard';
 import { EventsLeaderComponent } from './events-leader/events-leader.component';
 import { SalesScoutComponent } from './sales-scout/sales-scout.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   {path: '', component: HomepageComponent},
   {path: 'homepage', component: HomepageComponent},
   {path: 'login', component: LoginComponent},
   {path: 'forgot-password', component: ForgotPasswordComponent},
+  //Don't forget to allow id's to be appended to this path
+  {path: 'reset-password', component: ResetPasswordComponent},
   {path: 'dashboard-leader', component: DashboardLeaderComponent, canActivate: [AuthGuard]},
   {path: 'inventory-leader', component: InventoryLeaderComponent, canActivate: [AuthGuard]},
   {path: 'members-leader', component: MembersLeaderComponent, canActivate: [AuthGuard]},
