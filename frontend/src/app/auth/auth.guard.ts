@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild } from '@angular/router';
 import { AuthService } from './auth.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -12,9 +12,23 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean | Observable<boolean> | Promise<boolean> {
     const isAuth = this.authService.getIsAuth();
-    if (!isAuth) {
-      this.router.navigate(['/login']);
+    const userRole = this.authService.getRole();
+    if (isAuth) {
+
+      for (const r in route.data.roles) {
+        if (route.data.roles.hasOwnProperty(r)) {
+          const element = route.data.roles[r];
+          // console.log(element, "=", userRole);
+          if (element === userRole) {
+            return true;
+          }
+        }
+        // return false;
+      }
+      this.router.navigate(['']);
+      return false;
     }
-    return isAuth;
+    this.router.navigate(['/login']);
+    return false;
   }
 }

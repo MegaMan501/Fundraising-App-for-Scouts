@@ -12,22 +12,103 @@ import { RequestsScoutComponent } from './requests-scout/requests-scout.componen
 import { AuthGuard } from './auth/auth.guard';
 import { EventsLeaderComponent } from './events-leader/events-leader.component';
 import { SalesScoutComponent } from './sales-scout/sales-scout.component';
+import { GroupComponent } from './members/groups/groups.component';
+import { LeaderComponent } from './members/leaders/leaders.component';
+import { ScoutComponent } from './members/scouts/scouts.component';
 
 const routes: Routes = [
-  {path: '', component: HomepageComponent},
-  {path: 'homepage', component: HomepageComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'forgot-password', component: ForgotPasswordComponent},
-  {path: 'dashboard-leader', component: DashboardLeaderComponent, canActivate: [AuthGuard]},
-  {path: 'inventory-leader', component: InventoryLeaderComponent, canActivate: [AuthGuard]},
-  {path: 'members-leader', component: MembersLeaderComponent, canActivate: [AuthGuard]},
-  {path: 'events-leader', component: EventsLeaderComponent, canActivate: [AuthGuard]},
-  {path: 'sales-leader', component: SalesLeaderComponent, canActivate: [AuthGuard]},
-  {path: 'request-leader', component: RequestsScoutComponent, canActivate: [AuthGuard]},
-  {path: 'dashboard-scout', component: DashboardScoutComponent, canActivate: [AuthGuard]},
-  {path: 'request-scout', component: RequestsScoutComponent, canActivate: [AuthGuard]},
-  {path: 'sales-scout', component: SalesScoutComponent, canActivate: [AuthGuard]},
-  {path: '**', redirectTo: ''}
+  {
+    path: '',
+    component: HomepageComponent
+  },
+  {
+    path: 'homepage',
+    component: HomepageComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent
+  },
+  {
+    path: 'dashboard-leader',
+    component: DashboardLeaderComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [0, 1] }
+  },
+  {
+    path: 'inventory-leader',
+    component: InventoryLeaderComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [0, 1] }
+  },
+  {
+    path: 'members-leader',
+    component: MembersLeaderComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [0, 1] }
+  },
+  {
+    path: 'members-groups',
+    component: GroupComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [0, 1] }
+  },
+  {
+    path: 'members-leaders',
+    component: LeaderComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [0] }
+  },
+  {
+    path: 'members-scouts',
+    component: ScoutComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [0, 1] }
+  },
+  {
+    path: 'events-leader',
+    component: EventsLeaderComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [0, 1] }
+  },
+  {
+    path: 'sales-leader',
+    component: SalesLeaderComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [0, 1] }
+  },
+  {
+    path: 'request-leader',
+    component: RequestsScoutComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [0, 1] }
+  },
+  {
+    path: 'dashboard-scout',
+    component: DashboardScoutComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [2] }
+  },
+  {
+    path: 'request-scout',
+    component: RequestsScoutComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [2] }
+  },
+  {
+    path: 'sales-scout',
+    component: SalesScoutComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [2] }
+  },
+  {
+    path: '**',
+    redirectTo: ''
+  }
 ];
 
 @NgModule({
