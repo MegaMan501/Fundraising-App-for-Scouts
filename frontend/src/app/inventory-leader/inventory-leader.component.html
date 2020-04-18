@@ -39,36 +39,33 @@
           <th class="text-center">Cost ($$)</th>
           <th class="text-center">Price ($$)</th>
           <th class="text-center">Quantity</th>
+          <th class="text-center">Weight</th>
           <th class="text-center">Description</th>
-          <th class="text-center">Sort</th>
+          <th class="text-center">Update</th>
           <th class="text-center">Remove</th>
         </tr>
         <tr *ngFor="let person of inventoryList; let id = index">
           <td>
-            <span (keyup)="changeValue(id, 'item', $event)" (blur)="updateList(id, 'item', $event)" contenteditable="true">{{person.item}}</span>
+            <span (keyup)="changeValue(id, 'prod_item', $event)" (blur)="updateList(id, 'prod_name', $event)" contenteditable="true">{{person.prod_name}}</span>
           </td>
           <td>
             <span contenteditable="true" (keyup)="changeValue(id, 'cost', $event)" (blur)="updateList(id, 'cost', $event)">{{person.cost}}</span>
           </td>
           <td>
-            <span contenteditable="true" (keyup)="changeValue(id, 'price', $event)" (blur)="updateList(id, 'price', $event)">{{person.price}}</span>
+            <span contenteditable="true" (keyup)="changeValue(id, 'sales_price', $event)" (blur)="updateList(id, 'sales_price', $event)">{{person.sales_price}}</span>
           </td>
           <td>
             <span contenteditable="true" (keyup)="changeValue(id, 'quantity', $event)" (blur)="updateList(id, 'quantity', $event)">{{person.quantity}}</span>
           </td>
           <td>
+            <span contenteditable="true" (keyup)="changeValue(id, 'weight', $event)" (blur)="updateList(id, 'weight', $event)">{{person.weight}}</span>
+          </td>
+          <td>
             <span contenteditable="true" (keyup)="changeValue(id, 'description', $event)" (blur)="updateList(id, 'description', $event)">{{person.description}}</span>
           </td>
           <td>
-            <span class="table-up">
-              <a class="indigo-text">
-                <mdb-icon fas icon="long-arrow-alt-up"></mdb-icon>
-              </a>
-            </span>
-            <span class="table-down">
-              <a class="indigo-text">
-                <mdb-icon fas icon="long-arrow-alt-down"></mdb-icon>
-              </a>
+            <span class="table-update">
+              <button type="button" mdbBtn color="primary" rounded="true" size="sm" class="my-0" (click)="update(id)">Update</button>
             </span>
           </td>
           <td>

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { MdbTableDirective, MdbTablePaginationComponent } from 'angular-bootstrap-md';
+import { InventoryService } from '../inventory/inventory.service'
 
 @Component({
   selector: 'app-inventory-leader',
@@ -8,7 +9,7 @@ import { MdbTableDirective, MdbTablePaginationComponent } from 'angular-bootstra
 })
 export class InventoryLeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private inventoryService: InventoryService) { }
 
   public chartType = 'bar';
   searchText = '';
@@ -71,26 +72,15 @@ export class InventoryLeaderComponent implements OnInit {
         }
       };
       editField: string;
-      inventoryList: Array<any> = [
-        { id: 1, item: 'Oreo', cost: 2.50, price: 3.50, quantity: 420, description: 'Vegan - dairy free' },
-        { id: 2, item: 'Thin Mints', cost: 1.99, price: 2.99, quantity: 240, description: 'Vegan - dairy free' },
-        { id: 3, item: 'Chocolate Chip', cost: 3.99, price: 4.99, quantity: 137, description: 'Contains dairy - non-vegan' },
-        { id: 4, item: 'Smores', cost: 4.99, price: 5.99, quantity: 145, description: 'Contains dairy - non-vegan' },
-        { id: 5, item: 'Crackers', cost: 2.99, price: 3.99, quantity: 238, description: 'Contains dairy - non-vegan' },
-      ];
-
-      awaitinginventoryList: Array<any> = [
-        { id: 6, item: 'Oreo', cost: 2.50, price: 3.50, quantity: 420, description: 'Vegan - dairy free' },
-        { id: 7, item: 'Thin Mints', cost: 1.99, price: 2.99, quantity: 240, description: 'Vegan - dairy free' },
-        { id: 8, item: 'Chocolate Chip', cost: 3.99, price: 4.99, quantity: 137, description: 'Contains dairy - non-vegan' },
-        { id: 9, item: 'Smores', cost: 4.99, price: 5.99, quantity: 145, description: 'Contains dairy - non-vegan' },
-        { id: 10, item: 'Crackers', cost: 2.99, price: 3.99, quantity: 238, description: 'Contains dairy - non-vegan' },
-      ];
+      inventoryList = new Array(); 
+      awaitinginventoryList = new Array();
 
   groups = ['Group 1', 'Group2', 'Group3'];
 
 
-  ngOnInit(): void {
+  async ngOnInit(){
+    await this.getInventory(1)
+    this.awaitinginventoryList = this.inventoryList
   }
 
   // chart
@@ -105,27 +95,78 @@ export class InventoryLeaderComponent implements OnInit {
   updateList(id: number, property: string, event: any) {
     const editField = event.target.textContent;
     this.inventoryList[id][property] = editField;
+    return;
   }
 
-  remove(id: any) {
-    this.awaitinginventoryList.push(this.inventoryList[id]);
-    this.inventoryList.splice(id, 1);
+  async remove(id: any) {
+    try {
+      await this.deleteInventory(1, id);
+      await this.getInventory(1);
+      return;
+    }
+    catch(err){
+      console.log(err);
+    }
   }
 
   add() {
     if (this.awaitinginventoryList.length > 0) {
-      const person = this.awaitinginventoryList[0];
-      this.inventoryList.push(person);
-      this.awaitinginventoryList.splice(0, 1);
+      const item = {product_id: -1, prod_name: "Insert name", description: "Insert description", weight: 0, cost: 0, sales_price:0};
+      this.inventoryList.push(item);
     }
+
+    return;
   }
+
+  async update(id: any) {
+    let item = this.inventoryList[id]
+    console.log(this.inventoryList[id].product_id);
+    if(item.product_id == -1)
+    {
+      await this.addInventory(1, id);
+      await this.getInventory(1);
+      this.awaitinginventoryList = this.inventoryList;
+      
+    }
+    else
+    {
+      this.inventoryService.updateProduct(this.inventoryList[id])
+    }
+
+    return;
+  }
+
 
   changeValue(id: number, property: string, event: any) {
     this.editField = event.target.textContent;
+    return;
   }
 
   onSelect(inventory) {
 
   }
 
+  addInventory(x, id)
+  {
+    return new Promise( resolve => {
+      this.inventoryService.addProduct(this.inventoryList[id])
+      setTimeout(() => {resolve();}, x);
+    });
+  }
+
+  deleteInventory(x, id)
+  {
+    return new Promise( resolve => {
+      this.inventoryService.deleteProduct(this.inventoryList[id].product_id);
+      setTimeout(() => {resolve();}, x);
+    });
+  }
+
+  getInventory(x)
+  {
+    return new Promise( resolve => {
+      this.inventoryService.getGroupProducts(this.inventoryList);
+      setTimeout(() => {resolve();}, x);
+    });
+  }
 }
