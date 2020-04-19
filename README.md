@@ -3,10 +3,10 @@ CSCE 4901: Capstone Project
 
 ## Team: 406 Not Acceptable
 - Mohamed Rahaman ([MegaMan501](https://github.com/MegaMan501))
-- Jacob Roquemore
+- Jacob Roquemore ([Graxios](https://github.com/Graxios))
 - Samuel Smetana ([SamSmetana](https://github.com/SamSmetana))
 - Khang Tran ([Khang](https://github.com/nartuo1997))
-- Natnael Tsegaselassie
+- Natnael Tsegaselassie ([nat0080](https://github.com/nat0080)) and ([natialem](https://github.com/natialem))
 
 ## Repository Structure
 |   Location |  Description |
