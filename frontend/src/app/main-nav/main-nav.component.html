@@ -93,11 +93,11 @@
               </a>
              </mat-expansion-panel-header>
              <!-- dashboard items -->
-             <mat-list-item><a href="/dashboard-leader/#troops-d">Troops</a></mat-list-item>
-             <mat-list-item><a href="/dashboard-leader/#members-d">Members</a></mat-list-item>
-             <mat-list-item><a href="/dashboard-leader/#events-d">Events</a></mat-list-item>
-             <mat-list-item><a href="/dashboard-leader/#sales-d">Sales</a></mat-list-item>
-             <mat-list-item><a href="/dashboard-leader/#inventory-d">Inventory</a></mat-list-item>
+             <mat-list-item><a href="/dashboard-leader#troops-d">Troops</a></mat-list-item>
+             <mat-list-item><a href="/dashboard-leader#members-d">Members</a></mat-list-item>
+             <mat-list-item><a href="/dashboard-leader#events-d">Events</a></mat-list-item>
+             <mat-list-item><a href="/dashboard-leader#sales-d">Sales</a></mat-list-item>
+             <mat-list-item><a href="/dashboard-leader#inventory-d">Inventory</a></mat-list-item>
             </mat-expansion-panel>
             <mat-divider></mat-divider>
 
@@ -132,6 +132,10 @@
                   Members
                 </a>
               </mat-expansion-panel-header>
+              <!-- Groups and Members -->
+              <mat-list-item><a [routerLink]="['/members-groups']">Groups</a></mat-list-item>
+              <mat-list-item><a [routerLink]="['/members-leaders']">Leaders</a></mat-list-item>
+              <mat-list-item><a [routerLink]="['/members-scouts']">Scouts</a></mat-list-item>
             </mat-expansion-panel>
             <mat-divider></mat-divider>
 
@@ -169,8 +173,8 @@
 
   <!-- Top Toolbar -->
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
 
+    <mat-toolbar color="primary">
       <!-- Hamburger Menu -->
       <button
         type="button"
@@ -181,34 +185,9 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
 
-      <!-- Routes -->
-      <!-- <a href="" [ngClass]="{hidden: (isHandset$ | async) === true}">
-        <img src="../../assets/cookie-svgrepo-com.svg" alt="logo">
-      </a> -->
       <span class="spacer"></span>
 
-      <!-- Show these Only When in handset mode -->
-      <!-- <div *ngIf="((isHandset$ | async) === false)">
-        <a *ngIf="!userIsAuth" [routerLink]="['/']" routerLinkActive="mat-accent">Explore</a>
-        <div *ngIf="userIsAdmin || userIsLeader">
-          <a *ngIf="userIsAuth" [routerLink]="['/dashboard-leader']" routerLinkActive="mat-accent">Dashboard</a>
-          <a *ngIf="userIsAuth" [routerLink]="['/inventory-leader']" routerLinkActive="mat-accent">Inventory</a>
-          <a *ngIf="userIsAuth" [routerLink]="['/members-leader']" routerLinkActive="mat-accent">Members</a>
-          <a *ngIf="userIsAuth" [routerLink]="['/events-leader']" routerLinkActive="mat-accent">Events</a>
-          <a *ngIf="userIsAuth" [routerLink]="['/sales-leader']" routerLinkActive="mat-accent">Sales</a>
-        </div>
-        <div *ngIf="!userIsAdmin || !userIsLeader">
-          <a *ngIf="userIsAuth" [routerLink]="['/dashboard-scout']" routerLinkActive="mat-accent">Dashboard</a>
-          <a *ngIf="userIsAuth" [routerLink]="['/request-scout']" routerLinkActive="mat-accent">Request</a>
-        </div>
-      </div> -->
-
-      <!-- Login Route -->
-      <!-- <a *ngIf="!userIsAuth" [routerLink]="['/login']" routerLinkActive="mat-accent">Login</a> -->
-
-      <!-- Logout -->
-      <!-- <button mat-flat-button *ngIf="userIsAuth" color="warn" (click)="onLogout()">Logout</button> -->
-
+      <!-- Notifications -->
       <div *ngIf="userIsAuth">
         <button mat-icon-button [matMenuTriggerFor]="notifications" aria-label="Notifications">
           <mat-icon matBadge="15" matBadgeColor="warn">notifications</mat-icon>
@@ -218,31 +197,36 @@
         </mat-menu>
       </div>
 
-
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="User Menu">
-        <mat-icon>account_circle</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu" class="userIcon">
-        <button mat-menu-item *ngIf="!userIsAuth" (click)="onLogin()">
-          <mat-icon>keyboard_arrow_right</mat-icon>
-          <span>Sign In</span>
+      <!-- Account -->
+      <div>
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="User Menu">
+          <mat-icon>account_circle</mat-icon>
         </button>
+        <!-- Sign in -->
+        <mat-menu #menu="matMenu" class="userIcon">
+          <button mat-menu-item *ngIf="!userIsAuth" (click)="onLogin()">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+            <span>Sign In</span>
+          </button>
 
-        <!-- Logout -->
-        <button mat-menu-item *ngIf="userIsAuth" (click)="onLogout()">
-          <mat-icon>keyboard_arrow_left</mat-icon>
-          <span>Log Out</span>
-        </button>
+          <!-- Logout -->
+          <button mat-menu-item *ngIf="userIsAuth" (click)="onLogout()">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+            <span>Log Out</span>
+          </button>
 
-        <button mat-menu-item *ngIf="userIsAuth">
-          <mat-icon>settings</mat-icon>
-          <span>Settings</span>
-        </button>
-      </mat-menu>
+          <button mat-menu-item *ngIf="userIsAuth">
+            <mat-icon>settings</mat-icon>
+            <span>Settings</span>
+          </button>
+        </mat-menu>
+      </div>
+
     </mat-toolbar>
 
     <!-- Angular Content Projection -->
     <ng-content></ng-content>
+
   </mat-sidenav-content>
 
 </mat-sidenav-container>

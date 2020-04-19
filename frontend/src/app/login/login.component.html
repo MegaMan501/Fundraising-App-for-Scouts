@@ -72,10 +72,7 @@
                   color="primary">Login</button>
             </div>
             <div class="forgotpassword">
-              <a routerLink="/forgot-password"><button
-                  *ngIf="!isLoading"
-                  mat-raised-button
-                  color="secondary">Forgot Your Password?</button></a>
+              <a routerLink="/forgot-password" *ngIf="!isLoading">Forgot Your Password?</a>
             </div>
         </mat-card-actions>
       </form>
