@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Scout } from '../scout.model';
+import { Member } from '../../models/all.model';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,9 +13,9 @@ import { Subscription } from 'rxjs';
 export class ScoutComponent {
   hide = true;
   scoutForm: FormGroup;
-  displayedColumns: string[] = ['userId', 'groupId', 'fullname', 'email'];
-  scouts: Scout[] = [];
-  dataSource = new MatTableDataSource<Scout>(this.scouts);
+  displayedColumns: string[] = ['userId', 'fullname', 'email'];
+  scouts: Member[] = [];
+  dataSource = new MatTableDataSource<Member>(this.scouts);
   private scoutsSub: Subscription;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;

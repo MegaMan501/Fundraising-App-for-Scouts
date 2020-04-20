@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Leader } from '../members/leader.model';
 import { Scout } from '../members/scout.model';
-import { Group } from '../members/group.model';
+import { Group, Member } from '../models/all.model';
 const BACKEND_URL = 'http://localhost:45213/api/users';
 
 @Injectable({ providedIn: 'root'})
@@ -14,10 +14,10 @@ export class AuthService {
   private tokenTimer: any;
   private userId: string;
 
-  private leaders: Leader[] = [];
-  private allLeaderStatusListner = new Subject<Leader[]>();
-  private scouts: Scout[] = [];
-  private allScoutStatusListner = new Subject<Scout[]>();
+  private leaders: Member[] = [];
+  private allLeaderStatusListner = new Subject<Member[]>();
+  private scouts: Member[] = [];
+  private allScoutStatusListner = new Subject<Member[]>();
   private groups: Group[] = [];
   private allGroupStatusListner = new Subject<Group[]>();
 
@@ -75,7 +75,6 @@ export class AuthService {
           leaders: leaderData.rows.map(e => {
             return {
               userId: e.user_id,
-              groupId: e.group_id,
               fullname: e.full_name,
               email: e.email
             };
@@ -114,7 +113,6 @@ export class AuthService {
           scouts: scoutData.rows.map(e => {
             return {
               userId: e.user_id,
-              groupId: e.group_id,
               fullname: e.full_name,
               email: e.email
             };
@@ -133,13 +131,28 @@ export class AuthService {
   createGroup(groupId: number, group_name: string, location: string, group_desc: string) {
     const authData = { groupId, group_name, location, group_desc };
 
-    return this.http.post(BACKEND_URL + '/addGroup', authData)
+    return this.http.post<{rows: any}>(BACKEND_URL + '/addGroup', authData)
+      .pipe(
+        map((uGroups) => {
+          return {
+            groups: uGroups.rows.map(e => {
+              return {
+                groupId: e.group_id,
+                groupName: e.group_name,
+                groupLocation: e.location,
+                groupDesc: e.group_desc
+              };
+            }),
+          };
+        })
+      )
       .subscribe(res => {
-        console.log(res);
-        window.location.reload();
-        this.router.navigate(['/members-groups']);
+        // console.log(res);
+        this.groups = res.groups;
+        this.allGroupStatusListner.next([...this.groups]);
       }, err => {
         this.authStatusListener.next(false);
+        console.error(err);
       });
   }
 
@@ -162,7 +175,7 @@ export class AuthService {
       })
     )
     .subscribe(modData => {
-      // console.log(modData.groups);
+      console.log(modData.groups);
       this.groups = modData.groups;
       this.allGroupStatusListner.next([...this.groups]);
     });

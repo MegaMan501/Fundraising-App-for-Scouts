@@ -12,7 +12,7 @@
 
     <!-- Content -->
     <mat-card-content>
-      <form (submit)="onAddGroup()" [formGroup]="groupForm">
+      <form (submit)="onAddGroup(formDirective)" [formGroup]="groupForm" #formDirective="ngForm">
 
         <mat-form-field appearance="standard" class="full-width">
           <mat-label>GroupId</mat-label>
@@ -58,9 +58,9 @@
             formControlName="groupDesc"
             placeholder="EX: Something"
             autocomplete="fname">
-            <mat-error *ngIf="groupForm.controls.groupDesc.hasError('required')">
+            <!-- <mat-error *ngIf="groupForm.controls.groupDesc.hasError('required')">
               Group Description is <strong>required</strong>!
-            </mat-error>
+            </mat-error> -->
         </mat-form-field>
 
         <!-- Actions -->
@@ -83,37 +83,45 @@
     </mat-card-footer>
   </mat-card>
 
-  <div class="mat-elevation-z8 atable">
-    <table mat-table [dataSource]="groups">
+  <div class="atable">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-      <!-- Position Column -->
+      <!-- Id Column -->
       <ng-container matColumnDef="groupId">
-        <th mat-header-cell *matHeaderCellDef>GroupId</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>GroupId</th>
         <td mat-cell *matCellDef="let element"> {{element.groupId}} </td>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="groupName">
-        <th mat-header-cell *matHeaderCellDef>Group Name</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Group Name</th>
         <td mat-cell *matCellDef="let element"> {{element.groupName}} </td>
       </ng-container>
 
-      <!-- Weight Column -->
+      <!-- Location Column -->
       <ng-container matColumnDef="groupLocation">
-        <th mat-header-cell *matHeaderCellDef>Location</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
         <td mat-cell *matCellDef="let element"> {{element.groupLocation}} </td>
       </ng-container>
 
-      <!-- Symbol Column -->
+      <!-- Description Column -->
       <ng-container matColumnDef="groupDesc">
         <th mat-header-cell *matHeaderCellDef>Description</th>
         <td mat-cell *matCellDef="let element"> {{element.groupDesc}} </td>
+      </ng-container>
+
+       <!-- Action Column -->
+       <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element"> Hello </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25]"
+       showFirstLastButtons></mat-paginator>
   </div>
 </div>

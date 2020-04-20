@@ -19,11 +19,11 @@ export class SalesScoutComponent implements OnInit {
   productList = new Array();
   uid = localStorage.getItem('userId');
   displayedColumns: string[] = ['prod_name', 'quantity', 'price', 'sale_date'];
-  dataSource = new MatTableDataSource<String>();
+  dataSource = new MatTableDataSource<string>();
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public saleService: SaleService, public inventoryService: InventoryService) {     
+  constructor(public saleService: SaleService, public inventoryService: InventoryService) {
     this.saleForm = new FormGroup({
     name: new FormControl('', Validators.required),
     quantity: new FormControl('',Validators.required),

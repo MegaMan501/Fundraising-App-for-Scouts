@@ -133,7 +133,7 @@
               </mat-expansion-panel-header>
               <!-- Groups and Members -->
               <a mat-list-item routerLinkActive="activeRoute" [routerLink]="['/members-groups']" >Groups</a>
-              <a mat-list-item routerLinkActive="activeRoute" [routerLink]="['/members-leaders']">Leaders</a>
+              <a mat-list-item *ngIf="userIsAdmin" routerLinkActive="activeRoute" [routerLink]="['/members-leaders']">Leaders</a>
               <a mat-list-item routerLinkActive="activeRoute" [routerLink]="['/members-scouts']">Scouts</a>
             </mat-expansion-panel>
             <mat-divider></mat-divider>

@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { Leader } from '../leader.model';
+import { Member } from '../../models/all.model';
 
 @Component({
   templateUrl: './leaders.component.html',
@@ -12,10 +12,10 @@ import { Leader } from '../leader.model';
 })
 export class LeaderComponent {
   hide = true;
-  leaders: Leader[] = [];
+  leaders: Member[] = [];
   leaderForm: FormGroup;
-  displayedColumns: string[] = ['userId', 'groupId', 'fullname', 'email'];
-  dataSource = new MatTableDataSource<Leader>(this.leaders);
+  displayedColumns: string[] = ['userId', 'fullname', 'email'];
+  dataSource = new MatTableDataSource<Member>(this.leaders);
   private leadersSub: Subscription;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;

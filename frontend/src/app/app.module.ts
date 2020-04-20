@@ -38,7 +38,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 // Auth
 import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component'
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 // Dashboard
 import { DashboardLeaderComponent } from './dashboard-leader/dashboard-leader.component';

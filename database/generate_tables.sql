@@ -1,24 +1,27 @@
-CREATE TABLE groups
-(
-  group_id int NOT NULL AUTO_INCREMENT UNIQUE,
-  group_name varchar(128),
-  location varchar(64),
-  group_desc varchar(255),
-  PRIMARY KEY (group_id)
-);
-
+# Tables
 CREATE TABLE user
 (
   user_id int NOT NULL AUTO_INCREMENT UNIQUE,
-  group_id int,
   full_name varchar(100),
   email varchar(255) UNIQUE,
   hash_pass varchar(255),
   leader_flag bool,
   admin_flag bool,
   verified bool,
-  PRIMARY KEY (user_id),
-  FOREIGN KEY (group_id) REFERENCES groups(group_id)
+  PRIMARY KEY (user_id)
+);
+
+CREATE TABLE groups
+(
+  group_id int NOT NULL AUTO_INCREMENT UNIQUE,
+  user_id int,
+  group_name varchar(128),
+  location varchar(64),
+  group_desc varchar(255),
+  PRIMARY KEY (group_id),
+  FOREIGN KEY (user_id) REFERENCES user(user_id)
+	ON DELETE SET NULL
+    ON UPDATE CASCADE
 );
 
 CREATE TABLE password_reset
@@ -129,4 +132,3 @@ CREATE TABLE task
   FOREIGN KEY (user_id) REFERENCES user(user_id),
   FOREIGN KEY (group_id) REFERENCES groups(group_id)
 );
-

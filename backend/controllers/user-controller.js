@@ -215,14 +215,12 @@ exports.userPassResetReq = (req, res, next) => {
     });
 }
 
-
 //exports.userResetPass
-
 
 // should be removed!
 exports.getUser = (req, res, next) => {
 
-    db.query("SELECT user_id,group_id,full_name,email FROM user Where leader_flag = 1",
+    db.query("SELECT user_id,full_name,email FROM user Where leader_flag = 1",
     (err, rows, fields) => {
          // Catch and DB errors.
          if(err) { 
@@ -254,7 +252,7 @@ exports.getLeaders = (req, res, next) => {
       });
     }
 
-    db.query("SELECT user_id,group_id,full_name,email FROM user Where leader_flag = 1 and admin_flag = 0",
+    db.query("SELECT user_id,full_name,email FROM user Where leader_flag = 1 and admin_flag = 0",
       (err, rows, fields) => {
          // Catch and DB errors.
          if(err) {
@@ -283,7 +281,7 @@ exports.getScouts = (req, res, next) => {
         message: "Authentication Error!"
     });
 }
-    db.query("SELECT user_id,group_id,full_name,email FROM user Where leader_flag = 0 AND admin_flag = 0",
+    db.query("SELECT user_id,full_name,email FROM user Where leader_flag = 0 AND admin_flag = 0",
     (err, rows, fields) => {
          // Catch and DB errors.
          if(err) { 
@@ -315,7 +313,9 @@ exports.getGroups = (req, res, next) => {
     });
   }
 
-  db.query("SELECT * FROM groups",
+  db.query(//'CALL getGroups(2)', 
+  'SELECT group_id,group_name,location,group_desc FROM groups Where user_id = ?',
+  [parseInt(req.userData.userId)],
   (err, rows, fields) => {
        // Catch and DB errors.
        if(err) { 
@@ -325,7 +325,7 @@ exports.getGroups = (req, res, next) => {
          });
       };
 
-      // console.log("Groups",rows);
+    //   console.log("UserId: "+req.userData.userId+"Groups",rows);
      
       // return if sucessfully connected to database
       // fetch all data rows from table
@@ -410,9 +410,15 @@ exports.addGroup = (req, res, next) => {
         });
     }
     // console.log(req.body);
-    const qry = 'INSERT INTO groups (`group_id`, `group_name`, `location`, `group_desc`) VALUES (?,?,?,?)';   
-    db.query( qry, 
-        [req.body.groupId, req.body.group_name, req.body.location, req.body.group_desc],
+    // const qry = 'INSERT INTO groups (`group_id`, `group_name`, `location`, `group_desc`) VALUES (?,?,?,?)';   
+    db.query( 'CALL addGroups(?,?,?,?,?)', 
+        [
+            req.body.groupId, 
+            req.userData.userId, 
+            req.body.group_name, 
+            req.body.location, 
+            req.body.group_desc
+        ],
         (err, results, fields) => {
         if(err) {
             console.error(err.code, err.sqlMessage);
@@ -420,9 +426,9 @@ exports.addGroup = (req, res, next) => {
                 message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
             });
         } else {
-            console.log("Successfully Added a Group.");
-            return res.status(201).json({
-              message: "Successfully added Group: " + req.body.group_name 
+            console.log("Successfully Added a Group.", results);
+            return res.status(200).json({
+              rows: results[0]
             });
         }
     }); 
