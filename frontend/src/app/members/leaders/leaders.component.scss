@@ -27,8 +27,8 @@ mat-spinner {
   margin: auto;
 }
 
-.acard {
-  grid-area: acard;
+.lcard {
+  grid-area: lcard;
   max-height: 400px;
   padding: 50px 30px 50px 30px;
   margin: 8rem 2rem 8rem 2rem;
@@ -62,7 +62,7 @@ mat-spinner {
       padding: 0;
       grid-template-columns: 1fr 1fr;
       grid-template-areas:
-      "acard acard"
+      "lcard lcard"
       "atable atable"
       ;
     }
@@ -76,11 +76,11 @@ mat-spinner {
       grid-gap: 0px;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-areas:
-      "acard atable atable"
-      "acard atable atable";
+      "lcard atable atable"
+      "lcard atable atable";
     }
 
-    .acard {
+    .lcard {
       mat-card {
         min-width: 500px;
       }

@@ -12,7 +12,7 @@ import { Group } from '../../models/all.model';
   styleUrls: ['./groups.component.scss']
 })
 export class GroupComponent implements OnInit, OnDestroy {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   hide = true;
   groups: Group[] = [];

@@ -3,8 +3,6 @@ import { Subject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Leader } from '../members/leader.model';
-import { Scout } from '../members/scout.model';
 import { Group, Member } from '../models/all.model';
 const BACKEND_URL = 'http://localhost:45213/api/users';
 
@@ -55,11 +53,25 @@ export class AuthService {
   createLeader(email: string, fullname: string, pass: string) {
     const authData = { email, fullname, pass };
 
-    return this.http.post(BACKEND_URL + '/addLeader', authData)
+    return this.http.post<{rows: any}>
+    (BACKEND_URL + '/addLeader', authData)
+    .pipe(
+      map((uLeaders) => {
+        return {
+          leaders: uLeaders.rows.map(e => {
+            return {
+              userId: e.user_id,
+              fullname: e.full_name,
+              email: e.email
+            };
+          }),
+        };
+      })
+    )
       .subscribe(res => {
         console.log(res);
-        window.location.reload();
-        this.router.navigate(['/members-leaders']);
+        this.leaders = res.leaders;
+        this.allLeaderStatusListner.next([...this.leaders]);
       }, err => {
         this.authStatusListener.next(false);
       });
@@ -83,7 +95,7 @@ export class AuthService {
       })
     )
     .subscribe(modData => {
-      // console.log(modData.leaders);
+      console.log(modData.leaders);
       this.leaders = modData.leaders;
       this.allLeaderStatusListner.next([...this.leaders]);
     });
