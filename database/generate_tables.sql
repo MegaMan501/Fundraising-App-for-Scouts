@@ -1,5 +1,5 @@
 # Tables
-CREATE TABLE user
+CREATE TABLE IF NOT EXISTS user
 (
   user_id int NOT NULL AUTO_INCREMENT UNIQUE,
   full_name varchar(100),
@@ -11,7 +11,7 @@ CREATE TABLE user
   PRIMARY KEY (user_id)
 );
 
-CREATE TABLE groups
+CREATE TABLE IF NOT EXISTS groups
 (
   group_id int NOT NULL AUTO_INCREMENT UNIQUE,
   user_id int,
@@ -24,7 +24,21 @@ CREATE TABLE groups
     ON UPDATE CASCADE
 );
 
-CREATE TABLE password_reset
+CREATE TABLE IF NOT EXISTS members
+(
+  member_id int NOT NULL AUTO_INCREMENT UNIQUE,
+  group_id int,
+  user_id int,
+  PRIMARY KEY (member_id),
+  FOREIGN KEY (user_id) REFERENCES user(user_id)
+	ON DELETE SET NULL
+    ON UPDATE CASCADE,
+  FOREIGN KEY (group_id) REFERENCES groups(group_id)
+	ON DELETE SET NULL
+    ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS password_reset
 (
   user_id int,
   token varchar(255),
@@ -32,7 +46,7 @@ CREATE TABLE password_reset
   FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
-CREATE TABLE user_verification
+CREATE TABLE IF NOT EXISTS user_verification
 (
   user_id int,
   token varchar(255),
@@ -40,7 +54,7 @@ CREATE TABLE user_verification
   FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
-CREATE TABLE product 
+CREATE TABLE IF NOT EXISTS product 
 (
   product_id int NOT NULL AUTO_INCREMENT UNIQUE,
   prod_name varchar(64),
@@ -51,7 +65,7 @@ CREATE TABLE product
   PRIMARY KEY (product_id)
 );
 
-CREATE TABLE sale
+CREATE TABLE IF NOT EXISTS sale
 (
   sale_id int,
   user_id int,
@@ -59,7 +73,7 @@ CREATE TABLE sale
   FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
-CREATE TABLE sale_list
+CREATE TABLE IF NOT EXISTS sale_list
 (
   sale_id int,
   product_id int,
@@ -70,7 +84,7 @@ CREATE TABLE sale_list
   FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
 
-CREATE table event
+CREATE table IF NOT EXISTS event
 (
   event_id int NOT NULL AUTO_INCREMENT UNIQUE,
   start_date date,
@@ -83,7 +97,7 @@ CREATE table event
   PRIMARY KEY (event_id)
 );
 
-CREATE TABLE event_attendee
+CREATE TABLE IF NOT EXISTS event_attendee
 (
   event_id int,
   user_id int,
@@ -91,7 +105,7 @@ CREATE TABLE event_attendee
   FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
-CREATE TABLE inventory
+CREATE TABLE IF NOT EXISTS inventory
 (
   product_id int,
   group_id int,
@@ -102,7 +116,7 @@ CREATE TABLE inventory
   FOREIGN KEY (event_id) REFERENCES event(event_id)
 );
 
-CREATE TABLE sales_goal
+CREATE TABLE IF NOT EXISTS sales_goal
 (
   goal_id int NOT NULL AUTO_INCREMENT UNIQUE,
   user_id int,
@@ -117,7 +131,7 @@ CREATE TABLE sales_goal
   FOREIGN KEY (group_id) REFERENCES groups(group_id)
 );
 
-CREATE TABLE task 
+CREATE TABLE IF NOT EXISTS task 
 (
   task_id int NOT NULL AUTO_INCREMENT UNIQUE,
   user_id int,

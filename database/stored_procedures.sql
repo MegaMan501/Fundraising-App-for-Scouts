@@ -73,10 +73,34 @@ BEGIN
 	END IF;
     
 END//
- 
 DELIMITER ;
 
 -- CALL addGroups(35,1,'pteam','plano','just something');
 -- CALL getGroups(2);
 -- DROP PROCEDURE addGroups;
 -- DROP PROCEDURE getGroups;
+
+# Adding Groups
+DELIMITER //
+CREATE PROCEDURE addLeaders (
+	IN full_name varchar(100),
+	IN email varchar(255),
+	IN hash_pass varchar(255)
+)
+BEGIN
+	DECLARE isAdmin INT DEFAULT 0;
+	
+    # get the status of admin
+    SELECT COUNT(admin_flag) 
+    INTO isAdmin 
+    FROM user WHERE user_id = userId; 
+
+    IF isAdmin >= 1 THEN
+		# insert in to groups
+		INSERT INTO user (`full_name`, `email`, `hash_pass`, `leader_flag`, `admin_flag`, `verified`) 
+        VALUES (full_name, email, hash_pass, 1, 0, 0);
+		SELECT user_id,full_name,email FROM user;
+	END IF;
+    
+END//
+DELIMITER ;

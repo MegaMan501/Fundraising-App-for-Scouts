@@ -252,7 +252,7 @@ exports.getLeaders = (req, res, next) => {
       });
     }
 
-    db.query("SELECT user_id,full_name,email FROM user Where leader_flag = 1 and admin_flag = 0",
+    db.query("SELECT user_id,full_name,email FROM user Where leader_flag = 1",
       (err, rows, fields) => {
          // Catch and DB errors.
          if(err) {
@@ -262,7 +262,7 @@ exports.getLeaders = (req, res, next) => {
             });
         };
 
-          // console.log(rows);
+          console.log(rows);
         
           // return if sucessfully connected to database
           // fetch all data rows from table
@@ -353,16 +353,18 @@ exports.addLeader = (req, res, next) => {
     const name = req.body.fullname;
     bcrypt.hash(req.body.pass, 10).then( hash => {
         pass = hash; 
-        db.query(qry, [name, email, pass], (err, results, fields) => {
+        db.query('CALL addLeaders(?,?,?)', 
+            [name, email, pass],
+            (err, rows, fields) => {
             if(err) {
                 console.error(err.code, err.sqlMessage);
                 return res.status(401).json({
                     message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
                 });
             } else {
-                console.log("Successfully Added a Leader.");
-                return res.status(201).json({
-                  message: "Successfully added Leader: " + name 
+                console.log("Successfully Added a Leader.", rows);
+                return res.status(200).json({
+                  rows: rows[0]
                 });
             }
         }); 
