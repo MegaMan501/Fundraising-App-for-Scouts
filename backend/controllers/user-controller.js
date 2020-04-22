@@ -66,7 +66,6 @@ exports.userLogin = (req, res, next) => {
         });
 }
 
-
 //Get Reset Request system working here
 
 //(Code for this function based on the following source:)
@@ -252,7 +251,7 @@ exports.getLeaders = (req, res, next) => {
       });
     }
 
-    db.query("SELECT user_id,full_name,email FROM user Where leader_flag = 1",
+    db.query("SELECT user_id,full_name,email FROM user Where leader_flag = 1 and admin_flag = 0;",
       (err, rows, fields) => {
          // Catch and DB errors.
          if(err) {

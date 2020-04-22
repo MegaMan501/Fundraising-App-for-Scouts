@@ -7,7 +7,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { DashboardLeaderComponent } from './dashboard-leader/dashboard-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
 import { InventoryLeaderComponent } from './inventory-leader/inventory-leader.component';
-import { MembersLeaderComponent } from './members-leader/members-leader.component';
 import { SalesLeaderComponent } from './sales-leader/sales-leader.component';
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
 import { AuthGuard } from './auth/auth.guard';
@@ -16,6 +15,7 @@ import { SalesScoutComponent } from './sales-scout/sales-scout.component';
 import { GroupComponent } from './members/groups/groups.component';
 import { LeaderComponent } from './members/leaders/leaders.component';
 import { ScoutComponent } from './members/scouts/scouts.component';
+import { MembersComponent } from './members/members.component';
 
 const routes: Routes = [
   {
@@ -51,8 +51,8 @@ const routes: Routes = [
     data: { roles: [0, 1] }
   },
   {
-    path: 'members-leader',
-    component: MembersLeaderComponent,
+    path: 'members',
+    component: MembersComponent,
     canActivate: [AuthGuard],
     data: { roles: [0, 1] }
   },

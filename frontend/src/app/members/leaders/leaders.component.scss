@@ -35,8 +35,8 @@ mat-spinner {
   background-color: rgb(255, 255, 255);
 }
 
-.atable {
-  grid-area: atable;
+.ltable {
+  grid-area: ltable;
   margin: 20px 20px 20px 20px;
   table {
     width: 100%;
@@ -63,7 +63,7 @@ mat-spinner {
       grid-template-columns: 1fr 1fr;
       grid-template-areas:
       "lcard lcard"
-      "atable atable"
+      "ltable ltable"
       ;
     }
   }
@@ -76,8 +76,8 @@ mat-spinner {
       grid-gap: 0px;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-areas:
-      "lcard atable atable"
-      "lcard atable atable";
+      "lcard ltable ltable"
+      "lcard ltable ltable";
     }
 
     .lcard {

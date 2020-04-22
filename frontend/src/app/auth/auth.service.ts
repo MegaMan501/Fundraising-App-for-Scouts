@@ -4,7 +4,9 @@ import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Group, Member } from '../models/all.model';
-const BACKEND_URL = 'http://localhost:45213/api/users';
+import { environment as env } from '../../environments/environment';
+
+const BACKEND_URL = env.BACKEND_URL + 'users';
 
 @Injectable({ providedIn: 'root'})
 export class AuthService {
@@ -16,8 +18,6 @@ export class AuthService {
   private allLeaderStatusListner = new Subject<Member[]>();
   private scouts: Member[] = [];
   private allScoutStatusListner = new Subject<Member[]>();
-  private groups: Group[] = [];
-  private allGroupStatusListner = new Subject<Group[]>();
 
   // Observables
   private role = -1; // admin: 0, leader: 1, scout: 2
@@ -44,154 +44,8 @@ export class AuthService {
 
   getReturnedLeaders() { return this.leaders; }
   getReturnedScouts() { return this.scouts; }
-  getReturnedGroups() { return this.groups; }
   getAllLeaderStatusListener() { return this.allLeaderStatusListner.asObservable(); }
   getAllScoutStatusListener() { return this.allScoutStatusListner.asObservable(); }
-  getAllGroupStatusListener() { return this.allGroupStatusListner.asObservable(); }
-
-  // create a new leader
-  createLeader(email: string, fullname: string, pass: string) {
-    const authData = { email, fullname, pass };
-
-    return this.http.post<{rows: any}>
-    (BACKEND_URL + '/addLeader', authData)
-    .pipe(
-      map((uLeaders) => {
-        return {
-          leaders: uLeaders.rows.map(e => {
-            return {
-              userId: e.user_id,
-              fullname: e.full_name,
-              email: e.email
-            };
-          }),
-        };
-      })
-    )
-      .subscribe(res => {
-        console.log(res);
-        this.leaders = res.leaders;
-        this.allLeaderStatusListner.next([...this.leaders]);
-      }, err => {
-        this.authStatusListener.next(false);
-      });
-  }
-
-  // get leaders
-  getLeaders() {
-    this.http.get<{rows: any}>(
-        BACKEND_URL + '/leaders'
-    ).pipe(
-      map((leaderData) => {
-        return {
-          leaders: leaderData.rows.map(e => {
-            return {
-              userId: e.user_id,
-              fullname: e.full_name,
-              email: e.email
-            };
-          }),
-        };
-      })
-    )
-    .subscribe(modData => {
-      console.log(modData.leaders);
-      this.leaders = modData.leaders;
-      this.allLeaderStatusListner.next([...this.leaders]);
-    });
-  }
-
-  // create a new scout
-  createScout(email: string, fullname: string, pass: string) {
-    const authData = { email, fullname, pass };
-
-    return this.http.post(BACKEND_URL + '/addScout', authData)
-      .subscribe(res => {
-        console.log(res);
-        window.location.reload();
-        this.router.navigate(['/members-scouts']);
-      }, err => {
-        this.authStatusListener.next(false);
-      });
-  }
-
-  // get scouts
-  getScouts() {
-    this.http.get<{rows: any}>(
-        BACKEND_URL + '/scouts'
-    ).pipe(
-      map((scoutData) => {
-        return {
-          scouts: scoutData.rows.map(e => {
-            return {
-              userId: e.user_id,
-              fullname: e.full_name,
-              email: e.email
-            };
-          }),
-        };
-      })
-    )
-    .subscribe(modData => {
-      // console.log(modData.scouts);
-      this.scouts = modData.scouts;
-      this.allScoutStatusListner.next([...this.scouts]);
-    });
-  }
-
-  // create a new group
-  createGroup(groupId: number, group_name: string, location: string, group_desc: string) {
-    const authData = { groupId, group_name, location, group_desc };
-
-    return this.http.post<{rows: any}>(BACKEND_URL + '/addGroup', authData)
-      .pipe(
-        map((uGroups) => {
-          return {
-            groups: uGroups.rows.map(e => {
-              return {
-                groupId: e.group_id,
-                groupName: e.group_name,
-                groupLocation: e.location,
-                groupDesc: e.group_desc
-              };
-            }),
-          };
-        })
-      )
-      .subscribe(res => {
-        // console.log(res);
-        this.groups = res.groups;
-        this.allGroupStatusListner.next([...this.groups]);
-      }, err => {
-        this.authStatusListener.next(false);
-        console.error(err);
-      });
-  }
-
-  // get groups
-  getGroups() {
-    this.http.get<{rows: any}>(
-        BACKEND_URL + '/groups'
-    ).pipe(
-      map((groupData) => {
-        return {
-          groups: groupData.rows.map(e => {
-            return {
-              groupId: e.group_id,
-              groupName: e.group_name,
-              groupLocation: e.location,
-              groupDesc: e.group_desc
-            };
-          }),
-        };
-      })
-    )
-    .subscribe(modData => {
-      console.log(modData.groups);
-      this.groups = modData.groups;
-      this.allGroupStatusListner.next([...this.groups]);
-    });
-  }
 
   // user login
   login(email: string, password: string) {

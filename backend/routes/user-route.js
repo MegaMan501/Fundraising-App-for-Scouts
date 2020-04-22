@@ -11,12 +11,14 @@ router.post("/pass-reset-req", UserController.userPassResetReq);
 //router.post("/verify-acc", UserController.userVerifyAccount);
 //router.post("/check-verif-token", UserController.userCheckAccountToken);
 
-router.get("/getUser", UserController.getUser); 
-router.get("/leaders", checkAuth, UserController.getLeaders);
-router.get("/scouts", checkAuth, UserController.getScouts); 
-router.get("/groups", checkAuth, UserController.getGroups);  
-router.post("/addLeader", checkAuth, UserController.addLeader);
-router.post("/addScout", checkAuth, UserController.addScout);
-router.post("/addGroup", checkAuth, UserController.addGroup);
+// router.get("/getUser", UserController.getUser); 
+
+// router.get("/leaders", checkAuth, UserController.getLeaders);
+// router.get("/scouts", checkAuth, UserController.getScouts); 
+// router.get("/groups", checkAuth, UserController.getGroups);  
+
+// router.post("/addLeader", checkAuth, UserController.addLeader);
+// router.post("/addScout", checkAuth, UserController.addScout);
+// router.post("/addGroup", checkAuth, UserController.addGroup);
 
 module.exports = router;

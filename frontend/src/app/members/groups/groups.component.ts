@@ -7,6 +7,10 @@ import { Subscription } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 
 import { Group } from '../../models/all.model';
+import { MemberService } from '../member.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogDeleteComponent } from 'src/app/dialogs/delete/dialog-delete.component';
+import { DialogEditGroupComponent } from 'src/app/dialogs/edit-group/edit-group.component';
 @Component({
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.scss']
@@ -21,7 +25,7 @@ export class GroupComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<any>;
   private groupsSub: Subscription;
 
-  constructor(public authService: AuthService) {
+  constructor(public memberService: MemberService, public dialog: MatDialog) {
     this.groupForm = new FormGroup({
       groupId: new FormControl('', [Validators.required]),
       groupName: new FormControl('', [Validators.required]),
@@ -31,8 +35,8 @@ export class GroupComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.authService.getGroups();
-    this.groupsSub = this.authService
+    this.memberService.getGroups();
+    this.groupsSub = this.memberService
     .getAllGroupStatusListener()
     .subscribe(results => {
       this.groups = results;
@@ -48,7 +52,7 @@ export class GroupComponent implements OnInit, OnDestroy {
       return;
     }
     console.log(this.groupForm.value);
-    this.authService.createGroup(
+    this.memberService.createGroup(
       this.groupForm.value.groupId,
       this.groupForm.value.groupName,
       this.groupForm.value.groupLocation,
@@ -56,6 +60,52 @@ export class GroupComponent implements OnInit, OnDestroy {
     );
     formDirective.resetForm();
     this.groupForm.reset(); // clear values in form
+  }
+
+  // Edit the group
+  onEdit(row) {
+    const prevGroup = row.groupId;
+    const dialogRef = this.dialog.open(DialogEditGroupComponent, {
+      data: {
+        title: 'Edit This Group.',
+        val: row
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res === false) {
+        this.memberService.getGroups();
+        return;
+      }
+      // console.log(res.val);
+      this.memberService.updateGroup(res.val, prevGroup);
+    });
+  }
+
+  // Delete the group
+  onDelete(row) {
+    const dialogRef = this.dialog.open(DialogDeleteComponent, {
+      data: {
+        title: 'Are You Sure You Want To Delete This Group?',
+        val: row
+      },
+      disableClose: true
+    });
+
+    // delete the group by id
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.memberService.deleteGroup(row.groupId).subscribe(() => {
+          this.memberService.getGroups();
+        });
+      }
+    });
+  }
+
+  // Filter the table
+  filter(value: string) {
+    this.dataSource.filter = value.trim().toLowerCase();
   }
 
   ngOnDestroy(): void {

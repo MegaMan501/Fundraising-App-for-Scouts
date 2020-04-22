@@ -11,13 +11,13 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTableModule } from '@angular/material/table';
@@ -45,7 +45,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { DashboardLeaderComponent } from './dashboard-leader/dashboard-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
 // Members Components
-import { MembersLeaderComponent } from './members-leader/members-leader.component';
+import { MembersComponent } from './members/members.component';
 import { GroupComponent } from './members/groups/groups.component';
 import { LeaderComponent } from './members/leaders/leaders.component';
 import { ScoutComponent } from './members/scouts/scouts.component';
@@ -61,8 +61,12 @@ import { RequestsScoutComponent } from './requests-scout/requests-scout.componen
 
 // Sevices
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { ErrorComponent } from './error/error.component';
-import { ErrorInterceptor } from './error/error.interceptor';
+import { ErrorComponent } from './dialogs/error/error.component';
+import { ErrorInterceptor } from './dialogs/error/error.interceptor';
+import { DialogDeleteComponent } from './dialogs/delete/dialog-delete.component';
+import { DialogEditGroupComponent } from './dialogs/edit-group/edit-group.component';
+import { DialogEditLeaderComponent } from './dialogs/edit-leader/edit-leader.component';
+import { DialogEditScoutComponent } from './dialogs/edit-scout/edit-scout.component';
 
 @NgModule({
   declarations: [
@@ -74,15 +78,20 @@ import { ErrorInterceptor } from './error/error.interceptor';
     ResetPasswordComponent,
     DashboardLeaderComponent,
     DashboardScoutComponent,
-    MembersLeaderComponent,
     GroupComponent,
+    MembersComponent,
     LeaderComponent,
     ScoutComponent,
     InventoryLeaderComponent,
     EventsLeaderComponent,
     SalesLeaderComponent,
     SalesScoutComponent,
-    RequestsScoutComponent
+    RequestsScoutComponent,
+    DialogDeleteComponent,
+    DialogEditGroupComponent,
+    DialogEditLeaderComponent,
+    DialogEditScoutComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -96,6 +105,7 @@ import { ErrorInterceptor } from './error/error.interceptor';
     ChartsModule,
     MDBBootstrapModule.forRoot(),
     MatToolbarModule,
+    MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
     MatExpansionModule,
@@ -112,8 +122,7 @@ import { ErrorInterceptor } from './error/error.interceptor';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatSortModule,
-    MatFormFieldModule
+    MatSortModule
 
   ],
   providers: [
@@ -122,6 +131,12 @@ import { ErrorInterceptor } from './error/error.interceptor';
     MatDatepickerModule
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ErrorComponent]
+  entryComponents: [
+    ErrorComponent,
+    DialogDeleteComponent,
+    DialogEditGroupComponent,
+    DialogEditLeaderComponent,
+    DialogEditScoutComponent
+  ]
 })
 export class AppModule { }

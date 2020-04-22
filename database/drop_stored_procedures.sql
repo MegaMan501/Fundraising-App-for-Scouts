@@ -1,0 +1,8 @@
+# Drop stored procedures
+DROP PROCEDURE IF EXISTS getGroups; 
+DROP PROCEDURE IF EXISTS addGroups;
+DROP PROCEDURE IF EXISTS deleteGroups;
+DROP PROCEDURE IF EXISTS addLeaders;
+DROP PROCEDURE IF EXISTS getLeaders;
+DROP PROCEDURE IF EXISTS updateGroup;
+
