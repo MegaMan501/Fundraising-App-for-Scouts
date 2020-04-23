@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 // Internal
-import { Member, Group } from '../models/all.model';
+import { Member, Group, Scout } from '../models/all.model';
 import { environment as env } from '../../environments/environment';
 
 const BACKEND_URL = env.BACKEND_URL + 'member';
@@ -15,10 +15,10 @@ const BACKEND_URL = env.BACKEND_URL + 'member';
 export class MemberService {
 
   private leaders: Member[] = [];
-  private scouts: Member[] = [];
+  private scouts: Scout[] = [];
   private groups: Group[] = [];
   private allLeaderStatusListner = new Subject<Member[]>();
-  private allScoutStatusListner = new Subject<Member[]>();
+  private allScoutStatusListner = new Subject<Scout[]>();
   private allGroupStatusListner = new Subject<Group[]>();
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -86,17 +86,18 @@ export class MemberService {
   updateLeader(data: any) {
     this.http.put(BACKEND_URL + '/leader/' + data.userId, data)
     .subscribe(res => {
-      console.log(res);
+      // console.log(res);
     });
   }
 
+  // delete a leader
   deleteLeader(userId: number) {
     return this.http.delete(BACKEND_URL + '/leader/' + userId);
   }
 
   // create a new scout
-  createScout(email: string, fullname: string, pass: string) {
-    const authData = { email, fullname, pass };
+  createScout(groupId: number, email: string, fullname: string, pass: string) {
+    const authData = { groupId, email, fullname, pass };
 
     return this.http.post<{rows: any}>(BACKEND_URL + '/add-scout', authData)
       .pipe(
@@ -104,6 +105,7 @@ export class MemberService {
           return {
             scout: scoutData.rows.map(e => {
               return {
+                groupId: e.group_id,
                 userId: e.user_id,
                 fullname: e.full_name,
                 email: e.email
@@ -129,6 +131,7 @@ export class MemberService {
         return {
           scouts: scoutData.rows.map(e => {
             return {
+              groupId: e.group_id,
               userId: e.user_id,
               fullname: e.full_name,
               email: e.email
@@ -144,7 +147,13 @@ export class MemberService {
     });
   }
 
-  deleteScout() {}
+  // update scout
+  updateScout() {}
+
+  // delete a scout
+  deleteScout(uid: number, gid: number) {
+    return this.http.delete(BACKEND_URL + '/scout/' + uid + '/' + gid);
+  }
 
   // create a new group
   createGroup(
@@ -198,7 +207,7 @@ export class MemberService {
       })
     )
     .subscribe(modData => {
-      console.log(modData.groups);
+      // console.log(modData.groups);
       this.groups = modData.groups;
       this.allGroupStatusListner.next([...this.groups]);
     });
@@ -211,10 +220,9 @@ export class MemberService {
 
   // update the group
   updateGroup(data: Group, prevGroup: number) {
-    // console.log(data, prevGroup);
     this.http.put(BACKEND_URL + '/group/' + prevGroup, data)
     .subscribe(res => {
-      console.log(res);
+      // console.log(res);
     });
   }
 }

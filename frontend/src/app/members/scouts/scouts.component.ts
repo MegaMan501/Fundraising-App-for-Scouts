@@ -2,10 +2,12 @@ import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { Member } from '../../models/all.model';
+import { Member, Scout, Group } from '../../models/all.model';
 import { Subscription } from 'rxjs';
 import { MemberService } from '../member.service';
 import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogDeleteComponent } from 'src/app/dialogs/delete/dialog-delete.component';
 
 @Component({
   templateUrl: './scouts.component.html',
@@ -16,15 +18,18 @@ export class ScoutComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort; MatSort;
   hide = true;
   scoutForm: FormGroup;
-  displayedColumns: string[] = ['userId', 'fullname', 'email'];
-  scouts: Member[] = [];
+  displayedColumns: string[] = ['userId', 'groupId', 'fullname', 'email', 'action'];
+  scouts: Scout[] = [];
+  groups: Group[] = [];
   dataSource: MatTableDataSource<Member>;
   private scoutsSub: Subscription;
+  private groupsSub: Subscription;
 
-  constructor(public membersService: MemberService) {
+  constructor(public membersService: MemberService, public dialog: MatDialog) {
     this.scoutForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       name: new FormControl('', [Validators.required]),
+      group: new FormControl('', Validators.required),
       password: new FormControl('', [Validators.required])
     });
   }
@@ -35,19 +40,28 @@ export class ScoutComponent implements OnInit, OnDestroy {
     .getAllScoutStatusListener()
     .subscribe(results => {
       this.scouts = results;
-      this.dataSource = new MatTableDataSource<Member>(this.scouts);
+      this.dataSource = new MatTableDataSource<Scout>(this.scouts);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log("Scouts:",this.scouts);
+      // console.log("Scouts:",this.scouts);
+    });
+
+    // get the groups
+    this.membersService.getGroups();
+    this.groupsSub = this.membersService
+    .getAllGroupStatusListener()
+    .subscribe(res => {
+      this.groups = res;
     });
   }
 
-  onAddLeader(formDirective: FormGroupDirective) {
+  onAddScout(formDirective: FormGroupDirective) {
     if (this.scoutForm.invalid) {
       return;
     }
     console.log(this.scoutForm.value);
     this.membersService.createScout(
+      this.scoutForm.value.group,
       this.scoutForm.value.email,
       this.scoutForm.value.name,
       this.scoutForm.value.password);
@@ -55,7 +69,39 @@ export class ScoutComponent implements OnInit, OnDestroy {
     this.scoutForm.reset(); // clear values in form
   }
 
+  onEdit(row) {
+    console.log(row);
+  }
+
+  onDelete(row) {
+    // console.log(row);
+    const dialogRef = this.dialog.open(DialogDeleteComponent, {
+      data: {
+        title: 'Are You Sure You Want to Delete This Scout?',
+        val: row
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
+      if (res) {
+        this.membersService.deleteScout(row.userId, row.groupId)
+        .subscribe(() => {
+          this.membersService.getScouts();
+        });
+      }
+      return;
+    });
+  }
+
+  // Filter the table
+  filter(value: string) {
+    this.dataSource.filter = value.trim().toLowerCase();
+  }
+
   ngOnDestroy() {
     this.scoutsSub.unsubscribe();
+    this.groupsSub.unsubscribe();
   }
 }

@@ -271,19 +271,19 @@ END//
 DELIMITER ;
 
 -- SCOUTS -- IN PROGRESS
-/*
 # Add Scouts
 DELIMITER //
 CREATE PROCEDURE addScouts (
 	IN userId INT,
     IN groupId INT,
-	IN full_name varchar(100),
-	IN email varchar(255),
-	IN hash_pass varchar(255)
+	IN fullName varchar(100),
+	IN emailVal varchar(255),
+	IN hashPass varchar(255)
 )
 BEGIN
 	DECLARE isAdmin INT DEFAULT 0;
     DECLARE isLeader INT DEFAULT 0;
+    DECLARE scoutUID INT DEFAULT NULL;
 	
 	# get the status of admin
     SELECT COUNT(admin_flag) 
@@ -296,25 +296,69 @@ BEGIN
     INTO isLeader 
     FROM user WHERE user_id = userId AND leader_flag = 1;
 	
-    IF isAdmin >= 1 || isleader >=1 THEN
-		# insert in to groups
-		INSERT INTO groups (`group_id`, `user_id`, ``, `location`, `group_desc`) 
-		VALUES (groupId,userId,groupName,groupLoc,groupDesc);
-	END IF;
-    
-    # if admin insert
+    # insert in to users
     IF isAdmin >= 1 THEN
-		SELECT group_id,group_name,location,group_desc FROM groups;
+		INSERT INTO user (`full_name`, `email`, `hash_pass`, `leader_flag`, `admin_flag`, `verified`) 
+        VALUES (fullName, emailVal, hashPass, 0, 0, 0);
+        
+        # Get the newly created UID
+        SELECT user_id 
+        INTO scoutUID
+        FROM user WHERE email=emailVal;
+        
+        # Then add user to join table
+        IF scoutUID IS NOT NULL THEN
+			INSERT INTO members (`group_id`,`user_id`)
+			VALUES (groupId, scoutUID);
+        END IF;
+        
+        # return the list of scouts to admin
+        SELECT 
+			DISTINCT g.group_id,
+			u.user_id,
+			u.full_name,
+			u.email
+		FROM user as u
+		INNER JOIN members as m 
+		INNER JOIN groups as g
+		ON u.user_id = m.user_id
+		WHERE g.group_id = m.group_id; 
 	END IF;
     
-    #if leader insert 
-    IF isLeader >= 1 THEN
-        # return updated list of groups
-    	SELECT group_id,group_name,location,group_desc 
-        FROM groups WHERE user_id = userId;
+    # add scout to users and join table
+    IF isleader >=1 THEN
+		INSERT INTO user (`full_name`, `email`, `hash_pass`, `leader_flag`, `admin_flag`, `verified`) 
+        VALUES (fullName, emailVal, hashPass, 0, 0, 0);
+        
+        # Get the newly created UID
+        SELECT user_id 
+        INTO scoutUID
+        FROM user WHERE email=emailVal;
+        
+        # Then add user to join table
+        IF scoutUID IS NOT NULL THEN
+			INSERT INTO members (`group_id`,`user_id`)
+			VALUES (groupId, scoutUID);
+        END IF;
+        
+        # return the list of scouts to 
+        SELECT 
+		DISTINCT g.group_id,
+			u.user_id,
+			u.full_name,
+			u.email
+		FROM user as u
+		INNER JOIN members as m 
+		INNER JOIN groups as g
+		ON u.user_id = m.user_id
+		WHERE g.group_id = m.group_id 
+		AND g.user_id = userId;
 	END IF;
 END//
 DELIMITER ;
+
+-- CALL addScouts(2,2,'admin scout 2', 'admin2@scout','qwerty2');
+-- CALL addScouts(35,9982,'leader35 scout1', 'leader35@scout','qwerty1');
 
 # Getting Scouts
 DELIMITER //
@@ -335,18 +379,68 @@ BEGIN
 	SELECT COUNT(leader_flag) 
     INTO isLeader 
     FROM user WHERE user_id = userId AND leader_flag = 1;
+        
+    # if admin get 
+    IF isAdmin >= 1 THEN
+		SELECT 
+			DISTINCT g.group_id,
+			u.user_id,
+			u.full_name,
+			u.email
+		FROM user as u
+		INNER JOIN members as m 
+		INNER JOIN groups as g
+		ON u.user_id = m.user_id
+		WHERE g.group_id = m.group_id; 
+	END IF;
+    
+    IF isLeader >= 1 THEN
+		SELECT 
+		DISTINCT g.group_id,
+			u.user_id,
+			u.full_name,
+			u.email
+		FROM user as u
+		INNER JOIN members as m 
+		INNER JOIN groups as g
+		ON u.user_id = m.user_id
+		WHERE g.group_id = m.group_id 
+		AND g.user_id = userId;
+    END IF;
+END//
+DELIMITER ;
+
+# Delete Scout
+DELIMITER //
+CREATE PROCEDURE deleteScouts (
+	IN userId INT,
+    IN deleteId INT,
+    IN groupId INT
+)
+BEGIN
+	DECLARE isAdmin INT DEFAULT 0;
+    DECLARE isLeader INT DEFAULT 0;
+	
+	# get the status of admin
+    SELECT COUNT(admin_flag) 
+    INTO isAdmin
+    FROM user 
+    WHERE user_id = userId AND admin_flag = 1; 
     
      # get the status of leader
 	SELECT COUNT(leader_flag) 
     INTO isLeader 
-    FROM user WHERE user_id = userId;
+    FROM user WHERE user_id = userId AND leader_flag = 1;
+	
+    # insert in to users
+    IF isAdmin >= 1 || isleader >= 1 THEN
+		# Delete from users
+        DELETE FROM user
+        WHERE user_id = deleteId;
         
-    # if admin get groups
-    IF isAdmin = 1 || isLeader = 1 THEN
-		SELECT user_id,full_name,email
-        FROM user WHERE leader_flag = 0 AND admin_flag = 0;
+        # Delete from members
+		DELETE FROM members
+        WHERE user_id = deleteId AND group_id = groupId;
 	END IF;
 END//
 DELIMITER ;
-*/
-

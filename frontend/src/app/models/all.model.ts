@@ -10,3 +10,11 @@ export interface Member {
   fullname: string;
   email: string;
 }
+
+export interface Scout {
+  groupId: number;
+  userId: number;
+  fullname: string;
+  email: string;
+}
+

@@ -21,7 +21,7 @@ router.post("/add-scout", checkAuth, MemberController.addScout);
 // Remove a group, leader, scout
 router.delete("/group/:id", checkAuth, MemberController.deleteGroup);
 router.delete("/leader/:id", checkAuth, MemberController.deleteLeader);
-router.delete("/scout/:id", checkAuth, MemberController.deleteScout);
+router.delete("/scout/:uid/:gid", checkAuth, MemberController.deleteScout);
 
 // Update a group, leader, scout
 router.put("/group/:id", checkAuth, MemberController.updateGroup);
