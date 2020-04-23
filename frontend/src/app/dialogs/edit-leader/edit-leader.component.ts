@@ -6,6 +6,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./edit-leader.component.scss']
 })
 export class DialogEditLeaderComponent {
-
+  hide = true;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 }

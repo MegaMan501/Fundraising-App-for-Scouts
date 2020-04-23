@@ -35,7 +35,7 @@ export class MemberService {
   createLeader(email: string, fullname: string, pass: string) {
     const data = { email, fullname, pass };
 
-    return this.http.post<{rows: any}>
+    this.http.post<{rows: any}>
     (BACKEND_URL + '/add-leader', data)
     .pipe(
       map((uLeaders) => {
@@ -49,14 +49,13 @@ export class MemberService {
           }),
         };
       })
-    )
-      .subscribe(res => {
-        console.log(res);
-        this.leaders = res.leaders;
-        this.allLeaderStatusListner.next([...this.leaders]);
-      }, err => {
-        console.error(err);
-      });
+    ).subscribe(res => {
+      // console.log(res);
+      this.leaders = res.leaders;
+      this.allLeaderStatusListner.next([...this.leaders]);
+    }, err => {
+      console.error(err);
+    });
   }
 
   // get leaders
@@ -77,13 +76,23 @@ export class MemberService {
       })
     )
     .subscribe(modData => {
-      console.log(modData.leaders);
+      // console.log(modData.leaders);
       this.leaders = modData.leaders;
       this.allLeaderStatusListner.next([...this.leaders]);
     });
   }
 
-  deleteLeader() {}
+  // update leader
+  updateLeader(data: any) {
+    this.http.put(BACKEND_URL + '/leader/' + data.userId, data)
+    .subscribe(res => {
+      console.log(res);
+    });
+  }
+
+  deleteLeader(userId: number) {
+    return this.http.delete(BACKEND_URL + '/leader/' + userId);
+  }
 
   // create a new scout
   createScout(email: string, fullname: string, pass: string) {
@@ -146,7 +155,7 @@ export class MemberService {
   ) {
     const data = { groupId, group_name, location, group_desc };
 
-    return this.http.post<{rows: any}>(BACKEND_URL + '/add-group', data)
+    this.http.post<{rows: any}>(BACKEND_URL + '/add-group', data)
       .pipe(
         map((uGroups) => {
           return {

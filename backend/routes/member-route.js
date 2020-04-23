@@ -25,7 +25,7 @@ router.delete("/scout/:id", checkAuth, MemberController.deleteScout);
 
 // Update a group, leader, scout
 router.put("/group/:id", checkAuth, MemberController.updateGroup);
-// router.put("/leader/:id", checkAuth, MemberController.);
+router.put("/leader/:id", checkAuth, MemberController.updateLeader);
 // router.put("/scout/:id", checkAuth, MemberController.);
 
 module.exports = router;
