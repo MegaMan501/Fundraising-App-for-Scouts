@@ -32,6 +32,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 /* External Modules */
 import { ChartsModule } from 'ng2-charts';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 /* Angular Components */
 import { MainNavComponent } from './main-nav/main-nav.component';
@@ -41,6 +42,9 @@ import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
+
+// Charts
+import { CardComponent } from './charts/card/card.component';
 // Dashboard
 import { DashboardLeaderComponent } from './dashboard-leader/dashboard-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
@@ -68,6 +72,7 @@ import { DialogEditGroupComponent } from './dialogs/edit-group/edit-group.compon
 import { DialogEditLeaderComponent } from './dialogs/edit-leader/edit-leader.component';
 import { DialogEditScoutComponent } from './dialogs/edit-scout/edit-scout.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,7 +96,8 @@ import { DialogEditScoutComponent } from './dialogs/edit-scout/edit-scout.compon
     DialogEditGroupComponent,
     DialogEditLeaderComponent,
     DialogEditScoutComponent,
-    ErrorComponent
+    ErrorComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,
@@ -122,7 +128,8 @@ import { DialogEditScoutComponent } from './dialogs/edit-scout/edit-scout.compon
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatSortModule
+    MatSortModule,
+    HighchartsChartModule
 
   ],
   providers: [
