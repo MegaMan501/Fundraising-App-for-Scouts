@@ -11,7 +11,7 @@
 
     <!-- Content -->
     <mat-card-content>
-      <form (submit)="onAddLeader(formDirective)" [formGroup]="scoutForm" #formDirective="ngForm">
+      <form (submit)="onAddScout(formDirective)" [formGroup]="scoutForm" #formDirective="ngForm">
 
         <mat-form-field appearance="standard" class="full-width">
           <mat-label>Full Name</mat-label>
@@ -19,7 +19,8 @@
             matInput
             formControlName="name"
             placeholder="EX: Jane Doe"
-            autocomplete="fname">
+            autocomplete="fname"
+            required>
           <mat-error *ngIf="scoutForm.controls.name.hasError('required')">
             Fullname is <strong>required</strong>!
           </mat-error>
@@ -34,7 +35,8 @@
             type="email"
             formControlName="email"
             placeholder="EX: email@website.com"
-            autocomplete="email">
+            autocomplete="email"
+            required>
           <mat-error *ngIf="scoutForm.controls.email.touched && scoutForm.controls.email.errors?.email">
             Please enter a valid <strong>email</strong> address!
           </mat-error>
@@ -42,6 +44,21 @@
             Email is <strong>required</strong>!
           </mat-error>
         </mat-form-field>
+
+        <!-- Group Select -->
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Group</mat-label>
+          <mat-select
+          formControlName="group"
+          required>
+          <mat-option *ngFor="let e of groups" [value]="e.groupId">
+            {{e.groupId}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="scoutForm.controls.group.hasError('required')">
+          Please Select a Group for the Scout.
+        </mat-error>
+      </mat-form-field>
 
         <!-- Password Input -->
         <mat-form-field appearance="standard" class="full-width">
@@ -52,7 +69,8 @@
             name="password"
             [type]="hide ? 'password' : 'text'"
             password
-            autocomplete="current-password">
+            autocomplete="current-password"
+            required>
           <button
             mat-icon-button
             matSuffix
@@ -82,7 +100,6 @@
         </mat-card-actions>
       </form>
 
-
     </mat-card-content>
 
     <!-- Footer -->
@@ -91,13 +108,20 @@
     </mat-card-footer>
   </mat-card>
 
-  <div class="mat-elevation-z8 atable">
-    <table mat-table [dataSource]="dataSource" matSort>
-
+  <div class="atable">
+    <mat-form-field>
+      <input (keyup)="filter($event.target.value)" matInput placeholder="Filter">
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <!-- Position Column -->
       <ng-container matColumnDef="userId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>UserID</th>
         <td mat-cell *matCellDef="let element"> {{element.userId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="groupId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>GroupID</th>
+        <td mat-cell *matCellDef="let element"> {{element.groupId}} </td>
       </ng-container>
 
       <!-- Weight Column -->
@@ -110,6 +134,19 @@
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
         <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+       <!-- Action Column -->
+       <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="onEdit(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="onDelete(row)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

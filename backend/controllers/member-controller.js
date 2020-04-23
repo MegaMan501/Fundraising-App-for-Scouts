@@ -13,10 +13,9 @@ exports.getGroups = (req, res, next) => {
         });
     }
 
-    // const qry = 'SELECT group_id,group_name,location,group_desc FROM groups Where user_id = ?'; 
+    // console.log(req.userData.userId);
     const qry = 'CALL getGroups(?)';
-    // console.log(req.userData);
-    db.query( qry, [parseInt(req.userData.userId)], (err, rows, fields) => {
+    db.query( qry, [req.userData.userId], (err, rows, fields) => {
         // Catch and DB errors.
         if (err) { 
             console.error(err.code, err.sqlMessage);
@@ -41,7 +40,6 @@ exports.getLeaders = (req, res, next) => {
       });
     }
 
-    // const qry = "SELECT user_id,full_name,email FROM user Where leader_flag = 1 and admin_flag = 0;";
     const qry = 'CALL getLeaders(?)'
     db.query(qry, [parseInt(req.userData.userId)], (err, rows, fields) => {
         // Catch and DB errors.
@@ -71,7 +69,6 @@ exports.getScouts = (req, res, next) => {
         });
     }
 
-    // const qry = "SELECT user_id,full_name,email FROM user WHERE leader_flag = 0 AND admin_flag = 0";
     const qry = "Call getScouts(?)"
     db.query( qry, [parseInt(req.userData.userId)], (err, rows, fields) => {
         // Catch and DB errors.
@@ -82,8 +79,6 @@ exports.getScouts = (req, res, next) => {
             });
         };
 
-        // console.log("Scouts",rows);
-       
         // return if sucessfully connected to database
         // fetch all data rows from table
         return res.status(200).json({
@@ -140,7 +135,6 @@ exports.addLeader = (req, res, next) => {
         });
     }
 
-    // const qry = 'INSERT INTO user (`full_name`, `email`, `hash_pass`, `leader_flag`, `admin_flag`, `verified`) VALUES (?, ?, ?, 1, 0, 0)';
     const qry = 'CALL addLeaders(?,?,?,?)';
     const email = req.body.email.toLowerCase();
     const name = req.body.fullname;
@@ -150,7 +144,7 @@ exports.addLeader = (req, res, next) => {
     .hash(req.body.pass, 10)
     .then(hash => {
         pass = hash; 
-        db.query(qry, // 'CALL addLeaders(?,?,?)', 
+        db.query(qry,
             [
                 parseInt(req.userData.userId),
                 name, 
@@ -173,6 +167,67 @@ exports.addLeader = (req, res, next) => {
     }); 
 }
 
+// update a leader
+exports.updateLeader = (req, res, next) => {
+    if (req.userData.admin_flag === 0) {
+        return res.status(401).json({
+            message: "Authentication Error!"
+        });
+    }
+    const email = req.body.email.toLowerCase();
+    const qry = 'CALL updateLeaders(?,?,?,?,?)';
+
+    // Hash a password and update the leader
+    if (req.body.pass) {
+        bcrypt
+        .hash(req.body.pass, 10)
+        .then(hash => {
+            pass = hash; 
+            db.query(qry,
+                [
+                    parseInt(req.userData.userId),
+                    req.params.id,
+                    req.body.fullname, 
+                    email,
+                    pass
+                ], (err, rows, fields) => {
+                if(err) {
+                    console.error(err.code, err.sqlMessage);
+                    return res.status(401).json({
+                        message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
+                    });
+                }
+                // console.log("Successfully Added a Leader.", rows);
+                return res.status(201).json({
+                    message: "Succesfully Updated the leader."
+                });
+            }); 
+        }).catch( error => {
+            console.error("HASH: ", error);
+        }); 
+    } else {
+        db.query(qry,
+            [
+                parseInt(req.userData.userId),
+                req.params.id,
+                req.body.fullname, 
+                email,
+                ''
+            ], (err, rows, fields) => {
+            if(err) {
+                console.error(err.code, err.sqlMessage);
+                return res.status(401).json({
+                    message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
+                });
+            }
+            console.log("Successfully Added a Leader.", rows);
+            return res.status(201).json({
+                message: "Succesfully Updated the leader."
+            });
+        }); 
+    }
+}
+
 // insert a new scout
 exports.addScout = (req, res, next) => {
     if( req.userData.leader_flag === false &&
@@ -183,12 +238,18 @@ exports.addScout = (req, res, next) => {
         });
     }
     
-    const qry = 'INSERT INTO user (`full_name`, `email`, `hash_pass`, `leader_flag`, `admin_flag`, `verified`) VALUES (?, ?, ?, 0, 0, 0)';
+    const qry = 'CALL addScouts(?,?,?,?,?)';
     const email = req.body.email.toLowerCase();
-    const name = req.body.fullname;
     bcrypt.hash(req.body.pass, 10).then( hash => {
-        pass = hash; 
-        db.query(qry, [name, email, pass], (err, results, fields) => {
+        const pass = hash; 
+        db.query(qry, 
+            [
+                parseInt(req.userData.userId),
+                req.body.groupId,
+                req.body.fullname,
+                email,
+                pass
+            ], (err, rows, fields) => {
             if(err) {
                 console.error(err.code, err.sqlMessage);
                 return res.status(401).json({
@@ -196,9 +257,9 @@ exports.addScout = (req, res, next) => {
                 });
             } 
 
-            console.log("Successfully Added a Scout.");
-            return res.status(201).json({
-                message: "Successfully added Scout: " + name 
+            // console.log("Successfully Added a Scout. ", rows);
+            return res.status(200).json({
+                rows: rows[0]
             });
         }); 
     }).catch( error => {
@@ -206,6 +267,7 @@ exports.addScout = (req, res, next) => {
     }); 
 }
 
+// delete a group
 exports.deleteGroup = (req, res, next) => {
     if (req.userData.leader_flag === 0 &&
         req.userData.admin_flag === 0) 
@@ -233,12 +295,65 @@ exports.deleteGroup = (req, res, next) => {
             // rows: results[0]
             message: "Success"
         });
-    }); 
-   
+    });  
 }
 
-exports.deleteLeader = (req, res, next) => {}
-exports.deleteScout = (req, res, next) => {}
+// delete a leader
+exports.deleteLeader = (req, res, next) => {
+    if (req.userData.admin_flag === 0) {
+        return res.status(401).json({
+            message: "Authentication Error!"
+        });
+    }
+    
+    // Hash a password and add the leader // TODO: randomly generate the password initially
+    const qry = 'CALL deleteLeaders(?,?)';
+    db.query(qry,[parseInt(req.userData.userId),req.params.id], (err, rows, fields) => {
+        if(err) {
+            console.error(err.code, err.sqlMessage);
+            return res.status(401).json({
+                message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
+            });
+        }
+        // console.log("Successfully Added a Leader.", rows);
+        return res.status(200).json({
+            // rows: rows[0]
+            message: "Successfully deleted the Leader."
+        });
+    }); 
+}
+
+// delete a scout
+exports.deleteScout = (req, res, next) => {
+    if( req.userData.leader_flag === 0 &&
+        req.userData.admin_flag === 0) 
+    {
+        return res.status(401).json({
+            message: "Authentication Error!"
+        });
+    }
+    
+    // Hash a password and add the leader // TODO: randomly generate the password initially
+    const qry = 'CALL deleteScouts(?,?,?)';
+    db.query(qry,
+        [
+            parseInt(req.userData.userId),
+            req.params.uid,
+            req.params.gid
+        ], (err, rows, fields) => {
+        if(err) {
+            console.error(err.code, err.sqlMessage);
+            return res.status(401).json({
+                message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
+            });
+        }
+        // console.log("Successfully Added a Leader.", rows);
+        return res.status(200).json({
+            // rows: rows[0]
+            message: "Successfully deleted the Leader."
+        });
+    }); 
+}
 
 // update the group
 exports.updateGroup = (req, res, next) => {

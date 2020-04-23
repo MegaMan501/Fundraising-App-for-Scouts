@@ -29,13 +29,15 @@ CREATE TABLE IF NOT EXISTS members
   member_id int NOT NULL AUTO_INCREMENT UNIQUE,
   group_id int,
   user_id int,
-  PRIMARY KEY (member_id),
+  PRIMARY KEY (member_id)
+  /*,
   FOREIGN KEY (user_id) REFERENCES user(user_id)
 	ON DELETE SET NULL
     ON UPDATE CASCADE,
   FOREIGN KEY (group_id) REFERENCES groups(group_id)
 	ON DELETE SET NULL
     ON UPDATE CASCADE
+	*/
 );
 
 CREATE TABLE IF NOT EXISTS password_reset

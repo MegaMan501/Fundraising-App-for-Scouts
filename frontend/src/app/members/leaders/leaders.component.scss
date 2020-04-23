@@ -37,10 +37,26 @@ mat-spinner {
 
 .ltable {
   grid-area: ltable;
-  margin: 20px 20px 20px 20px;
+  margin: auto 15px auto 15px;
+  padding: 50px auto;
+  background-color: rgb(255, 94, 0);
   table {
+    background-color: rgb(255, 94, 0);
     width: 100%;
     height: 100%;
+  }
+  mat-form-field {
+    margin: 10px 50px;
+    color: white;
+  }
+  button {
+    color: rgb(17, 50, 58);
+  }
+  button:hover {
+    color: rgb(16, 200, 241);
+  }
+  mat-paginator {
+    background-color: rgb(255, 94, 0);
   }
 }
 

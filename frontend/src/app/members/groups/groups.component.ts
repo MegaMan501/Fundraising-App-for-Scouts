@@ -51,7 +51,7 @@ export class GroupComponent implements OnInit, OnDestroy {
     if (this.groupForm.invalid) {
       return;
     }
-    console.log(this.groupForm.value);
+    // console.log(this.groupForm.value);
     this.memberService.createGroup(
       this.groupForm.value.groupId,
       this.groupForm.value.groupName,
@@ -100,6 +100,7 @@ export class GroupComponent implements OnInit, OnDestroy {
           this.memberService.getGroups();
         });
       }
+      return;
     });
   }
 
