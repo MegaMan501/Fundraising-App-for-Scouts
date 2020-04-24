@@ -19,7 +19,6 @@
             matInput
             formControlName="name"
             placeholder="EX: Jane Doe"
-            autocomplete="fname"
             required>
           <mat-error *ngIf="scoutForm.controls.name.hasError('required')">
             Fullname is <strong>required</strong>!
@@ -35,7 +34,6 @@
             type="email"
             formControlName="email"
             placeholder="EX: email@website.com"
-            autocomplete="email"
             required>
           <mat-error *ngIf="scoutForm.controls.email.touched && scoutForm.controls.email.errors?.email">
             Please enter a valid <strong>email</strong> address!
@@ -69,7 +67,6 @@
             name="password"
             [type]="hide ? 'password' : 'text'"
             password
-            autocomplete="current-password"
             required>
           <button
             mat-icon-button
@@ -77,8 +74,7 @@
             type="button"
             (click)="hide = !hide"
             [attr.aria-label]="'Hide Password'"
-            [attr.aria-pressed]="hide"
-            >
+            [attr.aria-pressed]="hide">
             <mat-icon>
               {{hide ? 'visibility_off' : 'visibility'}}
             </mat-icon>
@@ -110,7 +106,7 @@
 
   <div class="atable">
     <mat-form-field>
-      <input (keyup)="filter($event.target.value)" matInput placeholder="Filter">
+      <input (keyup)="filter($event.target.value)" matInput placeholder="Filter" color="accent">
     </mat-form-field>
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <!-- Position Column -->

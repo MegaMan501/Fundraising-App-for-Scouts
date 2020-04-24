@@ -75,8 +75,6 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL getGroups(34);
-
 # Delete Groups
 DELIMITER //
 CREATE PROCEDURE deleteGroups (
@@ -270,7 +268,7 @@ BEGIN
 END//
 DELIMITER ;
 
--- SCOUTS -- IN PROGRESS
+-- SCOUTS
 # Add Scouts
 DELIMITER //
 CREATE PROCEDURE addScouts (
@@ -357,9 +355,6 @@ BEGIN
 END//
 DELIMITER ;
 
--- CALL addScouts(2,2,'admin scout 2', 'admin2@scout','qwerty2');
--- CALL addScouts(35,9982,'leader35 scout1', 'leader35@scout','qwerty1');
-
 # Getting Scouts
 DELIMITER //
 CREATE PROCEDURE getScouts (
@@ -442,5 +437,68 @@ BEGIN
 		DELETE FROM members
         WHERE user_id = deleteId AND group_id = groupId;
 	END IF;
+END//
+DELIMITER ;
+
+# Update scouts
+DELIMITER //
+CREATE PROCEDURE updateScouts(
+	IN userId INT,
+    IN toUserId INT,
+    IN groupId INT,
+    IN prevGroupId INT,
+	IN fullName varchar(100),
+	IN emailVal varchar(255),
+	IN hashPass varchar(255)
+)
+BEGIN
+	DECLARE isAdmin INT DEFAULT 0;
+    DECLARE isLeader INT DEFAULT 0;
+    DECLARE memberId INT DEFAULT NULL;
+	
+    # get the status of admin
+    SELECT COUNT(admin_flag) 
+    INTO isAdmin
+    FROM user 
+    WHERE user_id = userId AND admin_flag = 1; 
+    
+	# get the status of leader
+	SELECT COUNT(leader_flag) 
+    INTO isLeader 
+    FROM user WHERE user_id = userId AND leader_flag = 1;
+    
+    SELECT member_id 
+    INTO memberId
+    From members
+    WHERE user_id = toUserId;
+    
+    IF hashPass IS NOT NULL OR hashPass != '' THEN
+		IF isAdmin >= 1 || isLeader >= 1 THEN
+			UPDATE user 
+			SET `full_name`=fullName, 
+				`email`=emailVal, 
+				`hash_pass`=hashPass
+			WHERE user_id =toUserId;
+            
+            IF memberId IS NOT NULL OR memberId != 0 THEN
+				UPDATE members
+				SET `group_id`=groupId
+				WHERE member_id=memberId;
+            END IF;
+		END IF;
+	ELSE 
+		IF isAdmin >= 1 || isLeader >= 1 THEN
+			UPDATE user 
+			SET `full_name`=fullName, 
+				`email`=emailVal
+			WHERE user_id=toUserId;
+            
+			IF memberId IS NOT NULL OR memberId != 0 THEN
+				UPDATE members
+				SET `group_id`=groupId
+				WHERE member_id=memberId;
+            END IF;
+		END IF;
+    END IF;
 END//
 DELIMITER ;

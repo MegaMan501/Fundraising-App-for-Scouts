@@ -43,15 +43,27 @@ mat-spinner {
   grid-area: atable;
   margin: auto 15px auto 15px;
   padding: 50px auto;
-  background-color: rgb(255, 180, 242);
+  background-color: LightSlateGray;
   table {
-    background-color: rgb(158, 218, 181);
+    background-color: LightSlateGray;
     width: 100%;
     height: 100%;
   }
   mat-form-field {
     margin: 10px 50px;
     color: white;
+  }
+  mat-paginator {
+    background-color: LightSlateGray;
+  }
+  td, th, mat-paginator {
+    color: white;
+  }
+  button {
+    color: white;
+  }
+  button:hover {
+    color: rgb(16, 200, 241);
   }
 }
 

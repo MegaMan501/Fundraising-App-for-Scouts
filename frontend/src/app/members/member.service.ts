@@ -148,7 +148,12 @@ export class MemberService {
   }
 
   // update scout
-  updateScout() {}
+  updateScout(data: any) {
+    // console.log(data);
+    this.http.put(BACKEND_URL + '/scout/' + data.userId, data).subscribe(res => {
+      // console.log(res);
+    });
+  }
 
   // delete a scout
   deleteScout(uid: number, gid: number) {

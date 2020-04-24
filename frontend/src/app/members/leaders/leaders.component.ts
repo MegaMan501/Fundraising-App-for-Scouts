@@ -74,6 +74,7 @@ export class LeaderComponent implements OnInit, OnDestroy {
         this.memberService.getLeaders();
         return;
       }
+      res.val.pass = res.val.pass ? res.val.pass : '';
       this.memberService.updateLeader(res.val);
     });
   }

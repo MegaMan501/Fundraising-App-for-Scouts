@@ -8,6 +8,7 @@ import { MemberService } from '../member.service';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogDeleteComponent } from 'src/app/dialogs/delete/dialog-delete.component';
+import { DialogEditScoutComponent } from 'src/app/dialogs/edit-scout/edit-scout.component';
 
 @Component({
   templateUrl: './scouts.component.html',
@@ -17,6 +18,7 @@ export class ScoutComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort) sort; MatSort;
   hide = true;
+  prevGroup: number;
   scoutForm: FormGroup;
   displayedColumns: string[] = ['userId', 'groupId', 'fullname', 'email', 'action'];
   scouts: Scout[] = [];
@@ -70,7 +72,31 @@ export class ScoutComponent implements OnInit, OnDestroy {
   }
 
   onEdit(row) {
-    console.log(row);
+    this.prevGroup = row.groupId;
+    const dialogRef = this.dialog.open(DialogEditScoutComponent, {
+      data: {
+        title: 'Are You Sure You Want to Edit This Scout?',
+        val: row,
+        groups: this.groups
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res === false) {
+        this.membersService.getScouts();
+        return;
+      }
+      const data = {
+        userId: res.val.userId,
+        groupId: res.val.groupId,
+        prevGroup: this.prevGroup,
+        fullname: res.val.fullname,
+        email: res.val.email,
+        pass: res.val.pass ? res.val.pass : ''
+      };
+      this.membersService.updateScout(data);
+    });
   }
 
   onDelete(row) {
@@ -84,7 +110,7 @@ export class ScoutComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
+      // console.log(res);
       if (res) {
         this.membersService.deleteScout(row.userId, row.groupId)
         .subscribe(() => {

@@ -167,67 +167,6 @@ exports.addLeader = (req, res, next) => {
     }); 
 }
 
-// update a leader
-exports.updateLeader = (req, res, next) => {
-    if (req.userData.admin_flag === 0) {
-        return res.status(401).json({
-            message: "Authentication Error!"
-        });
-    }
-    const email = req.body.email.toLowerCase();
-    const qry = 'CALL updateLeaders(?,?,?,?,?)';
-
-    // Hash a password and update the leader
-    if (req.body.pass) {
-        bcrypt
-        .hash(req.body.pass, 10)
-        .then(hash => {
-            pass = hash; 
-            db.query(qry,
-                [
-                    parseInt(req.userData.userId),
-                    req.params.id,
-                    req.body.fullname, 
-                    email,
-                    pass
-                ], (err, rows, fields) => {
-                if(err) {
-                    console.error(err.code, err.sqlMessage);
-                    return res.status(401).json({
-                        message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
-                    });
-                }
-                // console.log("Successfully Added a Leader.", rows);
-                return res.status(201).json({
-                    message: "Succesfully Updated the leader."
-                });
-            }); 
-        }).catch( error => {
-            console.error("HASH: ", error);
-        }); 
-    } else {
-        db.query(qry,
-            [
-                parseInt(req.userData.userId),
-                req.params.id,
-                req.body.fullname, 
-                email,
-                ''
-            ], (err, rows, fields) => {
-            if(err) {
-                console.error(err.code, err.sqlMessage);
-                return res.status(401).json({
-                    message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
-                });
-            }
-            console.log("Successfully Added a Leader.", rows);
-            return res.status(201).json({
-                message: "Succesfully Updated the leader."
-            });
-        }); 
-    }
-}
-
 // insert a new scout
 exports.addScout = (req, res, next) => {
     if( req.userData.leader_flag === false &&
@@ -394,4 +333,134 @@ exports.updateGroup = (req, res, next) => {
         });
     }); 
    
+}
+
+// update a leader
+exports.updateLeader = (req, res, next) => {
+    if (req.userData.admin_flag === 0) {
+        return res.status(401).json({
+            message: "Authentication Error!"
+        });
+    }
+    const email = req.body.email.toLowerCase();
+    const qry = 'CALL updateLeaders(?,?,?,?,?)';
+    const password = req.body.pass;
+
+    // Hash a password and update the leader
+    if (password !== '' || password.length === 0) {
+        bcrypt
+        .hash(password, 10)
+        .then(hash => {
+            pass = hash; 
+            db.query(qry,
+                [
+                    parseInt(req.userData.userId),
+                    req.params.id,
+                    req.body.fullname, 
+                    email,
+                    pass
+                ], (err, rows, fields) => {
+                if(err) {
+                    console.error(err.code, err.sqlMessage);
+                    return res.status(401).json({
+                        message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
+                    });
+                }
+                // console.log("Successfully Added a Leader.", rows);
+                return res.status(201).json({
+                    message: "Succesfully Updated the leader."
+                });
+            }); 
+        }).catch( error => {
+            console.error("HASH: ", error);
+        }); 
+    } else {
+        db.query(qry,
+            [
+                parseInt(req.userData.userId),
+                req.params.id,
+                req.body.fullname, 
+                email,
+                ''
+            ], (err, rows, fields) => {
+            if(err) {
+                console.error(err.code, err.sqlMessage);
+                return res.status(401).json({
+                    message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
+                });
+            }
+            console.log("Successfully Added a Leader.", rows);
+            return res.status(201).json({
+                message: "Succesfully Updated the leader."
+            });
+        }); 
+    }
+}
+
+// update a leader
+exports.updateScout = (req, res, next) => {
+    if (req.userData.admin_flag === 0 && 
+        req.userData.leader_flag === 0) {
+        return res.status(401).json({
+            message: "Authentication Error!"
+        });
+    }
+
+    const email = req.body.email.toLowerCase();
+    const qry = 'CALL updateScouts(?,?,?,?,?,?,?)';
+    const password = req.body.pass;
+    
+    // Hash a password and update the leader
+    if (password !== '' || password.length === 0) {
+        bcrypt
+        .hash(password, 10)
+        .then(hash => {
+            pass = hash; 
+            db.query(qry,
+                [
+                    parseInt(req.userData.userId), // who is the author: leader or admin
+                    req.params.id,  // the scout being changed updated
+                    req.body.groupId, // the group being changed to
+                    req.body.prevGroup, // the previous group scout
+                    req.body.fullname, 
+                    email,
+                    pass
+                ], (err, rows, fields) => {
+                if(err) {
+                    console.error(err.code, err.sqlMessage);
+                    return res.status(401).json({
+                        message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
+                    });
+                }
+                // console.log("Successfully Added a scout.", rows);
+                return res.status(201).json({
+                    message: "Succesfully Updated the scout."
+                });
+            }); 
+        }).catch( error => {
+            console.error("HASH: ", error);
+        }); 
+    } else { // if no email is present
+        db.query(qry,
+            [
+                parseInt(req.userData.userId), // who is the author: leader or admin
+                req.params.id,  // the scout being changed updated
+                req.body.groupId, // the group being changed to
+                req.body.prevGroup, // the previous group of scout
+                req.body.fullname, 
+                email,
+                ''              // no update to password
+            ], (err, rows, fields) => {
+            if(err) {
+                console.error(err.code, err.sqlMessage);
+                return res.status(401).json({
+                    message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
+                });
+            }
+            // console.log("Successfully Added a scout.", rows);
+            return res.status(201).json({
+                message: "Succesfully Updated the scout."
+            });
+        }); 
+    }
 }

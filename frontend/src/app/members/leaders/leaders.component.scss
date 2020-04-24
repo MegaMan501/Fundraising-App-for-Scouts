@@ -49,14 +49,23 @@ mat-spinner {
     margin: 10px 50px;
     color: white;
   }
+  // button {
+  //   color: rgb(17, 50, 58);
+  // }
+  // button:hover {
+  //   color: rgb(16, 200, 241);
+  // }
+  mat-paginator {
+    background-color: rgb(255, 94, 0);
+  }
+  td, th, mat-paginator {
+    color: white;
+  }
   button {
-    color: rgb(17, 50, 58);
+    color: white;
   }
   button:hover {
     color: rgb(16, 200, 241);
-  }
-  mat-paginator {
-    background-color: rgb(255, 94, 0);
   }
 }
 
