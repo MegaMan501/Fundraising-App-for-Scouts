@@ -35,6 +35,7 @@ export class ResetPasswordComponent implements OnInit {
   version = environment.version;
   
   //private activatedRoute: ActivatedRoute;
+  token: string;
 
   
   //formBuilder that will allow two field values to be sent
@@ -42,7 +43,7 @@ export class ResetPasswordComponent implements OnInit {
   //Source: https://stackblitz.com/edit/angular-yhbuqn-s5lmtv?file=app%2Finput-error-state-matcher-example.ts
   //Original source: https://stackoverflow.com/questions/51605737/confirm-password-validation-in-angular-6 Answer:
   //AJT82
-  constructor(private formBuilder: FormBuilder, public resetPasswordService: ResetPasswordService) {
+  constructor(private formBuilder: FormBuilder, public resetPasswordService: ResetPasswordService, private activatedRoute: ActivatedRoute) {
     this.resetPasswordForm = this.formBuilder.group({
         password: ['', [Validators.required]],
         confirmPassword: ['', [Validators.required]]
@@ -59,11 +60,27 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit() {
     //Change to reset password service when ready
     //(also do password )
+
+    //Gathering the query parameter
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.token = params['token'];
+      console.log(this.token);
+    });
+
     this.resetStatusSub = this.resetPasswordService.getPassSentListener().subscribe(
       forgotPasswordStatus => {
         this.isLoading = false;
       }
     );
+
+    console.log(this.token);
+
+    //Make post request after observable has been acquired
+    this.resetPasswordService.verifyToken(this.token);
+    
+
+    //POST request using service
+    //verifyToken()
   }
 
   onSubmit() {
@@ -73,7 +90,7 @@ export class ResetPasswordComponent implements OnInit {
 
     this.isLoading = true;
     //Change to reset password service when ready
-    this.resetPasswordService.sendNewPass(this.resetPasswordForm.value.password, this.resetPasswordForm.value.confirmPassword);
+    this.resetPasswordService.sendNewPass(this.resetPasswordForm.value.confirmPassword, this.token);
   }
 
   ngOnDestroy() {
