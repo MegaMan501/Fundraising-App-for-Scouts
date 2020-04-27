@@ -129,8 +129,16 @@ exports.userPassResetReq = (req, res, next) => {
                 const buff = crypto.randomBytes(20);
                 const unhash_token = buff.toString('hex');
 
-                //Then hashing the token before storing it in the database (uses 10 rounds of salting similar to password)
-                const token = bcrypt.hashSync(unhash_token, 10);
+                /* Then hashing the token before storing it in the database (uses 
+                 * sha256 instead of bcrypt because the plaintext token is cryptographically
+                 * secure through randomization, which means precomputation/rainbow table 
+                 * attacks are highly unlikely. Hashing the token will help in deterring
+                 * an attacker from gathering reset tokens to reset accounts if they ever
+                 * gained access to the database in the future (either through potential
+                 * future exploits, or a physical/manual attack) */
+                const hash = crypto.createHash('sha256');
+                hash.update(unhash_token);
+                const token = hash.digest('hex');
 
                 /*Setting an expiration time (a day from now, as indicated by the 86400000ms
                  * which can be found as a conversion from days to milliseconds: 24 hours 
@@ -147,10 +155,11 @@ exports.userPassResetReq = (req, res, next) => {
                 //Source for this: https://stackoverflow.com/questions/5129624/convert-js-date-time-to-mysql-datetime
                 var expiry_date_string = expiry_date.toISOString().slice(0, 19).replace('T', ' ');
 
-                
+                //DEBUGGING
                 console.log("Half way point!");
                 console.log("User id: " + rows[0].user_id);
-                console.log("Token: " + token);
+                console.log("Unhashed token: " + unhash_token);
+                console.log("Hashed Token: " + token);
                 console.log("Expiry date: " + expiry_date);
 
                 var userId = rows[0].user_id;
@@ -170,7 +179,10 @@ exports.userPassResetReq = (req, res, next) => {
                     
                     else
                     {
-                        done(err, token, rows, expiry_date);
+                        //(Note: User will be sent clear text token. It will
+                        //(be similar to when a user types in a clear text password
+                        //(and then the hash comparison is done on the server side
+                        done(err, unhash_token, rows, expiry_date);
                     }
                 });
         },
@@ -179,10 +191,12 @@ exports.userPassResetReq = (req, res, next) => {
         function(token, rows, expiry_date, done)
         {
             console.log("we made it to the end!");
-             //Setting up data for email
+            //Setting up data for email
             //(note: for the subject line, Fundraising App could be changed to an
             //organization name)
-            const email_data = {
+	        //NOTE: DON'T FORGET TO CHANGE THE HTTP://LOCALHOST TO A 
+	        //URL LIKE HTTPS WHEN DEPLOYED!  
+	        const email_data = {
                 from: "csce4901team406dev@gmail.com",
                 to: rows[0].email,
                 template: 'forgot-password-template',
@@ -214,4 +228,219 @@ exports.userPassResetReq = (req, res, next) => {
     });
 }
 
-//exports.userResetPass
+exports.userCheckResetToken = (req, res, next) => {
+    //async waterfall is used to perform functions in a sequential order
+    async.waterfall([
+        /* First function involves making a hash of the passed token through
+         * a POST request, and then seeing if the hash exists in the database.
+         * If it doesn't then immediately return an error
+         */
+        function(done) {
+            const unhash_token = req.body.token;
+            const hash = crypto.createHash('sha256');
+            hash.update(unhash_token);
+            const token = hash.digest('hex');
+
+            db.query(
+                'SELECT * FROM password_reset WHERE token=?', 
+                token, 
+                (err, rows) => {
+                    if(rows) {
+                        //Debugging
+                        console.log(rows);
+                        //If there is no rows, then return immediately
+                        if(rows <= 0)
+                        {
+                            //Debugging
+                            //console.log("No users were found!");
+                            return res.status(401).json({
+                                message: "Sorry! This token is invalid or expired!"
+                            });
+                        } else {
+                            done(err, rows);
+                        }
+                    } else {
+                        done(err);
+                    }
+                }); 
+        },
+
+        //Next function involves 
+        //seeing if the token is out of date or not
+        //If it is, then delete the entry and return an error
+        function(rows, done)
+        {
+            const expiry_date = rows[0].expiry_date;
+
+            //Adding UTC to the date result for Date.parse to use
+            var date_str = expiry_date + ' UTC';
+
+            //Converting the date result to the epoch representation using parse
+            var conv = Date.parse(date_str);
+
+            var token = rows[0].token;
+
+            //Comparing the expiry date to todays date. If todays date is greater,
+            //then perform deletion query and send error message to user
+            //Otherwise, send a success message back to the user
+            if(Date.now() > conv) {
+                db.query(
+                    'DELETE FROM password_reset WHERE token=?', 
+                    token, 
+                    (err, rows) => {
+                       // Catching and returning DB error.
+                        if(err) {
+                            done(err);
+                        }
+                        else {
+                            return res.status(401).json({
+                                message: "Sorry! This token is invalid or expired!"
+                            });
+                        }
+                    });
+            } else {
+                return res.status(200).json({
+                    message: "Valid token!"
+                });
+            }
+        }
+    ], function(err) {
+        return res.status(401).json({
+            message: 'Database or other Service Error!'
+        });
+    });
+}
+
+
+
+
+exports.userResetPass = (req, res, next) => {
+ //async waterfall is used to perform functions in a sequential order
+ async.waterfall([
+    /* First function involves making a hash of the passed token through
+     * a POST request, and then seeing if the hash exists in the database.
+     * If it doesn't then immediately return an error
+     */
+    function(done) {
+        const unhash_token = req.body.token;
+        const hash = crypto.createHash('sha256');
+        hash.update(unhash_token);
+        const token = hash.digest('hex');
+
+        db.query(
+            'SELECT * FROM password_reset WHERE token=?', 
+            token, 
+            (err, rows) => {
+                if(rows) {
+                    //Debugging
+                    console.log(rows);
+                    //If there is no rows, then return immediately
+                    if(rows <= 0)
+                    {
+                        //Debugging
+                        //console.log("No users were found!");
+                        return res.status(401).json({
+                            message: "Sorry! This token is invalid or expired!"
+                        });
+                    } else {
+                        done(err, rows);
+                    }
+                } else {
+                    done(err);
+                }
+            }); 
+    },
+    //Next function involves 
+    //seeing if the token is out of date or not
+    //If it is, then delete the entry and return an error
+    function(rows, done)
+    {
+        const expiry_date = rows[0].expiry_date;
+
+        //Adding UTC to the date result for Date.parse to use
+        const date_str = expiry_date + ' UTC';
+
+        //Converting the date result to the epoch representation using parse
+        const conv = Date.parse(date_str);
+
+        const token = rows[0].token;
+
+        //Placeholder in case if Date.now() is skipped over
+        //(which is likely the case)
+        var error;
+
+        //Comparing the expiry date to todays date. If todays date is greater,
+        //then perform deletion query and send error message to user
+        //Otherwise, go to final function
+        if(Date.now() > conv) {
+            db.query(
+                'DELETE FROM password_reset WHERE token=?', 
+                token, 
+                (err, rows) => {
+                   // Catching and returning DB error.
+                    if(err) {
+                        done(err);
+                    }
+                    else {
+                        return res.status(401).json({
+                            message: "Sorry! This token is invalid or expired!"
+                        });
+                    }
+                });
+        } else { 
+            const password = req.body.confpassword;
+            const userId = rows[0].user_id;   
+            done(error, userId, password, rows);
+        }
+    },
+    function(userId, password, rows, done)
+    {
+        const token = rows[0].token;
+        //Do a hash of the user's password then do the database query to update it
+        // Hash a password and add the leader // TODO: randomly generate the password initially
+        bcrypt.hash(password, 10)
+        .then(hash => {
+            const pass = hash;
+
+            //DEBUGGING
+            console.log('Hash pass for db: ' + pass);
+            console.log('User id: ' + userId);
+
+            //Issue a query to update the user's password based on their user id
+            db.query(
+                'UPDATE user SET hash_pass = ? WHERE user_id = ?',
+                [pass, userId], 
+                (err, secondaryrows) => {
+                    if(err) {
+                        console.error(err.code, err.sqlMessage);
+                        done(err);
+                    }
+            });
+        }).catch( error => {
+            console.error("HASH: ", error);
+            done(error);
+        });
+
+        //Issue another query to delete the token, since the user has
+        //completed the process by hitting submit
+        db.query(
+            'DELETE FROM password_reset WHERE token=?', 
+            token, 
+            (err, rows) => {
+               // Catching and returning DB error.
+                if(err) {
+                    done(err);
+                }
+        });
+
+        //Send back a success message!
+        return res.status(200).json({
+            message: "Your password has succesfully been reset!"
+        });
+    }
+], function(err) {
+    return res.status(401).json({
+        message: 'Database or other Service Error!'
+    });
+});   
+}
