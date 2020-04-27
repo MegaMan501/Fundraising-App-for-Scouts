@@ -114,6 +114,8 @@ exports.userPassResetReq = (req, res, next) => {
                         done(err);
                     }
                     else {
+                        //DEBUGGING
+                        console.log("Removed previous requests!");
                         done(err, rows);
                     }
             });
@@ -122,6 +124,19 @@ exports.userPassResetReq = (req, res, next) => {
         //Also involves the generation of the expiry date
         function(rows, done)
         {
+                //Check if the user is verified. If they aren't then return immediately
+                //REMOVE COMMENTS WHEN USER VERIFICATION SYSTEM IS READY!!!!
+                /*
+                if(rows[0].verified === 0)
+                {
+                    //Debugging
+                    console.log("User is unverified!!!");
+                    return res.status(200).json({
+                        message: "If an account is associated with that email, then an email was just sent!"
+                    });
+                }
+                */
+
                 var err;
                 //Generating the random token
                 //(Code based on the following:
