@@ -682,5 +682,3 @@ BEGIN
 	END IF;
 END//
 DELIMITER ;
-
-CALL updateInventory(2,13,12,'Updated prod', 'new desc', 12.2, 45.2, 53, 123.21);
