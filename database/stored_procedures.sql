@@ -502,3 +502,185 @@ BEGIN
     END IF;
 END//
 DELIMITER ;
+
+-- Inventory --
+# Adding Groups
+DELIMITER //
+CREATE PROCEDURE addInventory (
+	IN userId INT,
+    IN groupId INT,
+	IN prodName varchar(64),
+	IN prodDesc varchar(255),
+	IN prodWeight float,
+	IN prodCost float,
+    IN prodQuantity int,
+	IN prodSalePrice float
+)
+BEGIN
+	DECLARE isAdmin INT DEFAULT 0;
+    DECLARE isLeader INT DEFAULT 0;
+	
+    # get the status of admin
+    SELECT COUNT(admin_flag) 
+    INTO isAdmin
+    FROM user 
+    WHERE user_id = userId AND admin_flag = 1; 
+    
+	# get the status of leader
+	SELECT COUNT(leader_flag) 
+    INTO isLeader 
+    FROM user WHERE user_id = userId AND leader_flag = 1;
+	
+    IF isAdmin >= 1 || isleader >=1 THEN
+		# insert in to groups
+		INSERT INTO product 
+        (`prod_name`,`description`,`weight`,`cost`,`sales_price`, `quantity`, `group_id`) 
+		VALUES (prodName, prodDesc, prodWeight, prodCost, prodSalePrice,prodQuantity,groupId);
+	END IF;
+    
+    # if admin insert
+    IF isAdmin >= 1 THEN
+		# return all products
+		SELECT * FROM product;
+	END IF;
+    
+    #if leader insert 
+    IF isLeader >= 1 THEN
+        # return updated list of products per group
+    	SELECT 
+			p.product_id,
+			p.group_id,
+			p.prod_name,
+			p.description,
+			p.weight,
+			p.cost,
+			p.sales_price,
+			p.quantity
+		FROM product as p
+		INNER JOIN groups as g
+		ON p.group_id = g.group_id
+		WHERE g.user_id = userId;
+	END IF;
+END//
+DELIMITER ;
+
+# Get Inventory
+DELIMITER //
+CREATE PROCEDURE getInventory (
+	IN userId INT
+)
+BEGIN
+	DECLARE isAdmin INT DEFAULT 0;
+    DECLARE isLeader INT DEFAULT 0;
+	
+    # get the status of admin
+    SELECT COUNT(admin_flag) 
+    INTO isAdmin
+    FROM user 
+    WHERE user_id = userId AND admin_flag = 1; 
+    
+	# get the status of leader
+	SELECT COUNT(leader_flag) 
+    INTO isLeader 
+    FROM user WHERE user_id = userId AND leader_flag = 1;
+	
+    # if admin insert
+    IF isAdmin >= 1 THEN
+		# return all products
+		SELECT * FROM product;
+	END IF;
+    
+    #if leader insert 
+    IF isLeader >= 1 THEN
+        # return updated list of products per group
+    	SELECT 
+			p.product_id,
+			p.group_id,
+			p.prod_name,
+			p.description,
+			p.weight,
+			p.cost,
+			p.sales_price,
+			p.quantity
+		FROM product as p
+		INNER JOIN groups as g
+		ON p.group_id = g.group_id
+		WHERE g.user_id = userId;
+	END IF;
+END//
+DELIMITER ;
+
+# Delete Inventory
+DELIMITER //
+CREATE PROCEDURE deleteInventory (
+	IN userId INT,
+    IN productId INT
+)
+BEGIN
+	DECLARE isAdmin INT DEFAULT 0;
+    DECLARE isLeader INT DEFAULT 0;
+	
+	# get the status of admin
+    SELECT COUNT(admin_flag) 
+    INTO isAdmin
+    FROM user 
+    WHERE user_id = userId AND admin_flag = 1; 
+    
+     # get the status of leader
+	SELECT COUNT(leader_flag) 
+    INTO isLeader 
+    FROM user WHERE user_id = userId AND leader_flag = 1;
+	
+    # insert in to users
+    IF isAdmin >= 1 || isleader >= 1 THEN
+		# Delete from users
+        DELETE FROM product
+        WHERE product_id = productId;
+	END IF;
+END//
+DELIMITER ;
+
+# Update the Inventory
+DELIMITER //
+CREATE PROCEDURE updateInventory (
+	IN userId INT,
+    IN productId INT,
+    IN groupId INT,
+	IN prodName varchar(64),
+	IN prodDesc varchar(255),
+	IN prodWeight float,
+	IN prodCost float,
+    IN prodQuantity int,
+	IN prodSalePrice float
+)
+BEGIN
+	DECLARE isAdmin INT DEFAULT 0;
+    DECLARE isLeader INT DEFAULT 0;
+	
+    # get the status of admin
+    SELECT COUNT(admin_flag) 
+    INTO isAdmin
+    FROM user 
+    WHERE user_id = userId AND admin_flag = 1; 
+    
+	# get the status of leader
+	SELECT COUNT(leader_flag) 
+    INTO isLeader 
+    FROM user WHERE user_id = userId AND leader_flag = 1;
+    
+    # Update the product
+	IF isAdmin >= 1 || isleader >= 1 THEN
+		UPDATE product 
+        SET `prod_name` = prodName,
+			`description` = prodDesc,
+            `weight` = prodWeight,
+            `cost` = prodCost,
+            `sales_price` = prodSalePrice,
+            `quantity` = prodQuantity,
+            `group_id` = groupId
+		WHERE (`product_id` = productId);
+	END IF;
+END//
+DELIMITER ;
+
+CALL updateInventory(2,13,12,'Updated prod', 'new desc', 12.2, 45.2, 53, 123.21);

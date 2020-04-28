@@ -17,6 +17,8 @@ export class MemberService {
   private leaders: Member[] = [];
   private scouts: Scout[] = [];
   private groups: Group[] = [];
+  private gid: number;
+  private gidStatusListner = new Subject<number>();
   private allLeaderStatusListner = new Subject<Member[]>();
   private allScoutStatusListner = new Subject<Scout[]>();
   private allGroupStatusListner = new Subject<Group[]>();
@@ -114,7 +116,7 @@ export class MemberService {
           };
         })
       ).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         this.scouts = res.scout;
         this.allScoutStatusListner.next([...this.scouts]);
       }, err => {
@@ -230,4 +232,14 @@ export class MemberService {
       // console.log(res);
     });
   }
+
+  // selected group
+  setGroupId(id: number) {
+    // console.log(id);
+    this.gid = id;
+    this.gidStatusListner.next(this.gid);
+  }
+
+  // get group id
+  getGroupId() { return this.gid; }
 }

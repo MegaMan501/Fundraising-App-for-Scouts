@@ -31,41 +31,41 @@ export class SalesScoutComponent implements OnInit {
   })}
 
   async ngOnInit(){
-    await this.getInventory(1);
-    await this.getSales(1);
+    // await this.getInventory(1);
+    // await this.getSales(1);
     this.dataSource.sort = this.sort;
     return;
   }
 
   async onSale()
   {
-    await this.addSale(1);
-    this.getSales(1);
+    // await this.addSale(1);
+    // this.getSales(1);
     return;
   }
 
-  addSale(x)
-  {
-    var formatted = new DatePipe('en-US').transform(this.saleForm.value.date, 'yyyy-MM-dd');
-    return new Promise( resolve => {
-      this.saleService.addSale(this.saleForm.value.name, this.saleForm.value.quantity, formatted, this.uid);
-      setTimeout(() => {resolve(x);}, 100);
-    });
-  }
+  // addSale(x)
+  // {
+  //   var formatted = new DatePipe('en-US').transform(this.saleForm.value.date, 'yyyy-MM-dd');
+  //   return new Promise( resolve => {
+  //     this.saleService.addSale(this.saleForm.value.name, this.saleForm.value.quantity, formatted, this.uid);
+  //     setTimeout(() => {resolve(x);}, 100);
+  //   });
+  // }
 
-  getSales(x)
-  {
-    return new Promise( resolve => {
-      this.saleService.getSales(this.uid, this.dataSource);
-      setTimeout(() => {resolve(x);}, 100);
-    });
-  }
+  // getSales(x)
+  // {
+  //   return new Promise( resolve => {
+  //     this.saleService.getSales(this.uid, this.dataSource);
+  //     setTimeout(() => {resolve(x);}, 100);
+  //   });
+  // }
 
-  getInventory(x)
-  {
-    return new Promise( resolve => {
-      this.inventoryService.getAllProducts(this.productList);
-      setTimeout(() => {resolve(x);}, 100);
-    });
-  }
+  // getInventory(x)
+  // {
+  //   return new Promise( resolve => {
+  //     // this.inventoryService.getAllProducts(this.productList);
+  //     setTimeout(() => {resolve(x);}, 100);
+  //   });
+  // }
 }

@@ -87,6 +87,7 @@ exports.getScouts = (req, res, next) => {
     });
 }
 
+// TODO: add a singular get routes
 exports.getGroup = (req, res, next) => {}
 exports.getLeader = (req, res, next) => {}
 exports.getScout = (req, res, next) => {}
@@ -286,10 +287,10 @@ exports.deleteScout = (req, res, next) => {
                 message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
             });
         }
-        // console.log("Successfully Added a Leader.", rows);
+        // console.log("Successfully Delete a scout.", rows);
         return res.status(200).json({
             // rows: rows[0]
-            message: "Successfully deleted the Leader."
+            message: "Successfully deleted the scout."
         });
     }); 
 }

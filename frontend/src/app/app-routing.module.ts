@@ -6,7 +6,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DashboardLeaderComponent } from './dashboard-leader/dashboard-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
-import { InventoryLeaderComponent } from './inventory-leader/inventory-leader.component';
+import { InventoryLeaderComponent } from './inventory/inventory-leader/inventory-leader.component';
 import { SalesLeaderComponent } from './sales-leader/sales-leader.component';
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
 import { AuthGuard } from './auth/auth.guard';

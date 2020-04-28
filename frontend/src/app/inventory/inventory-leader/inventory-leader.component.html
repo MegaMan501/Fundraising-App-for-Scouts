@@ -1,0 +1,206 @@
+<div class="inventory">
+
+  <!-- Card -->
+  <mat-card class="acard" id="add">
+
+    <!-- Header -->
+    <mat-card-header>
+      <mat-card-title>Add a <strong>Product</strong> to the Inventory</mat-card-title>
+      <!-- <mat-card-subtitle>GS Fundraising Platform</mat-card-subtitle> -->
+    </mat-card-header>
+
+    <!-- Content -->
+    <mat-card-content>
+      <form (submit)="onAddInventory(formDirective)" [formGroup]="inventoryForm" #formDirective="ngForm">
+
+        <!-- Product Name -->
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Product Name</mat-label>
+          <input
+            matInput
+            formControlName="name"
+            placeholder="EX: Chocolate Chip Cookie"
+            required>
+          <mat-error *ngIf="inventoryForm.controls.name.hasError('required')">
+            Product name is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Group Select -->
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Group</mat-label>
+          <mat-select
+            formControlName="group"
+            required>
+            <mat-option *ngFor="let e of groups" [value]="e.groupId">
+              {{e.groupId}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="inventoryForm.controls.group.hasError('required')">
+            Please Select a Group for the Product.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Cost -->
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Cost</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="cost"
+            placeholder="EX: $3.50"
+            required>
+          <span matPrefix>$&nbsp;</span>
+          <!-- <span matSuffix>.00</span> -->
+          <mat-error *ngIf="inventoryForm.controls.cost.hasError('required')">
+            Product cost is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Sale Price -->
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Sales Price</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="salePrice"
+            placeholder="EX: $6.50"
+            required>
+          <span matPrefix>$&nbsp;</span>
+          <mat-error *ngIf="inventoryForm.controls.salePrice.hasError('required')">
+            Product sales price is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Weight -->
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Weight</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="weight"
+            placeholder="EX: $3.50"
+            required>
+          <span matSuffix>lb</span>
+          <mat-error *ngIf="inventoryForm.controls.weight.hasError('required')">
+            Product weight is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Quantity -->
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Quantity</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="quantity"
+            placeholder="EX: $3.50"
+            required>
+          <mat-error *ngIf="inventoryForm.controls.quantity.hasError('required')">
+            Product quantity is <strong>required</strong>!
+          </mat-error>
+          <mat-error *ngIf="inventoryForm.controls.quantity.hasError('pattern')">
+            Product should be an <strong>integer</strong> value!
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Desc Input -->
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Description</mat-label>
+          <input
+            matInput
+            name="desc"
+            type="text"
+            maxlength="255"
+            formControlName="desc"
+            placeholder="EX: Made with care at our facilities.">
+          <mat-error *ngIf="inventoryForm.controls.desc.hasError('maxLength')">
+            Description is too <strong>Long</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Actions -->
+        <mat-card-actions>
+            <div class="formsubmit">
+              <button
+                  type="submit"
+                  mat-raised-button
+                  [disabled]="!inventoryForm.valid"
+                  color="primary">Add Product</button>
+            </div>
+        </mat-card-actions>
+      </form>
+
+    </mat-card-content>
+
+    <!-- Footer -->
+    <mat-card-footer>
+      <p></p>
+    </mat-card-footer>
+  </mat-card>
+
+  <div class="atable" id="table">
+    <mat-form-field>
+      <input (keyup)="filter($event.target.value)" matInput placeholder="Filter" color="accent">
+    </mat-form-field>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <ng-container matColumnDef="productId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Id</th>
+        <td mat-cell *matCellDef="let element"> {{element.productId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="groupId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Group Id</th>
+        <td mat-cell *matCellDef="let element"> {{element.groupId}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cost">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cost</th>
+        <td mat-cell *matCellDef="let element"> ${{element.cost}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="salePrice">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Sales Price</th>
+        <td mat-cell *matCellDef="let element"> ${{element.salePrice}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="weight">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Weight</th>
+        <td mat-cell *matCellDef="let element"> {{element.weight}} lb </td>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+        <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="desc">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+        <td mat-cell *matCellDef="let element"> {{element.desc}} </td>
+      </ng-container>
+
+       <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="onEdit(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="onDelete(row)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

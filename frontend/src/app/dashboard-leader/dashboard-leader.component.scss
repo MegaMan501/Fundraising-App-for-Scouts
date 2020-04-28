@@ -1,5 +1,5 @@
 mat-card {
-  margin: 20px 20px 20px 20px;
+  margin: 20px 20px;
   min-height: 300px;
   min-width: 400px;
 }
@@ -152,7 +152,7 @@ table {
       display: grid;
       height: 100vh;
       grid-gap: 20px;
-      padding: 50px 50px 50px 50px;
+      // padding: 50px 50px 50px 50px;
       align-items: center;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-areas:

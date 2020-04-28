@@ -1,61 +1,111 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { environment as env } from '../../environments/environment';
+import { Inventory } from '../models/all.model';
+import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-
-const BACKEND_URL = 'http://localhost:45213/api/inventory';
+const BACKEND_URL = env.BACKEND_URL + 'inventory';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventoryService {
 
-  constructor(private http: HttpClient, private router: Router) { }
+  private inventory: Inventory[] = [];
+  private inventoryStatusListner = new Subject<Inventory[]>();
 
-  addProduct(data)
-  {
-    this.http.post(BACKEND_URL + '/addProduct', data).pipe(take(1)).subscribe(res => {});
-    return;
-  }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
 
-  deleteProduct(product_id)
-  {
-    //currently this deletes, but eventually it will set a retired flag
-    const data = {product_id}
-    this.http.post(BACKEND_URL + '/deleteProduct', data).pipe(take(1)).subscribe(res => {});
-    return;
-  }
+  // Getters
+  getReturnedInventory() { return this.inventory; }
+  getInventoryStatusListner() { return this.inventoryStatusListner.asObservable(); }
 
-  getGroupProducts(data)
-  {
-    this.http.get<{rows}>(BACKEND_URL + '/getGroupProducts').pipe(take(1)).subscribe(res => {
-
-      data.splice(0, data.length);
-
-      for(var i = 0 ; i < res.rows.length; i++)
-      {
-        data.push(res.rows[i])
-      }
+  // CRUD for the inventory
+  getInventory() {
+    this.http.get<{rows: any}>(
+      BACKEND_URL + '/products'
+    ).pipe(
+      map((prodData) => {
+        return {
+          products: prodData.rows.map(e => {
+            return {
+              productId: e.product_id,
+              desc: e.description,
+              name: e.prod_name,
+              cost: e.cost,
+              weight: e.weight,
+              salePrice: e.sales_price,
+              quantity: e.quantity,
+              groupId: e.group_id
+            };
+          })
+        };
+      })
+    ).subscribe(modData => {
+      this.inventory = modData.products;
+      // console.log(modData);
+      this.inventoryStatusListner.next([...this.inventory]);
     });
-    return;
   }
 
-  getAllProducts(data: String[])
-  {
-    this.http.get<{rows: String[]}>(BACKEND_URL + '/getAllProducts').pipe(take(1)).subscribe(res => {
-      for(var  i = 0; i < res.rows.length; i++)
-      {
-        data.push(res.rows[i]);
-      }
-      
-      return;
+  getAllInventory(id: number) {
+    console.log(id);
+  }
+
+  createInventory(
+    groupId: number,
+    name: string,
+    desc: string,
+    weight: number,
+    cost: number,
+    quantity: number,
+    salePrice: number
+  ) {
+    const data = { groupId, name, desc, weight, cost, quantity, salePrice };
+
+    return this.http.post<{rows: any}>(BACKEND_URL + '/products-add', data)
+      .pipe(
+        map((inventoryData) => {
+          return {
+            inventory: inventoryData.rows.map(e => {
+              return {
+                productId: e.product_id,
+                desc: e.description,
+                name: e.prod_name,
+                cost: e.cost,
+                weight: e.weight,
+                salePrice: e.sales_price,
+                quantity: e.quantity,
+                groupId: e.group_id
+              };
+            })
+          };
+        })
+      ).subscribe(res => {
+        this.inventory = res.inventory;
+        this.inventoryStatusListner.next([...this.inventory]);
+      }, err => {
+        console.log(err);
+      });
+  }
+
+  updateInventory(data: any) {
+    // console.log(data);
+    this.http.put<{message: string}>(BACKEND_URL + '/products/' + data.productId, data).subscribe(res => {
+      // console.log(res.message);
+      this.snackBar.open(res.message, 'Okay', { duration: 5000 });
     });
   }
 
-  updateProduct(newRecordData)
-  {
-    this.http.post(BACKEND_URL + '/updateProduct', newRecordData).pipe(take(1)).subscribe(res => {});
-    return;
+  deleteInventory(id: number) {
+    // console.log(id);
+    return this.http.delete<{message: string}>(BACKEND_URL + '/products/' + id);
   }
 }

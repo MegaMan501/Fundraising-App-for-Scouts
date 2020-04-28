@@ -14,11 +14,6 @@ export class AuthService {
   private tokenTimer: any;
   private userId: string;
 
-  private leaders: Member[] = [];
-  private allLeaderStatusListner = new Subject<Member[]>();
-  private scouts: Member[] = [];
-  private allScoutStatusListner = new Subject<Member[]>();
-
   // Observables
   private role = -1; // admin: 0, leader: 1, scout: 2
   private isAuth = false;
@@ -41,11 +36,6 @@ export class AuthService {
   getAuthStatusListener() { return this.authStatusListener.asObservable(); }
   getAdminStatusListener() { return this.adminStatusListener.asObservable(); }
   getLeaderStatusListener() { return this.leaderStatusListener.asObservable(); }
-
-  getReturnedLeaders() { return this.leaders; }
-  getReturnedScouts() { return this.scouts; }
-  getAllLeaderStatusListener() { return this.allLeaderStatusListner.asObservable(); }
-  getAllScoutStatusListener() { return this.allScoutStatusListner.asObservable(); }
 
   // user login
   login(email: string, password: string) {

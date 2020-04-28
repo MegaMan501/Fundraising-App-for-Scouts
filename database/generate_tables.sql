@@ -64,6 +64,8 @@ CREATE TABLE IF NOT EXISTS product
   weight float,
   cost float,
   sales_price float,
+  group_id int,
+  quantity int,
   PRIMARY KEY (product_id)
 );
 

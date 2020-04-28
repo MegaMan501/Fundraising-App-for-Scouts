@@ -27,6 +27,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 /* External Modules */
@@ -59,7 +60,7 @@ import { EventsLeaderComponent } from './events-leader/events-leader.component';
 import { SalesLeaderComponent } from './sales-leader/sales-leader.component';
 import { SalesScoutComponent } from './sales-scout/sales-scout.component';
 // Inventory
-import { InventoryLeaderComponent } from './inventory-leader/inventory-leader.component';
+import { InventoryLeaderComponent } from './inventory/inventory-leader/inventory-leader.component';
 // Requests
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
 
@@ -71,6 +72,7 @@ import { DialogDeleteComponent } from './dialogs/delete/dialog-delete.component'
 import { DialogEditGroupComponent } from './dialogs/edit-group/edit-group.component';
 import { DialogEditLeaderComponent } from './dialogs/edit-leader/edit-leader.component';
 import { DialogEditScoutComponent } from './dialogs/edit-scout/edit-scout.component';
+import { DialogEditInventoryComponent } from './dialogs/edit-inventory/edit-inventory.component';
 
 
 @NgModule({
@@ -96,6 +98,7 @@ import { DialogEditScoutComponent } from './dialogs/edit-scout/edit-scout.compon
     DialogEditGroupComponent,
     DialogEditLeaderComponent,
     DialogEditScoutComponent,
+    DialogEditInventoryComponent,
     ErrorComponent,
     CardComponent
   ],
@@ -129,6 +132,7 @@ import { DialogEditScoutComponent } from './dialogs/edit-scout/edit-scout.compon
     MatNativeDateModule,
     MatSelectModule,
     MatSortModule,
+    MatSnackBarModule,
     HighchartsChartModule
 
   ],
@@ -143,7 +147,8 @@ import { DialogEditScoutComponent } from './dialogs/edit-scout/edit-scout.compon
     DialogDeleteComponent,
     DialogEditGroupComponent,
     DialogEditLeaderComponent,
-    DialogEditScoutComponent
+    DialogEditScoutComponent,
+    DialogEditInventoryComponent
   ]
 })
 export class AppModule { }

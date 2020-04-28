@@ -47,16 +47,16 @@
         <mat-form-field appearance="standard" class="full-width">
           <mat-label>Group</mat-label>
           <mat-select
-          formControlName="group"
-          required>
-          <mat-option *ngFor="let e of groups" [value]="e.groupId">
-            {{e.groupId}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="scoutForm.controls.group.hasError('required')">
-          Please Select a Group for the Scout.
-        </mat-error>
-      </mat-form-field>
+            formControlName="group"
+            required>
+            <mat-option *ngFor="let e of groups" [value]="e.groupId">
+              {{e.groupId}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="scoutForm.controls.group.hasError('required')">
+            Please Select a Group for the Scout.
+          </mat-error>
+        </mat-form-field>
 
         <!-- Password Input -->
         <mat-form-field appearance="standard" class="full-width">

@@ -18,3 +18,13 @@ export interface Scout {
   email: string;
 }
 
+export interface Inventory {
+  productId: number;
+  name: string;
+  cost: number;
+  weight: number;
+  salePrice: number;
+  desc: string;
+  quantity: number;
+  groupId: number;
+}
