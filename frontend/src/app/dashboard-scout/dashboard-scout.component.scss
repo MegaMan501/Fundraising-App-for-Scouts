@@ -1,0 +1,36 @@
+.divLeft {
+  width:1500px;
+  margin: 70 left;
+  left: 600px;
+  padding: 30px;
+  display:block;
+  background-color:transparent;
+  margin-bottom: 60px;
+}
+.divRight {
+  width:400px;
+  margin: 2 right;
+  padding: 20px;
+  right:100px;
+  top:200px;
+  float: right;
+  position: absolute;
+}
+
+.divBottom {
+  width:100%;
+  margin: 0 auto;
+  padding: 20px;
+  display:block;
+  border-radius: 10px;
+  box-shadow: 2px 4px 25px rgba(0, 0, 0, .5);
+  background-color: white;
+}
+
+table {
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 2px 4px 25px rgba(0, 0, 0, .5);
+  background-color: white;
+}
