@@ -1,7 +1,8 @@
 mat-card {
-  margin: 20px 20px;
-  min-height: 300px;
-  min-width: 400px;
+  margin: 50px 50px 50px 50px;
+  padding: 100px auto 100px auto;
+  min-height: 400px;
+  width: 100%;
 }
 
 mat-spinner {
@@ -44,7 +45,7 @@ table {
   grid-area: troops;
   $scoutTablePrimary: rgb(43, 94, 62);
   $scoutTableAccent: rgb(38, 182, 93);
-  margin: auto 15px auto 15px;
+  margin: 50px 15px auto 15px;
   padding: 100px auto 100px auto;
   background-color: $scoutTableAccent;
   .header {
@@ -80,7 +81,7 @@ table {
   grid-area: members-overview;
   $primary: rgb(230, 88, 63);
   justify-items: center;
-  margin: auto 10px auto 10px;
+  margin: 50px 10px auto 10px;
   padding: 100px auto 100px auto;
   background-color: $primary;
   .header {
@@ -112,6 +113,7 @@ table {
 }
 .members {
   grid-area: members;
+  justify-items: center;
   .mmb {
     display: flex;
     flex-direction: column;
@@ -125,9 +127,11 @@ table {
 
 .events-overview {
   grid-area: events-overview;
+  justify-items: center;
 }
 .events {
   grid-area: events;
+  justify-items: center;
   .evn {
     display: flex;
     flex-direction: column;
@@ -141,8 +145,9 @@ table {
 
 .groups-overview {
   grid-area: groups-overview;
-  margin: auto 10px auto 10px;
+  margin: 50px 10px auto 10px;
   padding: 100px auto 100px auto;
+  justify-content: center;
   background-color: LightSlateGray;
   mat-table {
     background-color: LightSlateGray;
@@ -173,6 +178,7 @@ table {
 }
 .groups {
   grid-area: groups;
+  justify-items: center;
   .grp {
     display: flex;
     flex-direction: column;
@@ -186,9 +192,11 @@ table {
 
 .sales-overview {
   grid-area: sales-overview;
+  justify-items: center;
 }
 .sales {
   grid-area: sales;
+  justify-items: center;
   .sal {
     display: flex;
     flex-direction: column;
@@ -202,9 +210,11 @@ table {
 
 .inventory-overview {
   grid-area: inventory-overview;
+  justify-items: center;
 }
 .inventory {
   grid-area: inventory;
+  justify-items: center;
   .inv {
     display: flex;
     flex-direction: column;
@@ -228,18 +238,19 @@ table {
     .dashboard {
       display: grid;
       height: 100vh;
-      grid-gap: 50px;
-      padding: 50px;
+      grid-gap: 100px;
+      padding: 100px;
+      // align-items: center;
       grid-template-columns: 1fr 1fr;
       grid-template-areas:
       "troops troops"
       "troops-overview troops-overview"
-      "members members"
       "members-overview members-overview"
+      "members members"
       "groups groups"
       "groups-overview groups-overview"
-      // "events events"
-      // "events-overview events-overview"
+      "events events"
+      "events-overview events-overview"
       "sales sales"
       "sales-overview sales-overview"
       "events events"
@@ -254,15 +265,15 @@ table {
     .dashboard {
       display: grid;
       height: 100vh;
-      grid-gap: 50px;
+      grid-gap: 100px;
       align-items: center;
-      padding: 50px;
+      padding: 100px;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-areas:
       "troops-overview troops troops"
-      "members-overview members-overview members"
-      "groups groups-overview groups-overview"
-      // "events-overview events-overview events"
+      "groups-overview groups-overview groups"
+      "members members-overview members-overview"
+      "events-overview events-overview events"
       "sales sales-overview sales-overview"
       "inventory-overview inventory-overview inventory"
       ;

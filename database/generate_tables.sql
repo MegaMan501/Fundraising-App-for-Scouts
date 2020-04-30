@@ -159,5 +159,5 @@ CREATE TABLE IF NOT EXISTS notification (
     message varchar(255),
     start_time DATETIME,
     expiration DATETIME,
-    PRIMARY KEY (notification_id),
+    PRIMARY KEY (notification_id)
 );

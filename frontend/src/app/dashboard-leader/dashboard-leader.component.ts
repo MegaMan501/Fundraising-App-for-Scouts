@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-dashboard-leader',
@@ -19,6 +20,14 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
   @ViewChild('sortLeader', {read: MatSort, static: true}) sortLeader: MatSort;
   @ViewChild('paginatorScout') paginatorScout: MatPaginator;
   @ViewChild('sortScout', {read: MatSort, static: true}) sortScout: MatSort;
+
+  // auth
+  userIsAuth = false;
+  userIsAdmin = false;
+  userIsLeader = false;
+  private authListner: Subscription;
+  private adminListner: Subscription;
+  private leaderListner: Subscription;
 
   // Load status
   isLoadingGroup = true;
@@ -47,7 +56,6 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
   public chartDatasetsTrp: Array<any> = [{data: []}];
   public chartLabelsTrp: Array<any> = [];
   isScoutDataInit = false;
-
   public chartColorsTrp: Array<any> = [
     {
       backgroundColor: ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
@@ -56,22 +64,14 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
     }
   ];
   public chartOptionsTrp: any = { responsive: true };
-  public chartClickedTrp(e: any): void { }
-  public chartHoveredTrp(e: any): void { }
 
-  constructor(public memberService: MemberService, public route: Router) {}
-
-
-
+  // Inventory
   public chartType: string = 'bar';
-
   public chartDatasets: Array<any> = [
     { data: [65, 59, 57, 20, 56, 55, 40], label: ['Sold'] },
     { data: [96, 80, 120, 80, 60, 111, 101], label: ['Total'] },
   ];
-
   public chartLabels: Array<any> = ['Thin Mints', 'Caramel Delites', 'Peanut Butter', 'Smores', 'Chocolate Chip', 'Shortbread'];
-
   public chartColors: Array<any> = [
     {
       backgroundColor: [
@@ -112,7 +112,6 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
       borderWidth: 2,
     },
   ];
-
   public chartOptions: any = {
     responsive: true,
       scales: {
@@ -131,23 +130,14 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
       ]
     }
   };
-  public chartClicked(e: any): void { }
-  public chartHovered(e: any): void { }
 
-
-
-
-
-
+  // Sales
   public chartTypeSal: string = 'line';
-
   public chartDatasetsSal: Array<any> = [
     { data: [65, 59, 80, 81, 56, 55, 40], label: 'Items Sold' },
     { data: [28, 48, 40, 19, 86, 27, 90], label: 'Items Requested' }
   ];
-
   public chartLabelsSal: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
   public chartColorsSal: Array<any> = [
     {
       backgroundColor: 'rgba(105, 0, 132, .2)',
@@ -160,21 +150,16 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
       borderWidth: 2,
     }
   ];
-
   public chartOptionsSal: any = {
     responsive: true
   };
-  public chartClickedSal(e: any): void { }
-  public chartHoveredSal(e: any): void { }
 
+  // Events
   public chartTypeEvn: string = 'horizontalBar';
-
   public chartDatasetsEvn: Array<any> = [
     { data: [65, 59, 80, 81, 56, 55, 40], label: 'Attendence' }
   ];
-
   public chartLabelsEvn: Array<any> = ['January', 'Febuary', 'March', 'April', 'May', 'June'];
-
   public chartColorsEvn: Array<any> = [
     {
       backgroundColor: [
@@ -196,7 +181,6 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
       borderWidth: 2,
     }
   ];
-
   public chartOptionsEvn: any = {
     responsive: true,
       scales: {
@@ -214,10 +198,46 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
     }
 
   };
+
+  constructor(
+    public memberService: MemberService,
+    public route: Router,
+    public authService: AuthService
+  ) {
+    // Auth
+    this.userIsAuth = this.authService.getIsAuth();
+    this.userIsAdmin = this.authService.getIsAdmin();
+    this.userIsLeader = this.authService.getIsLeader();
+  }
+
+  // Chart Listners
+  public chartClickedTrp(e: any): void { }
+  public chartHoveredTrp(e: any): void { }
+  public chartClicked(e: any): void { }
+  public chartHovered(e: any): void { }
+  public chartClickedSal(e: any): void { }
+  public chartHoveredSal(e: any): void { }
   public chartClickedEvn(e: any): void { }
   public chartHoveredEvn(e: any): void { }
 
   ngOnInit() {
+    // Listners
+    this.authListner = this.authService
+    .getAuthStatusListener()
+    .subscribe(isAuth => {
+      this.userIsAuth = isAuth;
+    });
+    this.adminListner = this.authService
+    .getAdminStatusListener()
+    .subscribe( isAdmin => {
+      this.userIsAdmin = isAdmin;
+    });
+    this.leaderListner = this.authService
+    .getLeaderStatusListener()
+    .subscribe(isLeader => {
+      this.userIsLeader = isLeader;
+    });
+
     // Groups
     this.memberService.getGroups();
     this.groupsSub = this.memberService
@@ -231,7 +251,9 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
     });
 
     // Leaders
-    this.memberService.getLeaders();
+    if (this.userIsAdmin) {
+      this.memberService.getLeaders();
+    }
     this.leadersSub = this.memberService
     .getAllLeaderStatusListener()
     .subscribe(results => {
@@ -240,7 +262,6 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
       this.dataSourceLeader.paginator = this.paginatorLeader;
       this.dataSourceLeader.sort = this.sortLeader;
       this.isLoadingLeader = false;
-      console.log();
     });
 
     // Scouts
@@ -253,20 +274,7 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
       this.dataSourceScout.paginator = this.paginatorScout;
       this.dataSourceScout.sort = this.sortScout;
       this.isLoadingScout = false;
-      // const groups: number[] = [];
-      // const trpData: number[] = [];
-      // const trpLabel: string[] = [];
-      // this.scouts.forEach(e => {
-      //   if (!trpLabel.includes('Group ' + e.groupId.toString())) {
-      //     trpLabel.push('Group ' + e.groupId.toString());
-      //   }
-      //   groups[e.groupId] = ++groups[e.groupId] || 1;
-      // });
-      // groups.forEach(e => { trpData.push(e); });
-      // trpLabel.forEach(e => { this.chartLabelsTrp.push(e); });
-      // this.chartDatasetsTrp.push({data: trpData, label: 'Groups' });
-      // setTimeout(() => {
-      // }, 1000);
+
       const scoutResults = this.scouts;
       const groupString = 'group ';
       const array = scoutResults
@@ -344,6 +352,11 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    // Auth
+    this.authListner.unsubscribe();
+    this.adminListner.unsubscribe();
+    this.leaderListner.unsubscribe();
+    // Members
     this.groupsSub.unsubscribe();
     this.leadersSub.unsubscribe();
     this.scoutsSub.unsubscribe();
