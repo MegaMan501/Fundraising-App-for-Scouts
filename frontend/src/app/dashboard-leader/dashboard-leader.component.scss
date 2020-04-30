@@ -4,12 +4,28 @@ mat-card {
   min-width: 400px;
 }
 
-.trp-over canvas {
-  max-height: 500px;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+mat-spinner {
+  margin: 20px auto;
 }
+
+.mat-title {
+  color: rgb(240, 207, 23);
+}
+.mat-title:hover {
+  color: rgb(233, 23, 240);
+}
+
+.trp-over {
+  display: flex;
+  flex-direction: column;
+  canvas {
+    max-height: 500px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 
 table {
   width: 100%;
@@ -18,18 +34,43 @@ table {
 
 .troops-overview {
   grid-area: troops-overview;
+  margin: 20px auto;
+  canvas {
+    height: 100vh;
+    width: 100%;
+  }
 }
 .troops {
   grid-area: troops;
-  padding: 20px 20px 20px 20px;
-  table {
-    background-color: LightSlateGray;
-    max-height: 500px;
-  };
-  mat-paginator {
-    background-color: LightSlateGray;
+  $scoutTablePrimary: rgb(43, 94, 62);
+  $scoutTableAccent: rgb(38, 182, 93);
+  margin: auto 15px auto 15px;
+  padding: 100px auto 100px auto;
+  background-color: $scoutTableAccent;
+  .header {
+    display: flex;
+    flex-direction: row;
+    .spacer {
+      flex: 1 1 auto;
+    }
+    button {
+      margin: 20px 10px 20px 10px;
+      padding: 5px;
+    }
   }
-  td, th, mat-paginator {
+  mat-table {
+    background-color: $scoutTablePrimary;
+    width: 100%;
+    height: 100%;
+  }
+  mat-form-field {
+    margin: 10px 50px;
+    color: white;
+  }
+  mat-paginator {
+    background-color: $scoutTablePrimary;
+  }
+  mat-header-cell, mat-cell, mat-paginator {
     color: white;
   }
 }
@@ -37,19 +78,35 @@ table {
 
 .members-overview {
   grid-area: members-overview;
-  padding: 20px 20px 20px 20px;
-  mat-card {
+  $primary: rgb(230, 88, 63);
+  justify-items: center;
+  margin: auto 10px auto 10px;
+  padding: 100px auto 100px auto;
+  background-color: $primary;
+  .header {
+    display: flex;
+    flex-direction: row;
+    .spacer {
+      flex: 1 1 auto;
+    }
+    button {
+      margin: 20px 10px 20px 10px;
+      padding: 5px;
+    }
+  }
+  mat-table {
+    background-color: $primary;
+    width: 100%;
+    height: 100%;
+  }
+  mat-form-field {
+    margin: 10px 50px;
     color: white;
-    background-color: OrangeRed;
   }
-  table {
-    background-color: OrangeRed;
-    max-height: 500px;
-  };
   mat-paginator {
-    background-color: OrangeRed;
+    background-color: $primary;
   }
-  td, th, mat-paginator {
+  mat-header-cell, mat-cell, mat-paginator {
     color: white;
   }
 }
@@ -72,6 +129,51 @@ table {
 .events {
   grid-area: events;
   .evn {
+    display: flex;
+    flex-direction: column;
+    background-color: LemonChiffon;
+    text-align: center;
+    color: black;
+    justify-content: center;
+    align-items: center;
+  };
+}
+
+.groups-overview {
+  grid-area: groups-overview;
+  margin: auto 10px auto 10px;
+  padding: 100px auto 100px auto;
+  background-color: LightSlateGray;
+  mat-table {
+    background-color: LightSlateGray;
+    width: 100%;
+    height: 100%;
+  }
+  .header {
+    display: flex;
+    flex-direction: row;
+    .spacer {
+      flex: 1 1 auto;
+    }
+    button {
+      margin: 20px 10px 20px 10px;
+      padding: 5px;
+    }
+  }
+  mat-form-field {
+    margin: 10px 50px;
+    color: white;
+  }
+  mat-paginator {
+    background-color: LightSlateGray;
+  }
+  mat-header-cell, mat-cell, mat-paginator {
+    color: white;
+  }
+}
+.groups {
+  grid-area: groups;
+  .grp {
     display: flex;
     flex-direction: column;
     background-color: LemonChiffon;
@@ -126,17 +228,18 @@ table {
     .dashboard {
       display: grid;
       height: 100vh;
-      grid-gap: 20px;
-      margin: 0;
-      padding: 50px 50px 50px 50px;
+      grid-gap: 50px;
+      padding: 50px;
       grid-template-columns: 1fr 1fr;
       grid-template-areas:
       "troops troops"
       "troops-overview troops-overview"
       "members members"
       "members-overview members-overview"
-      "events events"
-      "events-overview events-overview"
+      "groups groups"
+      "groups-overview groups-overview"
+      // "events events"
+      // "events-overview events-overview"
       "sales sales"
       "sales-overview sales-overview"
       "events events"
@@ -151,14 +254,15 @@ table {
     .dashboard {
       display: grid;
       height: 100vh;
-      grid-gap: 20px;
-      // padding: 50px 50px 50px 50px;
+      grid-gap: 50px;
       align-items: center;
+      padding: 50px;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-areas:
-      "troops-overview troops-overview troops"
-      "members members-overview members-overview"
-      "events-overview events-overview events"
+      "troops-overview troops troops"
+      "members-overview members-overview members"
+      "groups groups-overview groups-overview"
+      // "events-overview events-overview events"
       "sales sales-overview sales-overview"
       "inventory-overview inventory-overview inventory"
       ;

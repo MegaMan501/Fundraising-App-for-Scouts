@@ -1,50 +1,67 @@
-import { Component, OnInit } from '@angular/core';
-import { Group, Member } from '../models/all.model';
+import { Component, OnInit, ViewChild, OnDestroy, OnChanges } from '@angular/core';
+import { Group, Member, Scout } from '../models/all.model';
 import { MemberService } from '../members/member.service';
-
-export interface Troop {
-  position: number;
-  name: string;
-  groupid: number;
-  members: number;
-}
-
-export interface Members {
-  position: number;
-  name: string;
-  groupid: number;
-}
-
-const TROOP_DATA: Troop[] = [
-  {position: 1,   name: 'Hydrogen',   groupid: 702311, members: 30},
-  {position: 2,   name: 'Helium',     groupid: 202841, members: 20},
-  {position: 3,   name: 'Lithium',    groupid: 432341, members: 20},
-  {position: 4,   name: 'Beryllium',  groupid: 202341, members: 20},
-  {position: 5,   name: 'Boron',      groupid: 192331, members: 20},
-];
-
-const MEMBERS_DATA: Members[] = [
-  {position: 1,   name: 'Allie Summers',  groupid: 702311},
-  {position: 2,   name: 'Taylor Smith',   groupid: 202841},
-  {position: 3,   name: 'Jessica Byron',  groupid: 432341},
-  {position: 4,   name: 'Sabrina Homes',  groupid: 202341},
-  {position: 5,   name: 'Samatha Harris', groupid: 192331},
-];
+import { Subscription } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-leader',
   templateUrl: './dashboard-leader.component.html',
   styleUrls: ['./dashboard-leader.component.scss']
 })
-export class DashboardLeaderComponent implements OnInit {
+export class DashboardLeaderComponent implements OnInit, OnDestroy {
+  @ViewChild('paginatorGroup') paginatorGroup: MatPaginator;
+  @ViewChild('sortGroup', {read: MatSort, static: true}) sortGroup: MatSort;
+  @ViewChild('paginatorLeader') paginatorLeader: MatPaginator;
+  @ViewChild('sortLeader', {read: MatSort, static: true}) sortLeader: MatSort;
+  @ViewChild('paginatorScout') paginatorScout: MatPaginator;
+  @ViewChild('sortScout', {read: MatSort, static: true}) sortScout: MatSort;
 
+  // Load status
+  isLoadingGroup = true;
+  isLoadingLeader = true;
+  isLoadingScout = true;
+  isTrpChartReady = false;
+
+  // Groups
   groups: Group[] = [];
-  constructor(public memberService: MemberService ) { }
+  displayedColumnsGroups: string[] = ['groupId', 'groupName', 'groupLocation', 'groupDesc'];
+  dataSourceGroup: MatTableDataSource<any>;
+  private groupsSub: Subscription;
 
-  displayedColumns: string[] = ['position', 'name', 'groupid', 'members'];
-  dataSource = TROOP_DATA;
-  displayedColumnsMembers: string[] = ['position', 'name', 'groupid'];
-  dataSourceMembers = MEMBERS_DATA;
+  // Leaders
+  leaders: Member[] = [];
+  displayedColumnsLeader: string[] = ['userId', 'fullname', 'email'];
+  dataSourceLeader: MatTableDataSource<any>;
+  private leadersSub: Subscription;
+
+  // Scouts
+  scouts: Scout[] = [];
+  displayedColumnsScout: string[] = ['userId', 'groupId', 'fullname', 'email'];
+  dataSourceScout: MatTableDataSource<Member>;
+  private scoutsSub: Subscription;
+  public chartTypeTrp: string = 'doughnut';
+  public chartDatasetsTrp: Array<any> = [{data: []}];
+  public chartLabelsTrp: Array<any> = [];
+  isScoutDataInit = false;
+
+  public chartColorsTrp: Array<any> = [
+    {
+      backgroundColor: ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
+      hoverBackgroundColor: ['#FF5A5E', '#5AD3D1', '#FFC870', '#A8B3C5', '#616774'],
+      borderWidth: 2,
+    }
+  ];
+  public chartOptionsTrp: any = { responsive: true };
+  public chartClickedTrp(e: any): void { }
+  public chartHoveredTrp(e: any): void { }
+
+  constructor(public memberService: MemberService, public route: Router) {}
+
+
 
   public chartType: string = 'bar';
 
@@ -118,24 +135,7 @@ export class DashboardLeaderComponent implements OnInit {
   public chartHovered(e: any): void { }
 
 
-  public chartTypeTrp: string = 'doughnut';
 
-  public chartDatasetsTrp: Array<any> = [
-    { data: [30, 50, 32, 40, 20], label: 'My First dataset' }
-  ];
-
-  public chartLabelsTrp: Array<any> = ['Group 1', 'Group 2', 'Group 3', 'Group 4', 'Group 5'];
-
-  public chartColorsTrp: Array<any> = [
-    {
-      backgroundColor: ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
-      hoverBackgroundColor: ['#FF5A5E', '#5AD3D1', '#FFC870', '#A8B3C5', '#616774'],
-      borderWidth: 2,
-    }
-  ];
-  public chartOptionsTrp: any = { responsive: true };
-  public chartClickedTrp(e: any): void { }
-  public chartHoveredTrp(e: any): void { }
 
 
 
@@ -216,6 +216,136 @@ export class DashboardLeaderComponent implements OnInit {
   };
   public chartClickedEvn(e: any): void { }
   public chartHoveredEvn(e: any): void { }
-  ngOnInit(): void {
+
+  ngOnInit() {
+    // Groups
+    this.memberService.getGroups();
+    this.groupsSub = this.memberService
+    .getAllGroupStatusListener()
+    .subscribe(results => {
+      this.groups = results;
+      this.dataSourceGroup = new MatTableDataSource<Group>(this.groups);
+      this.dataSourceGroup.paginator = this.paginatorGroup;
+      this.dataSourceGroup.sort = this.sortGroup;
+      this.isLoadingGroup = false;
+    });
+
+    // Leaders
+    this.memberService.getLeaders();
+    this.leadersSub = this.memberService
+    .getAllLeaderStatusListener()
+    .subscribe(results => {
+      this.leaders = results;
+      this.dataSourceLeader = new MatTableDataSource<Member>(this.leaders);
+      this.dataSourceLeader.paginator = this.paginatorLeader;
+      this.dataSourceLeader.sort = this.sortLeader;
+      this.isLoadingLeader = false;
+      console.log();
+    });
+
+    // Scouts
+    this.memberService.getScouts();
+    this.scoutsSub = this.memberService
+    .getAllScoutStatusListener()
+    .subscribe(results => {
+      this.scouts = results;
+      this.dataSourceScout = new MatTableDataSource<Scout>(this.scouts);
+      this.dataSourceScout.paginator = this.paginatorScout;
+      this.dataSourceScout.sort = this.sortScout;
+      this.isLoadingScout = false;
+      // const groups: number[] = [];
+      // const trpData: number[] = [];
+      // const trpLabel: string[] = [];
+      // this.scouts.forEach(e => {
+      //   if (!trpLabel.includes('Group ' + e.groupId.toString())) {
+      //     trpLabel.push('Group ' + e.groupId.toString());
+      //   }
+      //   groups[e.groupId] = ++groups[e.groupId] || 1;
+      // });
+      // groups.forEach(e => { trpData.push(e); });
+      // trpLabel.forEach(e => { this.chartLabelsTrp.push(e); });
+      // this.chartDatasetsTrp.push({data: trpData, label: 'Groups' });
+      // setTimeout(() => {
+      // }, 1000);
+      const scoutResults = this.scouts;
+      const groupString = 'group ';
+      const array = scoutResults
+      .filter((e, i, a) => a.map(E => E.groupId)
+      .indexOf(e.groupId) === i)
+      .map(el => scoutResults.filter(EL => EL.groupId === el.groupId).length);
+
+      // push the number of members from each group to chart data
+      for (const res of array) {
+        this.chartDatasetsTrp[0].data.push(res);
+      }
+
+      // get unique group ID
+      const result = [... new Set(scoutResults.map(data => data.groupId))];
+
+      // push unique group ID into chart legend
+      for (const res of result) {
+        this.chartLabelsTrp.push(groupString + res);
+      }
+
+      setTimeout(() => {
+        this.isTrpChartReady = true;
+      }, 500);
+    });
+  }
+
+   // Refresh the list of groups
+  onRefreshGroup() {
+    this.isLoadingGroup = true;
+    this.memberService.getGroups();
+    this.isLoadingGroup = false;
+  }
+
+  // Refresh the list of leaders
+  onRefreshLeader() {
+    this.isLoadingLeader = true;
+    this.memberService.getLeaders();
+    this.isLoadingLeader = false;
+  }
+
+  // Refresh the list of scouts
+  onRefreshScout() {
+    this.isLoadingScout = true;
+    this.memberService.getScouts();
+    this.isLoadingScout = false;
+  }
+
+  // Filter the table
+  filterGroup(value: string) {
+    this.dataSourceGroup.filter = value.trim().toLowerCase();
+  }
+
+  // Filter the table
+  filterLeader(value: string) {
+    this.dataSourceLeader.filter = value.trim().toLowerCase();
+  }
+
+  // Filter the table
+  filterScout(value: string) {
+    this.dataSourceScout.filter = value.trim().toLowerCase();
+  }
+
+  routeToLeaders() {
+    this.route.navigate(['/members-leaders']);
+  }
+
+  // RNG Color
+  getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  ngOnDestroy() {
+    this.groupsSub.unsubscribe();
+    this.leadersSub.unsubscribe();
+    this.scoutsSub.unsubscribe();
   }
 }

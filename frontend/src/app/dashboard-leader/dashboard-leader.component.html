@@ -2,9 +2,11 @@
 
   <div class="troops-overview">
     <mat-card class="trp-over">
-      <h1 style="text-align: center;">Troops</h1>
-      <div style="display: block">
-        <canvas mdbChart
+      <h1 style="text-align: center;">Troop Groups</h1>
+      <mat-spinner *ngIf="!isTrpChartReady"></mat-spinner>
+      <div style="display: block" *ngIf="isTrpChartReady">
+        <canvas
+            mdbChart
             [chartType]="chartTypeTrp"
             [datasets]="chartDatasetsTrp"
             [labels]="chartLabelsTrp"
@@ -17,89 +19,93 @@
       </div>
     </mat-card>
   </div>
+  <!-- Scouts -->
   <div class="troops" id="troops-d">
-
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
+    <div class="header">
+      <mat-form-field>
+        <input (keyup)="filterScout($event.target.value)" matInput placeholder="Filter">
+      </mat-form-field>
+      <span class="spacer"></span>
+      <button mat-flat-button color="accent" (click)="onRefreshScout()">Refresh</button>
+    </div>
+    <mat-table [dataSource]="dataSourceScout" #sortScout matSort class="mat-elevation-z8">
       <!-- Position Column -->
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      <ng-container matColumnDef="userId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>UserID</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.userId}} </mat-cell>
       </ng-container>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      <ng-container matColumnDef="groupId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>GroupID</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupId}} </mat-cell>
       </ng-container>
 
       <!-- Weight Column -->
-      <ng-container matColumnDef="groupid">
-        <th mat-header-cell *matHeaderCellDef> Group ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.groupid}} </td>
+      <ng-container matColumnDef="fullname">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Fullname</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.fullname}} </mat-cell>
       </ng-container>
 
       <!-- Symbol Column -->
-      <ng-container matColumnDef="members">
-        <th mat-header-cell *matHeaderCellDef> Members Total </th>
-        <td mat-cell *matCellDef="let element"> {{element.members}} </td>
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+      <mat-header-row *matHeaderRowDef="displayedColumnsScout">       </mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsScout;"> </mat-row>
+    </mat-table>
 
-    <mat-paginator [length]="100"
-            [pageSize]="10"
-            [pageSizeOptions]="[5, 10, 25, 100]">
-    </mat-paginator>
-
-
+    <mat-paginator #paginatorScout [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
 
+  <!-- Leaders -->
   <div class="members-overview">
-    <mat-card class="mmb-overview">
-      <h1>Members</h1>
-      <table mat-table [dataSource]="dataSourceMembers" class="mat-elevation-z8">
+    <div class="header">
+      <mat-form-field>
+        <input (keyup)="filterLeader($event.target.value)" matInput placeholder="Filter">
+      </mat-form-field>
+      <span class="spacer"></span>
+      <button mat-flat-button color="primary" (click)="onRefreshLeader()">Refresh</button>
+    </div>
+    <mat-progress-bar *ngIf="isLoadingLeader" mode="query" color="primary"></mat-progress-bar>
+    <mat-table [dataSource]="dataSourceLeader" #sortLeader matSort class="mat-elevation-z8">
+      <!-- User Id Column -->
+      <ng-container matColumnDef="userId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>UserID</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.userId}} </mat-cell>
+      </ng-container>
 
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-          <th mat-header-cell *matHeaderCellDef> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-        </ng-container>
+      <!-- Full Name Column -->
+      <ng-container matColumnDef="fullname">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Fullname</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.fullname}}  </mat-cell>
+      </ng-container>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Email </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.email}}   </mat-cell>
+      </ng-container>
 
-        <!-- Weight Column -->
-        <ng-container matColumnDef="groupid">
-          <th mat-header-cell *matHeaderCellDef> Group ID </th>
-          <td mat-cell *matCellDef="let element"> {{element.groupid}} </td>
-        </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumnsLeader"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsLeader;"></mat-row>
+    </mat-table>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsMembers"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumnsMembers;"></tr>
-      </table>
-
-      <mat-paginator [length]="100"
-              [pageSize]="10"
-              [pageSizeOptions]="[5, 10, 25, 100]">
-      </mat-paginator>
-    </mat-card>
+    <mat-paginator #paginatorLeader [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
+
   <div class="members" id="members-d">
     <mat-card class="mmb">
-      <h1>Total Members in Troop</h1>
-      <h2>230 Members</h2>
-      <button mat-flat-button color="accent">View</button>
+      <h1 class="mat-headline">Total Leaders in Troop</h1>
+      <h2 class="mat-title"> {{ this.leaders.length }}</h2>
+      <button mat-flat-button color="accent" (click)="routeToLeaders()">Edit Leaders</button>
     </mat-card>
   </div>
 
-  <div class="events-overview">
+  <!-- <div class="events-overview">
     <mat-card class="evn-overview">
+
       <canvas mdbChart
         [chartType]="chartTypeEvn"
         [datasets]="chartDatasetsEvn"
@@ -110,6 +116,7 @@
         (chartHover)="chartHoveredEvn($event)"
         (chartClick)="chartClickedEvn($event)">
       </canvas>
+
     </mat-card>
   </div>
   <div class="events" id="events-d">
@@ -120,8 +127,52 @@
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis mollitia velit voluptate numquam nemo ut ipsam eum dignissimos dolores qui odio, fugit delectus similique nihil ab dolorum deleniti quos aliquid.</p>
       <button mat-flat-button color="accent">View</button>
     </mat-card>
-  </div>
+  </div> -->
 
+  <div class="groups-overview">
+    <div class="header">
+      <mat-form-field>
+        <input (keyup)="filterGroup($event.target.value)" matInput placeholder="Filter">
+      </mat-form-field>
+      <span class="spacer"></span>
+      <button mat-flat-button color="accent" (click)="onRefreshGroup()">Refresh</button>
+    </div>
+    <mat-progress-bar *ngIf="isLoadingGroup" mode="query" color="accent"></mat-progress-bar>
+    <mat-table [dataSource]="dataSourceGroup" #sortGroup matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="groupId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>GroupId</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupId}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="groupName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Group Name</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupName}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="groupLocation">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupLocation}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="groupDesc">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupDesc}} </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumnsGroups"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsGroups;"></mat-row>
+    </mat-table>
+
+    <mat-paginator
+      #paginatorGroup
+      [pageSizeOptions]="[5, 10, 25]"
+       showFirstLastButtons></mat-paginator>
+  </div>
+  <div class="groups" id="groups-d">
+    <mat-card class="grp">
+      <h1>Total Groups</h1>
+      <h2> {{this.groups.length}} </h2>
+      <hr>
+      <button mat-flat-button color="accent">View</button>
+    </mat-card>
+  </div>
+<!--
   <div class="sales-overview">
     <mat-card class="sal-overview">
       <canvas mdbChart
@@ -169,7 +220,7 @@
       <h2>3259 Items</h2>
       <button mat-flat-button color="accent">View</button>
     </mat-card>
-  </div>
+  </div> -->
 
 
 </div>
