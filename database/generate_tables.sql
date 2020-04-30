@@ -150,3 +150,14 @@ CREATE TABLE IF NOT EXISTS task
   FOREIGN KEY (user_id) REFERENCES user(user_id),
   FOREIGN KEY (group_id) REFERENCES groups(group_id)
 );
+
+CREATE TABLE IF NOT EXISTS notification (
+    notification_id int(11) AUTO_INCREMENT UNIQUE,
+    notifier_user_id int(11),
+    receiver_user_id int(11),
+    group_id int(11),
+    message varchar(255),
+    start_time DATETIME,
+    expiration DATETIME,
+    PRIMARY KEY (notification_id),
+);

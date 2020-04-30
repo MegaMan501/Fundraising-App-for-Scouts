@@ -130,3 +130,25 @@ $hoverC: rgb(7, 255, 201);
 .hidden {
   display: none;
 }
+
+::ng-deep .notifications-menu {
+  max-width: 55vw !important;
+  min-width: 40vw !important;
+}
+
+.notifications-item{
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  h3{
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  h5{
+    padding-top: 15px;
+    float: right;
+  }
+}
