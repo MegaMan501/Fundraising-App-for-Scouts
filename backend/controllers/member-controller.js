@@ -122,7 +122,8 @@ exports.addGroup = (req, res, next) => {
 
         // console.log("Successfully Added a Group.", results);
         return res.status(200).json({
-            rows: results[0]
+            rows: results[0],
+            message: `Successfully Added Group ${req.body.group_name}`
         });
     }); 
 }
@@ -170,8 +171,8 @@ exports.addLeader = (req, res, next) => {
 
 // insert a new scout
 exports.addScout = (req, res, next) => {
-    if( req.userData.leader_flag === false &&
-        req.userData.admin_flag === false) 
+    if( req.userData.leader_flag === 0 &&
+        req.userData.admin_flag === 0) 
     {
         return res.status(401).json({
             message: "Authentication Error!"
@@ -233,7 +234,7 @@ exports.deleteGroup = (req, res, next) => {
         // console.log("Successfully Added a Group.", results);
         return res.status(201).json({
             // rows: results[0]
-            message: "Success"
+            message: `Successfully deleted GroupId: ${req.params.id}`
         });
     });  
 }
@@ -330,7 +331,7 @@ exports.updateGroup = (req, res, next) => {
         // console.log("Successfully Updated a Group.", results);
         return res.status(201).json({
             // rows: results[0]
-            message: "Success"
+            message: `Success Updated Group: ${req.body.groupName}`
         });
     }); 
    
@@ -369,7 +370,7 @@ exports.updateLeader = (req, res, next) => {
                 }
                 // console.log("Successfully Added a Leader.", rows);
                 return res.status(201).json({
-                    message: "Succesfully Updated the leader."
+                    message: `Succesfully Updated the leader: ${req.body.fullname}.`
                 });
             }); 
         }).catch( error => {
@@ -392,7 +393,7 @@ exports.updateLeader = (req, res, next) => {
             }
             console.log("Successfully Added a Leader.", rows);
             return res.status(201).json({
-                message: "Succesfully Updated the leader."
+                message: `Succesfully Updated the leader: ${req.body.fullname}.`
             });
         }); 
     }

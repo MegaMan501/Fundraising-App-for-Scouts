@@ -59,6 +59,25 @@ $hoverC: rgb(7, 255, 201);
   .mat-toolbar {
     background: inherit;
   }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+    background-color: rgb(214, 159, 191);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(221, 14, 135);
+  }
+}
+
+.mat-sidenav-content::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: rgb(214, 159, 191);
+}
+
+.mat-sidenav-content::-webkit-scrollbar-thumb {
+    background: rgb(221, 14, 135);
 }
 
 // Sticky Toolbar
@@ -106,4 +125,8 @@ $hoverC: rgb(7, 255, 201);
   .dropdown-item {
     text-align: left;
   }
+}
+
+.hidden {
+  display: none;
 }

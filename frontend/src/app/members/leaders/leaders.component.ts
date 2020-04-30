@@ -9,6 +9,7 @@ import { MemberService } from '../member.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogDeleteComponent } from 'src/app/dialogs/delete/dialog-delete.component';
 import { DialogEditLeaderComponent } from 'src/app/dialogs/edit-leader/edit-leader.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   templateUrl: './leaders.component.html',
@@ -18,13 +19,14 @@ export class LeaderComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   hide = true;
+  isLoading = true;
   leaders: Member[] = [];
   leaderForm: FormGroup;
   displayedColumns: string[] = ['userId', 'fullname', 'email', 'action'];
   dataSource: MatTableDataSource<any>;
   private leadersSub: Subscription;
 
-  constructor(public memberService: MemberService, public dialog: MatDialog) {
+  constructor(public memberService: MemberService, public dialog: MatDialog, public snackbar: MatSnackBar) {
     this.leaderForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       name: new FormControl('', [Validators.required]),
@@ -41,14 +43,22 @@ export class LeaderComponent implements OnInit, OnDestroy {
       this.dataSource = new MatTableDataSource<Member>(this.leaders);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.isLoading = false;
     });
   }
 
+  // Refresh the list of leaders
+  onRefreshLeader() {
+    this.isLoading = true;
+    this.memberService.getLeaders();
+    this.isLoading = false;
+  }
+
+  // Add a leader
   onAddLeader(formDirective: FormGroupDirective) {
     if (this.leaderForm.invalid) {
       return;
     }
-    // console.log(this.leaderForm.value);
     this.memberService.createLeader(
       this.leaderForm.value.email,
       this.leaderForm.value.name,
@@ -60,10 +70,9 @@ export class LeaderComponent implements OnInit, OnDestroy {
 
   // edit a leader
   onEdit(row) {
-    console.log(row);
     const dialogRef = this.dialog.open(DialogEditLeaderComponent, {
       data: {
-        title: 'Edit This Group',
+        title: `Edit This Leader: ${row.fullname}`,
         val: row
       },
       disableClose: true
@@ -75,8 +84,11 @@ export class LeaderComponent implements OnInit, OnDestroy {
         return;
       }
       res.val.pass = res.val.pass ? res.val.pass : '';
+      this.isLoading = true;
       this.memberService.updateLeader(res.val);
+      this.isLoading = false;
     });
+    return;
   }
 
   // delete a leader
@@ -91,9 +103,11 @@ export class LeaderComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        // console.log(res);
-        this.memberService.deleteLeader(row.userId).subscribe(() => {
+        this.isLoading = true;
+        this.memberService.deleteLeader(row.userId).subscribe(response => {
+          this.snackbar.open(response.message.toString(), 'Okay', { duration: 5000 });
           this.memberService.getLeaders(); // get updated list of leaders
+          this.isLoading = false;
         });
       }
       return;

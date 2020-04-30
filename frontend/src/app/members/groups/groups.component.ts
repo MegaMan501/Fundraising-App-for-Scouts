@@ -1,5 +1,4 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from 'src/app/auth/auth.service';
 import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -11,23 +10,29 @@ import { MemberService } from '../member.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogDeleteComponent } from 'src/app/dialogs/delete/dialog-delete.component';
 import { DialogEditGroupComponent } from 'src/app/dialogs/edit-group/edit-group.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.scss']
 })
 export class GroupComponent implements OnInit, OnDestroy {
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   hide = true;
+  isLoading = true;
   groups: Group[] = [];
   groupForm: FormGroup;
   displayedColumns: string[] = ['groupId', 'groupName', 'groupLocation', 'groupDesc', 'action'];
   dataSource: MatTableDataSource<any>;
   private groupsSub: Subscription;
 
-  constructor(public memberService: MemberService, public dialog: MatDialog) {
+  constructor(
+    public memberService: MemberService,
+    public dialog: MatDialog,
+    public snackbar: MatSnackBar
+  ) {
     this.groupForm = new FormGroup({
-      groupId: new FormControl('', [Validators.required]),
+      groupId: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
       groupName: new FormControl('', [Validators.required]),
       groupLocation: new FormControl('', [Validators.required]),
       groupDesc: new FormControl()
@@ -43,10 +48,19 @@ export class GroupComponent implements OnInit, OnDestroy {
       this.dataSource = new MatTableDataSource<Group>(this.groups);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.isLoading = false;
     });
 
   }
 
+  // Refresh the list of groups
+  onRefreshGroup() {
+    this.isLoading = true;
+    this.memberService.getGroups();
+    this.isLoading = false;
+  }
+
+  // Add a group
   onAddGroup(formDirective: FormGroupDirective) {
     if (this.groupForm.invalid) {
       return;
@@ -78,8 +92,9 @@ export class GroupComponent implements OnInit, OnDestroy {
         this.memberService.getGroups();
         return;
       }
-      // console.log(res.val);
+      this.isLoading = true;
       this.memberService.updateGroup(res.val, prevGroup);
+      this.isLoading = false;
     });
   }
 
@@ -87,7 +102,7 @@ export class GroupComponent implements OnInit, OnDestroy {
   onDelete(row) {
     const dialogRef = this.dialog.open(DialogDeleteComponent, {
       data: {
-        title: 'Are You Sure You Want To Delete This Group?',
+        title: `Are You Sure You Want To Delete Group: ${row.groupName}?`,
         val: row
       },
       disableClose: true
@@ -96,8 +111,12 @@ export class GroupComponent implements OnInit, OnDestroy {
     // delete the group by id
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.memberService.deleteGroup(row.groupId).subscribe(() => {
+        this.isLoading = true;
+        this.memberService.deleteGroup(row.groupId)
+        .subscribe(response => {
+          this.snackbar.open(response.message.toString(), 'Okay', { duration: 5000 });
           this.memberService.getGroups();
+          this.isLoading = false;
         });
       }
       return;

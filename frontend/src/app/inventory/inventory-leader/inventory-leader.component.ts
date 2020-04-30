@@ -20,6 +20,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class InventoryLeaderComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  isLoading = true;
   displayedColumns: string[] = ['productId', 'groupId', 'name', 'cost', 'salePrice', 'weight', 'quantity', 'desc', 'action'];
   inventory: Inventory[] = [];
   groups: Group[] = [];
@@ -58,6 +59,7 @@ export class InventoryLeaderComponent implements OnInit, OnDestroy {
       this.dataSource = new MatTableDataSource<Inventory>(this.inventory);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.isLoading = false;
     });
 
     // Groups Sub
@@ -67,6 +69,12 @@ export class InventoryLeaderComponent implements OnInit, OnDestroy {
     .subscribe(res => {
       this.groups = res;
     });
+  }
+
+  onRefreshInventory() {
+    this.isLoading = true;
+    this.inventoryService.getInventory();
+    this.isLoading = false;
   }
 
   onAddInventory(formDirective: FormGroupDirective) {
@@ -116,7 +124,9 @@ export class InventoryLeaderComponent implements OnInit, OnDestroy {
         quantity: res.val.quantity,
         groupId: res.val.groupId
       };
+      this.isLoading = true;
       this.inventoryService.updateInventory(data);
+      this.isLoading = false;
     });
   }
 
@@ -132,9 +142,11 @@ export class InventoryLeaderComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
+        this.isLoading = true;
         this.inventoryService.deleteInventory(row.productId).subscribe(msg => {
           this.snackbar.open(msg.message.toString(), 'Okay', { duration: 5000 });
           this.inventoryService.getInventory();
+          this.isLoading = false;
         });
       }
       return;

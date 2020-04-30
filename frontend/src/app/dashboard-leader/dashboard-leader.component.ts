@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Group, Member } from '../models/all.model';
+import { MemberService } from '../members/member.service';
 
 export interface Troop {
   position: number;
@@ -35,9 +37,9 @@ const MEMBERS_DATA: Members[] = [
   styleUrls: ['./dashboard-leader.component.scss']
 })
 export class DashboardLeaderComponent implements OnInit {
-  panelOpenState = false;
 
-  constructor() { }
+  groups: Group[] = [];
+  constructor(public memberService: MemberService ) { }
 
   displayedColumns: string[] = ['position', 'name', 'groupid', 'members'];
   dataSource = TROOP_DATA;

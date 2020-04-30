@@ -1,11 +1,9 @@
-<mat-sidenav-container class="sidenav-container">
 
+<mat-sidenav-container class="sidenav-container">
   <!-- Side Nav -->
   <mat-sidenav
       #drawer
       class="sidenav"
-      fixedInViewport="false"
-      [ngClass]="{hidden: (isHandset$ | async) === false}"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">

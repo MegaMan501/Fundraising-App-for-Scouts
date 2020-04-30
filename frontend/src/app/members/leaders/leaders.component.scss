@@ -36,12 +36,25 @@ mat-spinner {
 }
 
 .ltable {
+  $primary: rgb(230, 88, 63);
   grid-area: ltable;
-  margin: auto 15px auto 15px;
-  padding: 50px auto;
-  background-color: rgb(255, 94, 0);
-  table {
-    background-color: rgb(255, 94, 0);
+  justify-items: center;
+  margin: auto 10px auto 10px;
+  padding: 50px auto 50px auto;
+  background-color: $primary;
+  .header {
+    display: flex;
+    flex-direction: row;
+    .spacer {
+      flex: 1 1 auto;
+    }
+    button {
+      margin: 20px 10px 20px 10px;
+      padding: 5px;
+    }
+  }
+  mat-table {
+    background-color: $primary;
     width: 100%;
     height: 100%;
   }
@@ -50,9 +63,9 @@ mat-spinner {
     color: white;
   }
   mat-paginator {
-    background-color: rgb(255, 94, 0);
+    background-color: $primary;
   }
-  td, th, mat-paginator {
+  mat-header-cell, mat-cell, mat-paginator {
     color: white;
   }
   button {
@@ -78,7 +91,7 @@ mat-spinner {
       // width: 100vw;
       grid-gap: 0px;
       margin: 0;
-      padding: 0;
+      padding: 20px;
       grid-template-columns: 1fr 1fr;
       grid-template-areas:
       "lcard lcard"
@@ -91,6 +104,7 @@ mat-spinner {
     .leader {
       display: grid;
       grid-gap: 0px;
+      padding: 20px;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-areas:
       "lcard ltable ltable"

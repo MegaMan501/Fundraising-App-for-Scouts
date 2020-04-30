@@ -13,6 +13,7 @@ import { Group } from '../models/all.model';
   styleUrls: ['./main-nav.component.scss']
 })
 export class MainNavComponent implements OnInit, OnDestroy {
+  isHandset$: Observable<boolean>;
   userIsAuth = false;
   userIsAdmin = false;
   userIsLeader = false;
@@ -33,11 +34,6 @@ export class MainNavComponent implements OnInit, OnDestroy {
     private memberService: MemberService
   ) {}
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
 
   ngOnInit() {
     // Are we authenticated
@@ -68,6 +64,12 @@ export class MainNavComponent implements OnInit, OnDestroy {
       this.groups = res;
       this.gid = this.memberService.getGroupId();
     });
+
+    this.isHandset$ = this.breakpointObserver
+    .observe(['(max-width: 600px)']) // previously: Breakpoints.Handset
+    .pipe(
+      map(result => result.matches), shareReplay()
+    );
   }
 
   onLogout() {

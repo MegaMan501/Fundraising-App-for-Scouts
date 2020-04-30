@@ -23,6 +23,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
@@ -57,8 +58,8 @@ import { ScoutComponent } from './members/scouts/scouts.component';
 // Events
 import { EventsLeaderComponent } from './events-leader/events-leader.component';
 // Sales
-import { SalesLeaderComponent } from './sales-leader/sales-leader.component';
-import { SalesScoutComponent } from './sales-scout/sales-scout.component';
+import { SalesLeaderComponent } from './sale/sales-leader/sales-leader.component';
+import { SalesScoutComponent } from './sale/sales-scout/sales-scout.component';
 // Inventory
 import { InventoryLeaderComponent } from './inventory/inventory-leader/inventory-leader.component';
 // Requests
@@ -127,6 +128,7 @@ import { DialogEditInventoryComponent } from './dialogs/edit-inventory/edit-inve
     MatCardModule,
     MatListModule,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,

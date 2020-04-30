@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
-import { SaleService } from '../sale/sale.service';
-import { InventoryService } from '../inventory/inventory.service';
+import { SaleService } from '../sale.service';
+import { InventoryService } from '../../inventory/inventory.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { DatePipe } from '@angular/common';

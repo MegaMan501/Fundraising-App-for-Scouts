@@ -63,15 +63,22 @@ BEGIN
     INTO isLeader 
     FROM user WHERE user_id = userId AND leader_flag = 1;
 	    
-    # if admin get groups
     IF isAdmin >= 1 THEN
+		# if admin get all groups
 		SELECT group_id,group_name,location,group_desc 
-        FROM groups WHERE user_id;
-	END IF; 
-	IF isLeader >= 1 THEN
+        FROM groups;
+	ELSEIF isLeader >= 1 THEN
+		# if leader get all groups that leader owns
 		SELECT group_id,group_name,location,group_desc 
         FROM groups WHERE user_id = userId;
-	END IF;    
+	ELSE 
+		# if scout get only the group that they belong to
+		SELECT g.group_id, g.group_name, g.location, g.group_desc 
+        FROM groups as g
+        INNER JOIN members as m
+        ON g.group_id = m.group_id
+        WHERE m.user_id = userId;
+	END IF;   
 END//
 DELIMITER ;
 
@@ -180,7 +187,7 @@ BEGIN
     IF isAdmin >= 1 THEN	   
         # return updated list of leaders
         SELECT user_id, full_name, email
-        FROM user WHERE user_id != userId; 
+        FROM user WHERE user_id != userId AND leader_flag=1; 
 	END IF;
     
 END//
@@ -584,14 +591,11 @@ BEGIN
     INTO isLeader 
     FROM user WHERE user_id = userId AND leader_flag = 1;
 	
-    # if admin insert
+    # Get Products from different roles
     IF isAdmin >= 1 THEN
 		# return all products
 		SELECT * FROM product;
-	END IF;
-    
-    #if leader insert 
-    IF isLeader >= 1 THEN
+	ELSEIF isLeader >= 1 THEN
         # return updated list of products per group
     	SELECT 
 			p.product_id,
@@ -606,6 +610,20 @@ BEGIN
 		INNER JOIN groups as g
 		ON p.group_id = g.group_id
 		WHERE g.user_id = userId;
+	ELSE 
+		SELECT 
+			p.product_id,
+			p.group_id,
+			p.prod_name,
+			p.description,
+			p.weight,
+			p.cost,
+			p.sales_price,
+			p.quantity
+		FROM product as p
+        INNER JOIN members as m
+		ON p.group_id = m.group_id
+		WHERE m.user_id = userId;
 	END IF;
 END//
 DELIMITER ;

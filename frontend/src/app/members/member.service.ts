@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 // Internal
 import { Member, Group, Scout } from '../models/all.model';
 import { environment as env } from '../../environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const BACKEND_URL = env.BACKEND_URL + 'member';
 
@@ -23,7 +24,11 @@ export class MemberService {
   private allScoutStatusListner = new Subject<Scout[]>();
   private allGroupStatusListner = new Subject<Group[]>();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    public snackBar: MatSnackBar
+  ) {}
 
   // Getters
   getReturnedLeaders() { return this.leaders; }
@@ -86,15 +91,15 @@ export class MemberService {
 
   // update leader
   updateLeader(data: any) {
-    this.http.put(BACKEND_URL + '/leader/' + data.userId, data)
+    this.http.put<{message: string}>(BACKEND_URL + '/leader/' + data.userId, data)
     .subscribe(res => {
-      // console.log(res);
+      this.snackBar.open(res.message, 'Okay', { duration: 5000 });
     });
   }
 
   // delete a leader
   deleteLeader(userId: number) {
-    return this.http.delete(BACKEND_URL + '/leader/' + userId);
+    return this.http.delete<{message: string}>(BACKEND_URL + '/leader/' + userId);
   }
 
   // create a new scout
@@ -151,15 +156,14 @@ export class MemberService {
 
   // update scout
   updateScout(data: any) {
-    // console.log(data);
-    this.http.put(BACKEND_URL + '/scout/' + data.userId, data).subscribe(res => {
-      // console.log(res);
+    this.http.put<{message: string}>(BACKEND_URL + '/scout/' + data.userId, data).subscribe(res => {
+      this.snackBar.open(res.message, 'Okay', { duration: 5000 });
     });
   }
 
   // delete a scout
   deleteScout(uid: number, gid: number) {
-    return this.http.delete(BACKEND_URL + '/scout/' + uid + '/' + gid);
+    return this.http.delete<{message: string}>(BACKEND_URL + '/scout/' + uid + '/' + gid);
   }
 
   // create a new group
@@ -171,7 +175,7 @@ export class MemberService {
   ) {
     const data = { groupId, group_name, location, group_desc };
 
-    this.http.post<{rows: any}>(BACKEND_URL + '/add-group', data)
+    this.http.post<{rows: any, message: string}>(BACKEND_URL + '/add-group', data)
       .pipe(
         map((uGroups) => {
           return {
@@ -183,11 +187,13 @@ export class MemberService {
                 groupDesc: e.group_desc
               };
             }),
+            message: uGroups.message
           };
         })
       )
       .subscribe(res => {
         // console.log(res);
+        this.snackBar.open(res.message.toString(), 'Okay', { duration: 5000 });
         this.groups = res.groups;
         this.allGroupStatusListner.next([...this.groups]);
       }, err => {
@@ -214,7 +220,6 @@ export class MemberService {
       })
     )
     .subscribe(modData => {
-      // console.log(modData.groups);
       this.groups = modData.groups;
       this.allGroupStatusListner.next([...this.groups]);
     });
@@ -222,20 +227,19 @@ export class MemberService {
 
   // delete the group
   deleteGroup(groupid: number) {
-    return this.http.delete(BACKEND_URL + '/group/' + groupid);
+    return this.http.delete<{message: string}>(BACKEND_URL + '/group/' + groupid);
   }
 
   // update the group
   updateGroup(data: Group, prevGroup: number) {
-    this.http.put(BACKEND_URL + '/group/' + prevGroup, data)
+    this.http.put<{message: string}>(BACKEND_URL + '/group/' + prevGroup, data)
     .subscribe(res => {
-      // console.log(res);
+      this.snackBar.open(res.message, 'Okay', { duration: 5000 });
     });
   }
 
   // selected group
   setGroupId(id: number) {
-    // console.log(id);
     this.gid = id;
     this.gidStatusListner.next(this.gid);
   }

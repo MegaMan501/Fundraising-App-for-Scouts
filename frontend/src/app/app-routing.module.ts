@@ -7,11 +7,11 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { DashboardLeaderComponent } from './dashboard-leader/dashboard-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
 import { InventoryLeaderComponent } from './inventory/inventory-leader/inventory-leader.component';
-import { SalesLeaderComponent } from './sales-leader/sales-leader.component';
+import { SalesLeaderComponent } from './sale/sales-leader/sales-leader.component';
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
 import { AuthGuard } from './auth/auth.guard';
 import { EventsLeaderComponent } from './events-leader/events-leader.component';
-import { SalesScoutComponent } from './sales-scout/sales-scout.component';
+import { SalesScoutComponent } from './sale/sales-scout/sales-scout.component';
 import { GroupComponent } from './members/groups/groups.component';
 import { LeaderComponent } from './members/leaders/leaders.component';
 import { ScoutComponent } from './members/scouts/scouts.component';
