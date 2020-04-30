@@ -790,9 +790,7 @@ BEGIN
 		FROM sale AS s 
 		INNER JOIN product AS p 
 		ON s.product_id=p.product_id;
-	END IF;
-    
-    IF isLeader >= 1 THEN
+	ELSE
 		SELECT s.sale_id, p.prod_name, s.quantity, s.price, s.sale_date 
 		FROM sale AS s 
 		INNER JOIN product AS p 

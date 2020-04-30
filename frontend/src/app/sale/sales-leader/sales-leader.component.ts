@@ -43,7 +43,9 @@ export class SalesLeaderComponent implements OnInit {
   }
 
   onRefreshInventory() {
-
+    this.isLoading = true;
+    this.saleService.getGroupSales();
+    this.isLoading = false;
   }
 
   onAddInventory(formDirective: FormGroupDirective) {

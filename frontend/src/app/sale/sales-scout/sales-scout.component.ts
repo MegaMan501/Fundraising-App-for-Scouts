@@ -100,12 +100,14 @@ export class SalesScoutComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      this.isLoading = true;
-      this.saleService.deleteSale(row.saleId).subscribe(msg => {
-        this.snackbar.open(msg.message.toString(), 'Okay', { duration: 5000 });
-        this.saleService.getSales();
-        this.isLoading = false;
-      });
+      if (res) {
+        this.isLoading = true;
+        this.saleService.deleteSale(row.saleId).subscribe(msg => {
+          this.snackbar.open(msg.message.toString(), 'Okay', { duration: 5000 });
+          this.saleService.getSales();
+          this.isLoading = false;
+        });
+      }
       return;
     });
   }
