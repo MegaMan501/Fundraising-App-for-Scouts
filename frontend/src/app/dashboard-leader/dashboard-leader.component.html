@@ -59,8 +59,52 @@
     <mat-paginator #paginatorScout [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
 
+  <div class="groups-overview">
+    <div class="header">
+      <mat-form-field>
+        <input (keyup)="filterGroup($event.target.value)" matInput placeholder="Filter">
+      </mat-form-field>
+      <span class="spacer"></span>
+      <button mat-flat-button color="accent" (click)="onRefreshGroup()">Refresh</button>
+    </div>
+    <mat-progress-bar *ngIf="isLoadingGroup" mode="query" color="accent"></mat-progress-bar>
+    <mat-table [dataSource]="dataSourceGroup" #sortGroup matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="groupId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>GroupId</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupId}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="groupName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Group Name</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupName}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="groupLocation">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupLocation}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="groupDesc">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupDesc}} </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumnsGroups"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsGroups;"></mat-row>
+    </mat-table>
+    <mat-paginator
+      #paginatorGroup
+      [pageSizeOptions]="[5, 10, 25]"
+       showFirstLastButtons></mat-paginator>
+  </div>
+  <div class="groups" id="groups-d">
+    <mat-card class="grp">
+      <h1>Total Groups</h1>
+      <h2> {{this.groups.length}} </h2>
+      <hr>
+      <button mat-flat-button color="accent">View</button>
+    </mat-card>
+  </div>
+
+
   <!-- Leaders -->
-  <div class="members-overview">
+  <div class="members-overview" *ngIf="userIsAdmin">
     <div class="header">
       <mat-form-field>
         <input (keyup)="filterLeader($event.target.value)" matInput placeholder="Filter">
@@ -94,8 +138,7 @@
 
     <mat-paginator #paginatorLeader [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
-
-  <div class="members" id="members-d">
+  <div class="members" id="members-d" *ngIf="userIsAdmin">
     <mat-card class="mmb">
       <h1 class="mat-headline">Total Leaders in Troop</h1>
       <h2 class="mat-title"> {{ this.leaders.length }}</h2>
@@ -103,7 +146,7 @@
     </mat-card>
   </div>
 
-  <!-- <div class="events-overview">
+  <div class="events-overview">
     <mat-card class="evn-overview">
 
       <canvas mdbChart
@@ -127,52 +170,8 @@
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis mollitia velit voluptate numquam nemo ut ipsam eum dignissimos dolores qui odio, fugit delectus similique nihil ab dolorum deleniti quos aliquid.</p>
       <button mat-flat-button color="accent">View</button>
     </mat-card>
-  </div> -->
-
-  <div class="groups-overview">
-    <div class="header">
-      <mat-form-field>
-        <input (keyup)="filterGroup($event.target.value)" matInput placeholder="Filter">
-      </mat-form-field>
-      <span class="spacer"></span>
-      <button mat-flat-button color="accent" (click)="onRefreshGroup()">Refresh</button>
-    </div>
-    <mat-progress-bar *ngIf="isLoadingGroup" mode="query" color="accent"></mat-progress-bar>
-    <mat-table [dataSource]="dataSourceGroup" #sortGroup matSort class="mat-elevation-z8">
-      <ng-container matColumnDef="groupId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>GroupId</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.groupId}} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="groupName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Group Name</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.groupName}} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="groupLocation">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.groupLocation}} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="groupDesc">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.groupDesc}} </mat-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumnsGroups"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumnsGroups;"></mat-row>
-    </mat-table>
-
-    <mat-paginator
-      #paginatorGroup
-      [pageSizeOptions]="[5, 10, 25]"
-       showFirstLastButtons></mat-paginator>
   </div>
-  <div class="groups" id="groups-d">
-    <mat-card class="grp">
-      <h1>Total Groups</h1>
-      <h2> {{this.groups.length}} </h2>
-      <hr>
-      <button mat-flat-button color="accent">View</button>
-    </mat-card>
-  </div>
-<!--
+
   <div class="sales-overview">
     <mat-card class="sal-overview">
       <canvas mdbChart
@@ -220,7 +219,7 @@
       <h2>3259 Items</h2>
       <button mat-flat-button color="accent">View</button>
     </mat-card>
-  </div> -->
+  </div>
 
 
 </div>

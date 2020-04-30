@@ -38,7 +38,12 @@ export class MainNavComponent implements OnInit, OnDestroy {
     private router: Router,
     private memberService: MemberService,
     private notificationService: NotificationService
-  ) {}
+  ) {
+    // Are we authenticated
+    this.userIsAuth = this.authService.getIsAuth();
+    this.userIsAdmin = this.authService.getIsAdmin();
+    this.userIsLeader = this.authService.getIsLeader();
+  }
 
 
   ngOnInit() {
@@ -76,7 +81,10 @@ export class MainNavComponent implements OnInit, OnDestroy {
     .pipe(
       map(result => result.matches), shareReplay()
     );
-    
+
+    if (this.userIsAdmin) {
+      this.notificationService.getNotifications();
+    }
     this.notifSub = this.notificationService
     .getAllNotificationsStatusListener()
     .subscribe(res => {
@@ -107,7 +115,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
     this.memberService.getGroups();
   }
 
-  onNotification(){
+  onNotification() {
     this.notificationService.getNotifications();
   }
 

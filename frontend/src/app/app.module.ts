@@ -44,9 +44,6 @@ import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
-
-// Charts
-import { CardComponent } from './charts/card/card.component';
 // Dashboard
 import { DashboardLeaderComponent } from './dashboard-leader/dashboard-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
@@ -100,8 +97,7 @@ import { DialogEditInventoryComponent } from './dialogs/edit-inventory/edit-inve
     DialogEditLeaderComponent,
     DialogEditScoutComponent,
     DialogEditInventoryComponent,
-    ErrorComponent,
-    CardComponent
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

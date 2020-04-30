@@ -147,7 +147,7 @@
 <!--------------------------------------------------------------------------->
 
 
-  <div class="leaders">
+  <div class="leaders" *ngIf="userIsAdmin">
     <div class="circle-tile ">
       <a routerLinkActive="activeRoute" [routerLink]="['/members-leaders']">
         <div class="circle-tile-heading red"><i class="fa fa-users fa-fw fa-3x"></i>
@@ -166,7 +166,7 @@
 
 
 
-    <div class="aLeaderTable animation">
+    <div class="aLeaderTable animation" *ngIf="userIsAdmin">
     <div class="title">Leader Table</div>
       <mat-form-field>
         <input (keyup)="filterLeader($event.target.value)" matInput placeholder="Filter">
