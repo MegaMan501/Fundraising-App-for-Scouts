@@ -770,7 +770,35 @@ CREATE PROCEDURE getSale (
     IN userId INT
 )
 BEGIN
-    SELECT s.sale_id, p.prod_name, s.quantity, s.price, s.sale_date FROM sale AS s INNER JOIN product AS p ON s.product_id=p.product_id WHERE userId=s.user_id;
+	DECLARE isAdmin INT DEFAULT 0;
+    DECLARE isLeader INT DEFAULT 0;
+	
+    # get the status of admin
+    SELECT COUNT(admin_flag) 
+    INTO isAdmin
+    FROM user 
+    WHERE user_id = userId AND admin_flag = 1; 
+    
+	# get the status of leader
+	SELECT COUNT(leader_flag) 
+    INTO isLeader 
+    FROM user WHERE user_id = userId AND leader_flag = 1;
+    
+    IF isAdmin >= 1 THEN
+		# return all products
+		SELECT s.sale_id, p.prod_name, s.quantity, s.price, s.sale_date 
+		FROM sale AS s 
+		INNER JOIN product AS p 
+		ON s.product_id=p.product_id;
+	END IF;
+    
+    IF isLeader >= 1 THEN
+		SELECT s.sale_id, p.prod_name, s.quantity, s.price, s.sale_date 
+		FROM sale AS s 
+		INNER JOIN product AS p 
+		ON s.product_id=p.product_id 
+		WHERE s.user_id=userId;
+	END IF;
 END//
 DELIMITER ;
 
@@ -800,7 +828,7 @@ DELIMITER ;
 # delete a sale from the database
 DELIMITER //
 CREATE PROCEDURE deleteSale (
-	IN saleId INT,
+	IN saleId INT
 )
 BEGIN
     DELETE FROM sale 
@@ -831,16 +859,47 @@ CREATE PROCEDURE getGroupSales (
 	IN userId INT
 )
 BEGIN
-    SELECT m.group_id, u.full_name, p.prod_name, s.quantity, s.price, s.sale_date
-    FROM members AS m
-    INNER JOIN user AS u
-    ON u.user_id=m.user_id
-    INNER JOIN sale AS s
-    ON u.user_id=s.user_id
-    INNER JOIN product AS p
-    ON s.product_id=p.product_id
-    INNER JOIN groups AS g
-    ON g.group_id=m.group_id
-    WHERE (g.user_id = userId);
+
+	DECLARE isAdmin INT DEFAULT 0;
+    DECLARE isLeader INT DEFAULT 0;
+	
+    # get the status of admin
+    SELECT COUNT(admin_flag) 
+    INTO isAdmin
+    FROM user 
+    WHERE user_id = userId AND admin_flag = 1; 
+    
+	# get the status of leader
+	SELECT COUNT(leader_flag) 
+    INTO isLeader 
+    FROM user WHERE user_id = userId AND leader_flag = 1;
+    
+    
+    IF isAdmin >= 1 THEN
+		SELECT m.group_id, u.full_name, p.prod_name, s.quantity, s.price, s.sale_date
+		FROM members AS m
+		INNER JOIN user AS u
+		ON u.user_id=m.user_id
+		INNER JOIN sale AS s
+		ON u.user_id=s.user_id
+		INNER JOIN product AS p
+		ON s.product_id=p.product_id
+		INNER JOIN groups AS g
+		ON g.group_id=m.group_id;
+	END IF;
+    
+    IF isLeader >= 1 THEN
+		SELECT m.group_id, u.full_name, p.prod_name, s.quantity, s.price, s.sale_date
+		FROM members AS m
+		INNER JOIN user AS u
+		ON u.user_id=m.user_id
+		INNER JOIN sale AS s
+		ON u.user_id=s.user_id
+		INNER JOIN product AS p
+		ON s.product_id=p.product_id
+		INNER JOIN groups AS g
+		ON g.group_id=m.group_id
+		WHERE (g.user_id = userId);
+	END IF;
 END//
 DELIMITER ;

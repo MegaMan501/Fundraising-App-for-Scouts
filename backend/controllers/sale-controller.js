@@ -16,6 +16,7 @@ exports.getSales = (req, res, next) => {
                 });
             }
 
+            // console.log(results[0]);
             return res.status(200).json({
                 rows: results[0],
             });

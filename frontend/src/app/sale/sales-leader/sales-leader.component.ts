@@ -18,7 +18,7 @@ export class SalesLeaderComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   isLoading = true;
-  displayedColumns: string[] = ['groupName', 'scoutName', 'productName', 'quantity', 'price', 'saleDate'];
+  displayedColumns: string[] = ['groupId', 'scoutName', 'productName', 'quantity', 'price', 'saleDate'];
   sales: detailedSale[] = [];
 
   dataSource: MatTableDataSource<detailedSale>;

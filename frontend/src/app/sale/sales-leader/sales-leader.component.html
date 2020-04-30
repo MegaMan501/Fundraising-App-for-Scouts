@@ -1,22 +1,18 @@
-<div class="sales">
+<!-- <div class="sales">
   <div class="div3">
     <div class="row">
       <div class="col-md">
-        <!--Card-->
         <mdb-card cascade="true" wider="true">
 
-          <!--Card image-->
+
           <div class="view view-cascade overlay waves-light" mdbWavesEffect>
             <mdb-card-img src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera-course-photos.s3.amazonaws.com/70/d0d980933311e7bbd09b5119705dcb/5--Sales-Strategy-Final-Project.jpg?auto=format%2Ccompress&dpr=1"></mdb-card-img>
             <a>
               <div class="mask rgba-white-slight"></div>
             </a>
           </div>
-          <!--/Card image-->
 
           <mdb-card-body cascade="true" class="text-center">
-            <!--Card content-->
-            <!--Title-->
             <h4 class="card-title">
               <strong>Total Sales</strong>
             </h4>
@@ -29,28 +25,21 @@
             </mdb-card-text>
 
           </mdb-card-body>
-          <!--/.Card content-->
 
         </mdb-card>
-        <!--/.Card-->
       </div>
 
       <div class="col-md">
-        <!--Card-->
         <mdb-card cascade="true" wider="true">
 
-          <!--Card image-->
           <div class="view view-cascade overlay waves-light" mdbWavesEffect>
             <mdb-card-img src="https://blog.leonardo.com/wp-content/uploads/2017/11/Revenue-going-up.jpg"></mdb-card-img>
             <a>
               <div class="mask rgba-white-slight"></div>
             </a>
           </div>
-          <!--/Card image-->
 
           <mdb-card-body cascade="true" class="text-center">
-            <!--Card content-->
-            <!--Title-->
             <h4 class="card-title">
               <strong>Actual Revenue</strong>
             </h4>
@@ -63,28 +52,21 @@
             </mdb-card-text>
 
           </mdb-card-body>
-          <!--/.Card content-->
 
         </mdb-card>
-        <!--/.Card-->
       </div>
 
       <div class="col-md">
-        <!--Card-->
         <mdb-card cascade="true" wider="true">
 
-          <!--Card image-->
           <div class="view view-cascade overlay waves-light" mdbWavesEffect>
             <mdb-card-img src="https://ungerboeck.com/images/blog/images/AAEAAQAAAAAAAAUwAAAAJDA2ZmMwYjU4LTBlNTYtNGRlOS1iOGQ5LTU4ZjczMzQ3YTU3MQ.jpg"></mdb-card-img>
             <a>
               <div class="mask rgba-white-slight"></div>
             </a>
           </div>
-          <!--/Card image-->
 
           <mdb-card-body cascade="true" class="text-center">
-            <!--Card content-->
-            <!--Title-->
             <h4 class="card-title">
               <strong>Total Event Sales</strong>
             </h4>
@@ -97,72 +79,101 @@
             </mdb-card-text>
 
           </mdb-card-body>
-          <!--/.Card content-->
 
         </mdb-card>
-        <!--/.Card-->
       </div>
   </div>
 </div>
-</div>
+</div> -->
 
-<div class="atable" id="table">
-  <div class="header">
-    <mat-form-field>
-      <input (keyup)="filter($event.target.value)" matInput placeholder="Filter">
-    </mat-form-field>
-    <span class="spacer"></span>
-    <button mat-flat-button color="accent" (click)="onRefreshInventory()">Refresh</button>
+<div class="sales">
+
+  <mat-card class="acard">
+    <mat-card-header>
+      <mat-card-title>Total Sales</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h1>$21,325</h1>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="bcard">
+    <mat-card-header>
+      <mat-card-title>Actual Revenue</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h1>$11,325</h1>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="ccard">
+    <mat-card-header>
+      <mat-card-title>Total Event Sales</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h1>$9,325</h1>
+    </mat-card-content>
+  </mat-card>
+
+
+  <div class="atable" id="table">
+    <div class="header">
+      <mat-form-field>
+        <input (keyup)="filter($event.target.value)" matInput placeholder="Filter">
+      </mat-form-field>
+      <span class="spacer"></span>
+      <button mat-flat-button color="accent" (click)="onRefreshInventory()">Refresh</button>
+    </div>
+    <mat-progress-bar *ngIf="isLoading" mode="query" color="accent"></mat-progress-bar>
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <ng-container matColumnDef="groupId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Group Id</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupId}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="scoutName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Scout Name</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.scoutName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="productName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.productName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.quantity}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Sale Price</mat-header-cell>
+        <mat-cell *matCellDef="let element"> ${{element.price}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="saleDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Sale Date</mat-header-cell>
+        <mat-cell *matCellDef="let element"> ${{element.saleDate}} </mat-cell>
+      </ng-container>
+
+      <!--
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="onEdit(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="onDelete(row)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container> -->
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
-  <mat-progress-bar *ngIf="isLoading" mode="query" color="accent"></mat-progress-bar>
-  <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-
-    <ng-container matColumnDef="groupName">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Group Name</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.groupName}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="scoutName">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Scout Name</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.scoutName}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="productName">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.productName}} </mat-cell>
-    </ng-container>
-    
-    <ng-container matColumnDef="quantity">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.quantity}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="price">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Sale Price</mat-header-cell>
-      <mat-cell *matCellDef="let element"> ${{element.price}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="saleDate">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Sale Date</mat-header-cell>
-      <mat-cell *matCellDef="let element"> ${{element.saleDate}} </mat-cell>
-    </ng-container>
-
-    <!--
-     <ng-container matColumnDef="action">
-      <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <button mat-icon-button (click)="onEdit(row)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button (click)="onDelete(row)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container> -->
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

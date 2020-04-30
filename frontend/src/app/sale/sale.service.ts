@@ -44,7 +44,7 @@ export class SaleService {
               productId: s.prod_name,
               quantity: s.quantity,
               price: s.price,
-              saleDate: s.sale_date              
+              saleDate: s.sale_date
             };
           }),
         };
@@ -91,7 +91,7 @@ export class SaleService {
         return {
           sales: saleData.rows.map(s => {
             return {
-              groupName: s.group_name,
+              groupId: s.group_id,
               scoutName: s.full_name,
               productName: s.prod_name,
               quantity: s.quantity,

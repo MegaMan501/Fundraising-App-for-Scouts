@@ -32,10 +32,28 @@ mat-spinner {
 
 .acard {
   grid-area: acard;
-  max-height: 700px;
-  padding: 50px 30px 50px 30px;
+  min-height: 400px;
+  padding: 50px auto;
   margin: 8rem 2rem 8rem 2rem;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(95, 243, 107);
+  align-items: center;
+}
+
+.bcard {
+  grid-area: bcard;
+  min-height: 400px;
+  padding: 50px auto;
+  margin: 8rem 2rem 8rem 2rem;
+  background-color: rgb(233, 235, 95);
+  align-items: center;
+}
+.ccard {
+  grid-area: ccard;
+  min-height: 400px;
+  padding: 50px auto;
+  margin: 8rem 2rem 8rem 2rem;
+  background-color: rgb(210, 128, 235);
+  align-items: center;
 }
 
 .atable {
@@ -88,7 +106,7 @@ mat-spinner {
 
 @supports (display: grid) {
   @media screen and (min-width: 600px) {
-    .inventory {
+    .sales {
       display: grid;
       // height: 100vh;
       // width: 100vw;
@@ -98,27 +116,38 @@ mat-spinner {
       grid-template-columns: 1fr 1fr;
       grid-template-areas:
       "acard acard"
+      "bcard bcard"
+      "ccard ccard"
       "atable atable"
       ;
     }
   }
 
   @media screen and (min-width: 1200px) {
-    .inventory {
+    .sales {
       display: grid;
       grid-gap: 0px;
       padding: 20px;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-areas:
-      "acard atable atable"
-      "acard atable atable";
+      "acard bcard ccard"
+      "atable atable atable";
     }
 
     .acard {
       mat-card {
         min-width: 500px;
       }
-
+    }
+    .bcard {
+      mat-card {
+        min-width: 500px;
+      }
+    }
+    .ccard {
+      mat-card {
+        min-width: 500px;
+      }
     }
   }
 }

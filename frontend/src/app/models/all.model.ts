@@ -43,7 +43,7 @@ export interface Sale {
 }
 
 export interface detailedSale{
-  groupName: string;
+  groupId: string;
   scoutName: string;
   productName: string;
   quantity: number;
