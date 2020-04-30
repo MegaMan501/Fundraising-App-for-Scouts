@@ -1,0 +1,31 @@
+const db = require("../db"); 
+
+exports.getNotifications = (req,res,next)  => {
+
+    let currentTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+    db.query(
+            'CALL getNotifications(?,?)',
+            [
+                req.userData.userId, 
+                currentTime
+            ],
+            (err, rows, fields) => {
+
+            // Catch and DB errors.
+            if (err) { 
+                console.error(err.code, err.sqlMessage);
+                return res.status(401).json({
+                    message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
+                });
+            }
+
+            //return results
+            return res.status(200).json({
+                rows: rows[0],
+                message: "Successfully retreieved notifications."
+            });
+    });
+
+    return;
+}

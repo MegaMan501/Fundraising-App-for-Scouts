@@ -6,6 +6,7 @@ import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 import { MemberService } from '../members/member.service';
 import { Group } from '../models/all.model';
+import { NotificationService } from '../notification/notification.service';
 
 @Component({
   selector: 'app-main-nav',
@@ -27,11 +28,16 @@ export class MainNavComponent implements OnInit, OnDestroy {
   private gidListner: Subscription;
   private groupsSub: Subscription;
 
+  notificationCount: number;
+  notificationArray = [];
+  private notifSub: Subscription;
+
   constructor(
     private authService: AuthService,
     private breakpointObserver: BreakpointObserver,
     private router: Router,
-    private memberService: MemberService
+    private memberService: MemberService,
+    private notificationService: NotificationService
   ) {}
 
 
@@ -70,6 +76,13 @@ export class MainNavComponent implements OnInit, OnDestroy {
     .pipe(
       map(result => result.matches), shareReplay()
     );
+    
+    this.notifSub = this.notificationService
+    .getAllNotificationsStatusListener()
+    .subscribe(res => {
+      this.notificationArray = res;
+      this.notificationCount = res.length;
+    });
   }
 
   onLogout() {
@@ -94,11 +107,16 @@ export class MainNavComponent implements OnInit, OnDestroy {
     this.memberService.getGroups();
   }
 
+  onNotification(){
+    this.notificationService.getNotifications();
+  }
+
   ngOnDestroy() {
     this.authListner.unsubscribe();
     this.adminListner.unsubscribe();
     this.leaderListner.unsubscribe();
     this.groupsSub.unsubscribe();
     this.gidListner.unsubscribe();
+    this.notifSub.unsubscribe();
   }
 }

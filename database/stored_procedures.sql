@@ -700,3 +700,45 @@ BEGIN
 	END IF;
 END//
 DELIMITER ;
+
+
+-- Notifications --
+# get all notifications
+DELIMITER //
+CREATE PROCEDURE getNotifications (
+	IN userId INT,
+    IN now DATETIME
+)
+BEGIN
+	#get personal messages
+    SELECT u2.full_name, n.message
+    FROM user as u
+    INNER JOIN notification as n
+    ON n.receiver_user_id = u.user_id
+    INNER JOIN user as u2
+    WHERE (u.user_id = userId AND u2.user_id = n.notifier_user_id AND now <= n.expiration)
+    
+    #combine results
+    UNION
+    
+    #get group messages
+    SELECT u2.full_name, n.message
+    FROM members as m
+    INNER JOIN user as u
+		ON m.user_id=u.user_id
+	INNER JOIN notification as n
+		ON m.group_id=n.group_id
+	INNER JOIN user as u2
+	WHERE (u.user_id = userId AND u2.user_id = n.notifier_user_id AND now <= n.expiration)
+    
+    #combine results again
+    UNION
+    
+    #get global notifications
+
+    SELECT u.full_name, n.message
+    FROM notification AS n
+    INNER JOIN user AS u
+    WHERE (n.group_id IS NULL AND n.receiver_user_id IS NULL AND u.user_id = n.notifier_user_id AND now <= n.expiration);
+END//
+DELIMITER ;

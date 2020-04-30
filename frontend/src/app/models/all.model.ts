@@ -28,3 +28,8 @@ export interface Inventory {
   quantity: number;
   groupId: number;
 }
+
+export interface Notification {
+  name: string,
+  message: string
+}
