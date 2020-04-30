@@ -33,3 +33,20 @@ export interface Notification {
   name: string,
   message: string
 }
+
+export interface Sale {
+  saleId: number;
+  productId: string;
+  quantity: number;
+  price: number;
+  saleDate: string;
+}
+
+export interface detailedSale{
+  groupName: string;
+  scoutName: string;
+  productName: string;
+  quantity: number;
+  price: number;
+  saleDate: Sale;
+}

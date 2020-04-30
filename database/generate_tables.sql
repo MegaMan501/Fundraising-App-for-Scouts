@@ -71,20 +71,14 @@ CREATE TABLE IF NOT EXISTS product
 
 CREATE TABLE IF NOT EXISTS sale
 (
-  sale_id int,
+  sale_id int NOT NULL AUTO_INCREMENT UNIQUE,
   user_id int,
-  PRIMARY KEY (sale_id),
-  FOREIGN KEY (user_id) REFERENCES user(user_id)
-);
-
-CREATE TABLE IF NOT EXISTS sale_list
-(
-  sale_id int,
   product_id int,
   quantity int,
   price float,
   sale_date date,
-  FOREIGN KEY (sale_id) REFERENCES sale(sale_id),
+  PRIMARY KEY (sale_id),
+  FOREIGN KEY (user_id) REFERENCES user(user_id),
   FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
 
