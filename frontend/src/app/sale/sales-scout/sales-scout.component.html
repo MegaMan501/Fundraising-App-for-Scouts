@@ -1,82 +1,126 @@
-<div class="sale-input">
-    <mat-card>
-        <mat-card-content>
-            <form (submit)="onSale()" [formGroup]="saleForm" >
-  
-              <mat-form-field>
-                <mat-label>Product</mat-label>
-                <mat-select formControlName="name">
-                <mat-option *ngFor="let p of productList" [value]="p">{{p}}</mat-option>
-                </mat-select>
-                <mat-error *ngIf="saleForm.controls.name.hasError('required')">
-                  Product selection is <strong>required</strong>!
-                </mat-error>
-              </mat-form-field>
+<div class="inventory">
 
-              <mat-form-field>
-                  <mat-label>Quantity</mat-label>
-                  <mat-select formControlName="quantity">
-                  <mat-option *ngFor="let q of quantityList" [value]="q">{{q}}</mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="saleForm.controls.quantity.hasError('required')">
-                    Quantity is <strong>required</strong>!
-                  </mat-error>
-              </mat-form-field>
+  <!-- Card -->
+  <mat-card class="acard" id="add">
 
-              <mat-form-field>
-                  <mat-label>Sale Date</mat-label>
-                  <input 
-                  matInput
-                  name="date"
-                  formControlName="date"
-                  [matDatepicker]="picker">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                  <mat-error *ngIf="saleForm.controls.date.hasError('required')">
-                    Sale date is <strong>required</strong>!
-                  </mat-error>
-              </mat-form-field>
-                
-                <button
-                    type="submit"
-                    mat-raised-button
-                    [disabled]="!saleForm.valid"
-                    color="primary">Add Sale</button>
-            </form>
-        </mat-card-content>
-    </mat-card>
-</div>
+    <!-- Header -->
+    <mat-card-header>
+      <mat-card-title>Add a <strong>Product</strong> to the Inventory</mat-card-title>
+      <!-- <mat-card-subtitle>GS Fundraising Platform</mat-card-subtitle> -->
+    </mat-card-header>
 
+    <!-- Content -->
+    <mat-card-content>
+      <form (submit)="onAddSale(formDirective)" [formGroup]="saleForm" #formDirective="ngForm">
 
-<div class="sales-table">
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <!-- Product -->
+        <mat-form-field>
+          <mat-label>Product</mat-label>
+          <mat-select formControlName="product" [(value)]="selectedProduct">
+            <mat-option *ngFor="let p of productList; index as i" [value]="i">
+              {{p}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="saleForm.controls.product.hasError('required')">
+            Product is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Quantity -->
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Quantity</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="quantity"
+            placeholder="EX: 2500 qty"
+            required>
+          <mat-error *ngIf="saleForm.controls.quantity.hasError('required')">
+            Sale quantity is <strong>required</strong>!
+          </mat-error>
+          <mat-error *ngIf="saleForm.controls.quantity.hasError('pattern')">
+            Quantity should be an <strong>integer</strong> value!
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Date -->
+        <mat-form-field class="example-full-width">
+          <mat-label>Choose a date</mat-label>
+          <input matInput formControlName="date" [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker></mat-datepicker>
+          <mat-error *ngIf="saleForm.controls.date.hasError('pattern')">
+            Sale date is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Actions -->
+        <mat-card-actions>
+            <div class="formsubmit">
+              <button
+                  type="submit"
+                  mat-raised-button
+                  [disabled]="!saleForm.valid"
+                  color="primary">Add Sale</button>
+            </div>
+        </mat-card-actions>
+      </form>
+
+    </mat-card-content>
+
+    <!-- Footer -->
+    <mat-card-footer>
+      <p></p>
+    </mat-card-footer>
+  </mat-card>
+
+  <div class="atable" id="table">
+    <div class="header">
+      <mat-form-field>
+        <input (keyup)="filter($event.target.value)" matInput placeholder="Filter">
+      </mat-form-field>
+      <span class="spacer"></span>
+      <button mat-flat-button color="accent" (click)="onRefreshSale()">Refresh</button>
+    </div>
+    <mat-progress-bar *ngIf="isLoading" mode="query" color="accent"></mat-progress-bar>
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <ng-container matColumnDef="productId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.productId}} </mat-cell>
+      </ng-container>
       
-        <!-- Product Name -->
-          <ng-container matColumnDef="prod_name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
-            <td mat-cell *matCellDef="let element"> {{element.prod_name}} </td>
-          </ng-container>
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.quantity}} </mat-cell>
+      </ng-container>
 
-          <!-- Quantity Column -->
-          <ng-container matColumnDef="quantity">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </th>
-            <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
-          </ng-container>
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Price</mat-header-cell>
+        <mat-cell *matCellDef="let element"> ${{element.price}} </mat-cell>
+      </ng-container>
 
-          <!-- Sale Price Column -->
-          <ng-container matColumnDef="price">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Sale Price </th>
-            <td mat-cell *matCellDef="let element"> {{element.price}} </td>
-          </ng-container>
+      <ng-container matColumnDef="saleDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Sale Date</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.saleDate}}</mat-cell>
+      </ng-container>
 
-          <!-- Sale Date Column -->
-          <ng-container matColumnDef="sale_date">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Sale Date </th>
-            <td mat-cell *matCellDef="let element"> {{element.sale_date}} </td>
-          </ng-container>
-        
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-      
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="onEdit(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="onDelete(row)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
 </div>

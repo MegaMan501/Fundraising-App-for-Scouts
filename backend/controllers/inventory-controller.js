@@ -15,13 +15,6 @@ exports.getProduct = (req,res,next)  => {
 }
 
 exports.getProducts = (req,res,next)  => {
-    if (req.userData.leader_flag === 0 &&
-        req.userData.admin_flag === 0) 
-    {
-        return res.status(401).json({
-            message: "Authentication Error!"
-        });
-    }
     
     const qry = 'CALL getInventory(?)';
     db.query( qry, [req.userData.userId], (err, rows, fields) => {

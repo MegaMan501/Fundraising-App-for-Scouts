@@ -742,3 +742,85 @@ BEGIN
     WHERE (n.group_id IS NULL AND n.receiver_user_id IS NULL AND u.user_id = n.notifier_user_id AND now <= n.expiration);
 END//
 DELIMITER ;
+
+
+-- Notifications --
+# get all notifications
+DELIMITER //
+CREATE PROCEDURE getNotifications (
+	IN groupId INT
+)
+BEGIN
+	SELECT u.full_name, p.prod_name, sl.quantity, sl.price, sale_date
+    FROM sale_list AS sl
+    INNER JOIN sale AS s
+    ON s.sale_id=sl.sale_id
+    INNER JOIN product AS p
+    ON p.product_id=sl.product_id
+    INNER JOIN user AS u
+    ON u.user_id=s.user_id
+    WHERE (groupId=);
+END//
+DELIMITER ;
+
+-- Sales --
+# get a sale from the database
+DELIMITER //
+CREATE PROCEDURE getSale (
+    IN userId INT
+)
+BEGIN
+    SELECT s.sale_id, p.prod_name, s.quantity, s.price, s.sale_date FROM sale AS s INNER JOIN product AS p ON s.product_id=p.product_id WHERE userId=s.user_id;
+END//
+DELIMITER ;
+
+# add a sale to the database
+DELIMITER //
+CREATE PROCEDURE addSale (
+	IN userId INT,
+    IN productId INT,
+    IN quantity INT,
+    IN sale_date DATE
+)
+BEGIN
+    DECLARE productPrice float DEFAULT 0.0;
+
+    SELECT sales_price
+    INTO productPrice
+    FROM product
+    WHERE product_id = productId; 
+
+    INSERT INTO sale (user_id, product_id, quantity, price, sale_date)
+    VALUES (userId, productId, quantity, productPrice, sale_date);
+    
+    SELECT s.sale_id, p.prod_name, s.quantity, s.price, s.sale_date FROM sale AS s INNER JOIN product AS p ON s.product_id=p.product_id WHERE userId=s.user_id;
+END//
+DELIMITER ;
+
+# delete a sale from the database
+DELIMITER //
+CREATE PROCEDURE deleteSale (
+	IN saleId INT,
+)
+BEGIN
+    DELETE FROM sale 
+    WHERE (saleId=sale.sale_id);
+END//
+DELIMITER ;
+
+# delete a sale from the database
+DELIMITER //
+CREATE PROCEDURE updateSale (
+	IN saleId INT,
+    IN userId INT,
+    IN productId INT,
+    IN quantity INT,
+    IN price float,
+    IN sale_date DATE
+)
+BEGIN
+    UPDATE sale 
+    SET user_id=userId, product_id=productId, quantity=quantity, price=price, sale_date=sale_date
+    WHERE sale.sale_id=saleId;
+END//
+DELIMITER ;

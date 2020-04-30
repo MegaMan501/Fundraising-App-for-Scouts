@@ -1,10 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
-import { SaleService } from '../sale.service';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { InventoryService } from '../../inventory/inventory.service';
-import { MatTableDataSource } from '@angular/material/table';
+import { SaleService } from '../sale.service';
+import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { DatePipe } from '@angular/common';
+import { Sale } from '../../models/all.model';
+import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogDeleteComponent } from 'src/app/dialogs/delete/dialog-delete.component';
+import { DialogEditInventoryComponent } from 'src/app/dialogs/edit-inventory/edit-inventory.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -13,59 +19,103 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./sales-scout.component.scss']
 })
 export class SalesScoutComponent implements OnInit {
-
-  saleForm: FormGroup;
-  quantityList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  productList = new Array();
-  uid = localStorage.getItem('userId');
-  displayedColumns: string[] = ['prod_name', 'quantity', 'price', 'sale_date'];
-  dataSource = new MatTableDataSource<string>();
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public saleService: SaleService, public inventoryService: InventoryService) {
+  isLoading = true;
+
+  saleForm: FormGroup;
+  productList = new Array();
+  selectedProduct: number;
+
+  displayedColumns: string[] = ['productId', 'quantity', 'price', 'saleDate', 'action'];
+  dataSource = new MatTableDataSource<Sale>();
+
+  sales: Sale[] = [];
+  inventory= new Array();
+  private inventorySub: Subscription;
+  private saleSub: Subscription;
+
+  constructor(
+    private inventoryService: InventoryService,
+    private saleService: SaleService,
+    public dialog: MatDialog,
+    public snackbar: MatSnackBar
+  ) {
     this.saleForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    quantity: new FormControl('',Validators.required),
-    date: new FormControl('',Validators.required)
-  })}
-
-  async ngOnInit(){
-    // await this.getInventory(1);
-    // await this.getSales(1);
-    this.dataSource.sort = this.sort;
-    return;
+      product: new FormControl('', [Validators.required]),
+      quantity: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
+      date: new FormControl('', [Validators.required])
+    });
   }
 
-  async onSale()
-  {
-    // await this.addSale(1);
-    // this.getSales(1);
-    return;
+  ngOnInit(){
+    this.saleService.getSales();
+    this.saleSub = this.saleService
+    .getAllSalesStatusListener()
+    .subscribe(res => {
+      this.sales = res;
+      this.dataSource = new MatTableDataSource<Sale>(this.sales);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.isLoading = false;
+    });
+
+    this.inventoryService.getInventory();
+    this.inventorySub = this.inventoryService
+    .getInventoryStatusListner()
+    .subscribe(res => {
+      this.inventory = Array.from(new Set(res.map(p => p.productId)));
+      this.productList = Array.from(new Set(res.map(p => p.name)));
+    });
   }
 
-  // addSale(x)
-  // {
-  //   var formatted = new DatePipe('en-US').transform(this.saleForm.value.date, 'yyyy-MM-dd');
-  //   return new Promise( resolve => {
-  //     this.saleService.addSale(this.saleForm.value.name, this.saleForm.value.quantity, formatted, this.uid);
-  //     setTimeout(() => {resolve(x);}, 100);
-  //   });
-  // }
+  onAddSale(formDirective: FormGroupDirective) {
+    this.saleService.addSale(
+      this.inventory[this.selectedProduct],
+      formDirective.value.quantity,
+      formDirective.value.date.toISOString().slice(0, 19).replace('T', ' ')
+      );
 
-  // getSales(x)
-  // {
-  //   return new Promise( resolve => {
-  //     this.saleService.getSales(this.uid, this.dataSource);
-  //     setTimeout(() => {resolve(x);}, 100);
-  //   });
-  // }
+      formDirective.resetForm();
+      this.saleForm.reset();
+  }
 
-  // getInventory(x)
-  // {
-  //   return new Promise( resolve => {
-  //     // this.inventoryService.getAllProducts(this.productList);
-  //     setTimeout(() => {resolve(x);}, 100);
-  //   });
-  // }
+  filter(value: string) {
+    this.dataSource.filter = value.trim().toLowerCase();
+  }
+
+  onEdit(row) {
+
+  }
+
+  // Delete the product
+  onDelete(row) {
+    const dialogRef = this.dialog.open(DialogDeleteComponent, {
+      data: {
+        title: 'Are You Sure You Want to Delete this Product?',
+        val: row
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this.isLoading = true;
+      this.saleService.deleteSale(row.saleId).subscribe(msg => {
+        this.snackbar.open(msg.message.toString(), 'Okay', { duration: 5000 });
+        this.saleService.getSales();
+        this.isLoading = false;
+      });
+      return;
+    });
+  }
+
+  onRefreshSale(){
+
+  }
+
+  ngOnDestroy() {
+    this.inventorySub.unsubscribe();
+    this.saleSub.unsubscribe();
+  }
 }
