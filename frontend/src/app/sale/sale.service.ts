@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 // Internal
-import { Sale } from '../models/all.model';
+import { Sale, detailedSale } from '../models/all.model';
 import { environment as env } from '../../environments/environment';
 
 const BACKEND_URL = env.BACKEND_URL + 'sales';
@@ -20,12 +20,16 @@ const BACKEND_URL = env.BACKEND_URL + 'sales';
 export class SaleService {
 
   sales: Sale[] = [];
+  dSales: detailedSale[] = [];
   private allSalesStatusListner = new Subject<Sale[]>();
+  private allDSalesStatusListner = new Subject<detailedSale[]>();
 
   constructor(private http: HttpClient, private router: Router, private snackBar: MatSnackBar) { }
 
   getReturnedGroups() { return this.sales; }
+  getReturnedDSales() { return this.dSales; }
   getAllSalesStatusListener() { return this.allSalesStatusListner.asObservable(); }
+  getAllDSalesStatusListener() { return this.allDSalesStatusListner.asObservable(); }
 
   addSale(pid: String, quantity: Number, date: String)
   {
@@ -87,10 +91,12 @@ export class SaleService {
         return {
           sales: saleData.rows.map(s => {
             return {
-              groupId: s.group_id,
-              userId: s.user_id,
-              fullname: s.full_name,
-              email: s.email
+              groupName: s.group_name,
+              scoutName: s.full_name,
+              productName: s.prod_name,
+              quantity: s.quantity,
+              price: s.price,
+              saleDate: s.sale_date,
             };
         }),
       };
@@ -98,8 +104,8 @@ export class SaleService {
   )
   .subscribe(modData => {
     // console.log(modData.scouts);
-    this.sales = modData.sales;
-    this.allSalesStatusListner.next([...this.sales]);
+    this.dSales = modData.sales;
+    this.allDSalesStatusListner.next([...this.dSales]);
   });
   }
 

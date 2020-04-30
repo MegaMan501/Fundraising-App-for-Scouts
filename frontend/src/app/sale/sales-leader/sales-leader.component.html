@@ -104,47 +104,65 @@
       </div>
   </div>
 </div>
-
-<div class="mt-5 col-md-16"></div>
-
-<!--/.Bar Graph content-->
-<div class="div1">
-  <div style="display: block; width: 55%; height: 55%; float: left;">
-    <canvas mdbChart
-            [chartType]="chartType"
-            [datasets]="chartDatasets"
-            [labels]="chartLabels"
-            [colors]="chartColors"
-            [options]="chartOptions"
-            [legend]="true"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)">
-    </canvas>
-  </div>
-
-  <!--/.Pie Chart content-->
-  <div style="display: block; width: 35%; height: 35%; float: right;">
-    <div class="chart">
-      <canvas baseChart
-        [data]="pieChartData"
-        [labels]="pieChartLabels"
-        [chartType]="pieChartType"
-        [options]="pieChartOptions"
-        [colors]="pieChartColors"
-        [legend]="pieChartLegend">
-      </canvas>
-    </div>
-  </div>
 </div>
 
-<!--<div>
-<button mat-button mat-raised-button color="primary" (click)="pieChartLegend=!pieChartLegend">Toggle Legend</button>
-<button mat-button mat-raised-button color="primary" (click)="changeLabels()">Change Labels</button>
-<button mat-button mat-raised-button color="primary" (click)="addSlice()">Add Slice</button>
-<button mat-button mat-raised-button color="primary" (click)="removeSlice()">Remove Slice</button>
-<button mat-button mat-raised-button color="primary" (click)="changeLegendPosition()">Change Legend Position</button>
+<div class="atable" id="table">
+  <div class="header">
+    <mat-form-field>
+      <input (keyup)="filter($event.target.value)" matInput placeholder="Filter">
+    </mat-form-field>
+    <span class="spacer"></span>
+    <button mat-flat-button color="accent" (click)="onRefreshInventory()">Refresh</button>
+  </div>
+  <mat-progress-bar *ngIf="isLoading" mode="query" color="accent"></mat-progress-bar>
+  <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+    <ng-container matColumnDef="groupName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Group Name</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.groupName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="scoutName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Scout Name</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.scoutName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="productName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.productName}} </mat-cell>
+    </ng-container>
+    
+    <ng-container matColumnDef="quantity">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.quantity}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Sale Price</mat-header-cell>
+      <mat-cell *matCellDef="let element"> ${{element.price}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="saleDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Sale Date</mat-header-cell>
+      <mat-cell *matCellDef="let element"> ${{element.saleDate}} </mat-cell>
+    </ng-container>
+
+    <!--
+     <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button mat-icon-button (click)="onEdit(row)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="onDelete(row)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container> -->
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
-
-<div>
-
-</div>-->

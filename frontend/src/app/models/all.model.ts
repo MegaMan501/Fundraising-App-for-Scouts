@@ -41,3 +41,12 @@ export interface Sale {
   price: number;
   saleDate: string;
 }
+
+export interface detailedSale{
+  groupName: string;
+  scoutName: string;
+  productName: string;
+  quantity: number;
+  price: number;
+  saleDate: Sale;
+}

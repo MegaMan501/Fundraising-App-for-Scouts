@@ -24,6 +24,24 @@ exports.getSales = (req, res, next) => {
 
 exports.getGroupSales = (req, res, next) => {
 
+    let qry = 'CALL getGroupSales(?)';
+    db.query(
+        qry,
+        [req.userData.userId],
+        (err, results, fields) => {
+
+            // Catch and DB errors.
+            if (err) { 
+                console.error(err.code, err.sqlMessage);
+                return res.status(401).json({
+                    message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
+                });
+            }
+
+            return res.status(200).json({
+                rows: results[0],
+            });
+        });
 
 }
 

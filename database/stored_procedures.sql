@@ -824,3 +824,23 @@ BEGIN
     WHERE sale.sale_id=saleId;
 END//
 DELIMITER ;
+
+# get group sales from the database
+DELIMITER //
+CREATE PROCEDURE getGroupSales (
+	IN userId INT
+)
+BEGIN
+    SELECT m.group_id, u.full_name, p.prod_name, s.quantity, s.price, s.sale_date
+    FROM members AS m
+    INNER JOIN user AS u
+    ON u.user_id=m.user_id
+    INNER JOIN sale AS s
+    ON u.user_id=s.user_id
+    INNER JOIN product AS p
+    ON s.product_id=p.product_id
+    INNER JOIN groups AS g
+    ON g.group_id=m.group_id
+    WHERE (g.user_id = userId);
+END//
+DELIMITER ;
