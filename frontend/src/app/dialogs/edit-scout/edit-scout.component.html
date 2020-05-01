@@ -1,0 +1,64 @@
+<!-- <h2 mat-dialog-title>Delete Dialog</h2> -->
+<h2 mat-dialog-title>{{data.title}}</h2>
+<div mat-dialog-content>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Full Name</mat-label>
+    <input
+      matInput
+      #fullName="ngModel"
+      type="text"
+      placeholder="First Last"
+      [(ngModel)]="data.val.fullname"
+      required>
+    <mat-error *ngIf="fullName.invalid">Enter a Valid Full Name.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      #emailVal="ngModel"
+      type="email"
+      placeholder="test@test.com"
+      [(ngModel)]="data.val.email"
+      email
+      required>
+    <mat-error *ngIf="emailVal.invalid">Enter a Valid email.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Group</mat-label>
+    <mat-select
+      [(ngModel)]="data.val.groupId"
+      required>
+      <mat-option *ngFor="let e of data.groups" [value]="e.groupId">
+        {{e.groupId}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Password</mat-label>
+    <input
+      matInput
+      #pass="ngModel"
+      [type]="hide ? 'password' : 'text'"
+      [(ngModel)]="data.val.pass"
+      password>
+    <button
+      mat-icon-button
+      matSuffix
+      type="button"
+      (click)="hide = !hide"
+      [attr.aria-label]="'Hide Password'"
+      [attr.aria-pressed]="hide">
+      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+  </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data">Update</button>
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+</div>

@@ -19,7 +19,9 @@ app.use(bodyParser.urlencoded({ extended: false })); // allow url encoding
 // Express Routes 
 const userRoutes = require("./routes/user-route");
 const saleRoutes = require("./routes/sale-route");
-
+const inventoryRoutes = require("./routes/inventory-route");
+const memberRoutes = require("./routes/member-route");
+const notificationRoutes = require("./routes/notification-route");
 
 // settup the access controll headers and methods 
 app.use((req, res, next) => {
@@ -37,7 +39,7 @@ app.use((req, res, next) => {
 
 // add a admin to the database if there is none
 addAdmin = (name, email, pass) => {
-    const qry = 'INSERT INTO user (`full_name`, `email`, `hash_pass`, `leader_flag`, `admin_flag`, `verified`) VALUES (?, ?, ?, 1, 1, 1)';
+    const qry = 'INSERT INTO user (`full_name`, `email`, `hash_pass`, `leader_flag`, `admin_flag`, `verified`) VALUES (?, ?, ?, 0, 1, 1)';
     email = email.toLowerCase();
     // hash the password and then send it to the database
     bcrypt.hash(pass, 10)
@@ -49,24 +51,6 @@ addAdmin = (name, email, pass) => {
         }); 
     }).catch( error => {
         if(error) throw error;
-    }); 
-}
-
-// adds a scout to the database // helper function
-addScout = (name, email, pass) => {
-    const qry = 'INSERT INTO user (`full_name`, `email`, `hash_pass`, `leader_flag`, `admin_flag`, `verified`) VALUES (?, ?, ?, 0, 0, 1)';
-    email = email.toLowerCase();
-    bcrypt.hash(pass, 10).then( hash => {
-        pass = hash; 
-        mysqlconn.query( qry, [name, email, pass], (err, results, fields) => {
-            if(err) {
-                console.error(err.code, err.sqlMessage);
-            } else {
-                console.log("Successfully Added a Scout.");
-            }
-        }); 
-    }).catch( error => {
-            console.error("HASH: ", error);
     }); 
 }
 
@@ -94,12 +78,11 @@ hasAdmin = () => {
 // Check if admin account exists
 hasAdmin();
 
-// Add a scout if necessary
-// addScout("test","test@test.com","qwerty");
-
 // the API routes
 app.use("/api/users", userRoutes);
 app.use("/api/sales", saleRoutes);
-
+app.use("/api/inventory", inventoryRoutes);
+app.use("/api/member", memberRoutes);
+app.use("/api/notification", notificationRoutes);
 
 module.exports = app; 

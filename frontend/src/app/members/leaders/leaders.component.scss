@@ -1,0 +1,124 @@
+
+.full-width {
+  width: 100%;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+.formsubmit {
+  display: block;
+  text-align: center;
+  padding-top: 1rem;
+}
+
+mat-card-footer {
+  text-align: right;
+  font-size: smaller;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+.lcard {
+  grid-area: lcard;
+  max-height: 400px;
+  padding: 50px 30px 50px 30px;
+  margin: 8rem 2rem 8rem 2rem;
+  background-color: rgb(255, 255, 255);
+}
+
+.ltable {
+  $primary: rgb(230, 88, 63);
+  grid-area: ltable;
+  justify-items: center;
+  margin: auto 10px auto 10px;
+  padding: 50px auto 50px auto;
+  background-color: $primary;
+  .header {
+    display: flex;
+    flex-direction: row;
+    .spacer {
+      flex: 1 1 auto;
+    }
+    button {
+      margin: 20px 10px 20px 10px;
+      padding: 5px;
+    }
+  }
+  mat-table {
+    background-color: $primary;
+    width: 100%;
+    height: 100%;
+  }
+  mat-form-field {
+    margin: 10px 50px;
+    color: white;
+  }
+  mat-paginator {
+    background-color: $primary;
+  }
+  mat-header-cell, mat-cell, mat-paginator {
+    color: white;
+  }
+  button {
+    color: white;
+  }
+  button:hover {
+    color: rgb(16, 200, 241);
+  }
+}
+
+@supports not (display: grid) {
+  .leader {
+    max-width: 50em;
+    margin: 0 auto;
+  }
+}
+
+@supports (display: grid) {
+  @media screen and (min-width: 1199px) {
+    .leader {
+      display: grid;
+      // height: 100vh;
+      // width: 100vw;
+      grid-gap: 0px;
+      margin: 0;
+      padding: 20px;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+      "lcard lcard"
+      "ltable ltable"
+      ;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .leader {
+      display: grid;
+      grid-gap: 0px;
+      padding: 20px;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-areas:
+      "lcard ltable ltable"
+      "lcard ltable ltable";
+    }
+
+    .lcard {
+      mat-card {
+        min-width: 500px;
+      }
+    }
+  }
+}
+
+
+
+

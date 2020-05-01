@@ -1,22 +1,86 @@
 $accent: rgb(252, 98, 162);
-// $accent: #ffafd3;
 $primary: rgb(209, 236, 255);
+$hoverC: rgb(7, 255, 201);
 
 .sidenav-container {
   height: 100vh;
   background-color: $primary;
+  background-image: url("../../assets/wiggle.svg");
   background-repeat: repeat;
 }
 
 .sidenav {
   min-width: 280px;
   background-color: $accent;
+
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+    height: 200px;
+  }
+
+  mat-expansion-panel {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none !important;
+    background-color: transparent;
+  }
+
+  mat-nav-list h1 {
+    font-size: 1.8rem;
+    text-align: center;
+    color: white;
+    padding-bottom: 10px;
+  }
+
+  .activeRoute {
+    color: rgb(244, 254, 255);
+  }
+
+  .userIcon {
+    width: 50px;
+    height: 50px;
+  }
+
+  a {
+    text-decoration: none;
+    color: rgb(46, 41, 41);
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  a:hover {
+    color: $hoverC;
+    text-emphasis: bold;
+  }
+
+  .mat-toolbar {
+    background: inherit;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 10px;
+    background-color: rgb(214, 159, 191);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(221, 14, 135);
+  }
 }
 
-.sidenav .mat-toolbar {
-  background: inherit;
+.mat-sidenav-content::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: rgb(214, 159, 191);
 }
 
+.mat-sidenav-content::-webkit-scrollbar-thumb {
+    background: rgb(221, 14, 135);
+}
+
+// Sticky Toolbar
 // .mat-toolbar.mat-primary {
 //   position: sticky;
 //   top: 0;
@@ -31,60 +95,60 @@ $primary: rgb(209, 236, 255);
   width: 10px;
 }
 
-a {
-  text-decoration: none;
-  color: white;
-  margin-left: 10px;
-  margin-right: 10px;
+.toolbar-container {
+  // mat-toolbar a {
+  //   text-align: center;
+  //   text-decoration: none;
+  //   color: white;
+  // }
+
+  // mat-toolbar a:hover {
+  //   text-decoration: none;
+  //   color: $accent;
+  // }
+
+  mat-icon:hover {
+    color: $hoverC;
+  }
+
+  .dropdown-menu {
+    background-color: rgba(43, 40, 40);
+    a {
+      color: white;
+    }
+    a:hover {
+      color: greenyellow;
+      background-color: rgba(45, 56, 45, 0.767);
+    }
+  }
+
+  .dropdown-item {
+    text-align: left;
+  }
 }
 
-a:hover {
-  color: $accent;
+.hidden {
+  display: none;
 }
 
-.sidenav a:hover {
-  color: rgb(7, 255, 201);
+::ng-deep .notifications-menu {
+  max-width: 55vw !important;
+  min-width: 40vw !important;
 }
 
-img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 200px;
-  height: 200px;
-}
+.notifications-item{
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
 
-mat-toolbar a {
-  text-align: center;
-  text-decoration: none;
-  color: white;
-}
+  h3{
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
 
-mat-toolbar a:hover {
-  text-decoration: none;
-  color: $accent;
-}
-
-mat-expansion-panel {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none !important;
-  background-color: transparent;
-
-}
-
-mat-nav-list h1 {
-  font-size: 1.8rem;
-  text-align: center;
-  color: white;
-  padding-bottom: 10px;
-}
-
-.activeRoute {
-  color: rgb(244, 254, 255);
-}
-
-.userIcon {
-  width: 50px;
-  height: 50px;
+  h5{
+    padding-top: 15px;
+    float: right;
+  }
 }

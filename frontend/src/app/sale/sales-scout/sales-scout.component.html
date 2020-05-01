@@ -1,0 +1,82 @@
+<div class="sale-input">
+    <mat-card>
+        <mat-card-content>
+            <form (submit)="onSale()" [formGroup]="saleForm" >
+  
+              <mat-form-field>
+                <mat-label>Product</mat-label>
+                <mat-select formControlName="name">
+                <mat-option *ngFor="let p of productList" [value]="p">{{p}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="saleForm.controls.name.hasError('required')">
+                  Product selection is <strong>required</strong>!
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                  <mat-label>Quantity</mat-label>
+                  <mat-select formControlName="quantity">
+                  <mat-option *ngFor="let q of quantityList" [value]="q">{{q}}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="saleForm.controls.quantity.hasError('required')">
+                    Quantity is <strong>required</strong>!
+                  </mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                  <mat-label>Sale Date</mat-label>
+                  <input 
+                  matInput
+                  name="date"
+                  formControlName="date"
+                  [matDatepicker]="picker">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error *ngIf="saleForm.controls.date.hasError('required')">
+                    Sale date is <strong>required</strong>!
+                  </mat-error>
+              </mat-form-field>
+                
+                <button
+                    type="submit"
+                    mat-raised-button
+                    [disabled]="!saleForm.valid"
+                    color="primary">Add Sale</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+
+<div class="sales-table">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      
+        <!-- Product Name -->
+          <ng-container matColumnDef="prod_name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.prod_name}} </td>
+          </ng-container>
+
+          <!-- Quantity Column -->
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </th>
+            <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+          </ng-container>
+
+          <!-- Sale Price Column -->
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Sale Price </th>
+            <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+          </ng-container>
+
+          <!-- Sale Date Column -->
+          <ng-container matColumnDef="sale_date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Sale Date </th>
+            <td mat-cell *matCellDef="let element"> {{element.sale_date}} </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+      
+</div>

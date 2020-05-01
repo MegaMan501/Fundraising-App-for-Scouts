@@ -1,0 +1,114 @@
+
+.full-width {
+  width: 100%;
+}
+
+.formsubmit {
+  display: block;
+  text-align: center;
+  padding-top: 1rem;
+}
+
+mat-card-footer {
+  text-align: right;
+  font-size: smaller;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+.acard {
+  grid-area: acard;
+  max-height: 500px;
+  padding: 50px 30px 50px 30px;
+  margin: 8rem 2rem 8rem 2rem;
+  background-color: rgb(255, 255, 255);
+}
+
+.atable {
+  $atableColor: rgb(43, 94, 62);
+  $atableAccent: rgb(38, 182, 93);
+  grid-area: atable;
+  margin: auto 15px auto 15px;
+  padding: 50px auto;
+  background-color: $atableAccent;
+  .header {
+    display: flex;
+    flex-direction: row;
+    .spacer {
+      flex: 1 1 auto;
+    }
+    button {
+      margin: 20px 10px 20px 10px;
+      padding: 5px;
+    }
+  }
+  mat-table {
+    background-color: $atableColor;
+    width: 100%;
+    height: 100%;
+  }
+  mat-form-field {
+    margin: 10px 50px;
+    color: white;
+  }
+  mat-paginator {
+    background-color: $atableColor;
+  }
+  mat-header-cell, mat-cell, mat-paginator {
+    color: white;
+  }
+  button {
+    color: white;
+  }
+  button:hover {
+    color: rgb(16, 200, 241);
+  }
+}
+
+@supports not (display: grid) {
+  .scout {
+    max-width: 50em;
+    margin: 0 auto;
+  }
+}
+
+@supports (display: grid) {
+  @media screen and (min-width: 600px) {
+    .scout {
+      display: grid;
+      grid-gap: 0px;
+      margin: 0;
+      padding: 20px;
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+      "acard acard"
+      "atable atable"
+      ;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    .scout {
+      display: grid;
+      grid-gap: 0px;
+      padding: 20px;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-areas:
+      "acard atable atable"
+      "acard atable atable";
+    }
+
+    .acard {
+      mat-card {
+        min-width: 500px;
+      }
+
+    }
+  }
+}
+
+
+
+

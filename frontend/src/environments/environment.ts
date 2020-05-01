@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  version: '0.0.1'
+  version: '0.0.1',
+  BACKEND_URL: 'http://localhost:45213/api/'
 };
 
 /*

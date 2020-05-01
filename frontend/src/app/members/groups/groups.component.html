@@ -1,0 +1,136 @@
+
+<div class="group">
+
+  <!-- Card -->
+  <mat-card class="acard">
+
+    <!-- Header -->
+    <mat-card-header>
+      <mat-card-title>Add A Group</mat-card-title>
+      <!-- <mat-card-subtitle>GS Fundraising Platform</mat-card-subtitle> -->
+    </mat-card-header>
+
+    <!-- Content -->
+    <mat-card-content>
+      <form (submit)="onAddGroup(formDirective)" [formGroup]="groupForm" #formDirective="ngForm">
+
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>GroupId</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="groupId"
+            placeholder="EX: 1233"
+            autocomplete="fname">
+          <mat-error *ngIf="groupForm.controls.groupId.hasError('required')">
+            GroupId is <strong>required</strong>!
+          </mat-error>
+          <mat-error *ngIf="groupForm.controls.groupId.hasError('pattern')">
+            GroupId should be an <strong>integer</strong> value!
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Group Name</mat-label>
+          <input
+            matInput
+            formControlName="groupName"
+            placeholder="EX: SpecialStar"
+            autocomplete="fname">
+          <mat-error *ngIf="groupForm.controls.groupName.hasError('required')">
+            Group Name is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Group Location</mat-label>
+          <input
+            matInput
+            formControlName="groupLocation"
+            placeholder="EX: 123213 Some Street, TX, ZIP"
+            autocomplete="address">
+          <mat-error *ngIf="groupForm.controls.groupLocation.hasError('required')">
+            Group Location is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Group Description</mat-label>
+          <input
+            matInput
+            formControlName="groupDesc"
+            placeholder="EX: Something"
+            autocomplete="fname">
+        </mat-form-field>
+
+        <!-- Actions -->
+        <mat-card-actions>
+            <div class="formsubmit">
+              <button
+                  type="submit"
+                  mat-raised-button
+                  [disabled]="!groupForm.valid"
+                  color="primary">Add Group</button>
+            </div>
+        </mat-card-actions>
+      </form>
+
+    </mat-card-content>
+  </mat-card>
+
+  <div class="atable">
+    <div class="header">
+      <mat-form-field>
+        <input (keyup)="filter($event.target.value)" matInput placeholder="Filter">
+      </mat-form-field>
+      <span class="spacer"></span>
+      <button mat-flat-button color="accent" (click)="onRefreshGroup()">Refresh</button>
+    </div>
+    <mat-progress-bar *ngIf="isLoading" mode="query" color="accent"></mat-progress-bar>
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <!-- Id Column -->
+      <ng-container matColumnDef="groupId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>GroupId</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupId}} </mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="groupName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Group Name</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupName}} </mat-cell>
+      </ng-container>
+
+      <!-- Location Column -->
+      <ng-container matColumnDef="groupLocation">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupLocation}} </mat-cell>
+      </ng-container>
+
+      <!-- Description Column -->
+      <ng-container matColumnDef="groupDesc">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupDesc}} </mat-cell>
+      </ng-container>
+
+       <!-- Action Column -->
+       <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button color="accent" (click)="onEdit(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="onDelete(row)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25]"
+       showFirstLastButtons></mat-paginator>
+  </div>
+</div>

@@ -56,7 +56,7 @@
               {{hide ? 'visibility_off' : 'visibility'}}
             </mat-icon>
           </button>
-          <mat-error *ngIf="loginForm.controls.email.hasError('required')">
+          <mat-error *ngIf="loginForm.controls.password.hasError('required')">
             Password is <strong>required</strong>!
           </mat-error>
         </mat-form-field>
@@ -72,10 +72,7 @@
                   color="primary">Login</button>
             </div>
             <div class="forgotpassword">
-              <a routerLink="/forgot-password"><button
-                  *ngIf="!isLoading"
-                  mat-raised-button
-                  color="secondary">Forgot Your Password?</button></a>
+              <a routerLink="/forgot-password" *ngIf="!isLoading">Forgot Your Password?</a>
             </div>
         </mat-card-actions>
       </form>

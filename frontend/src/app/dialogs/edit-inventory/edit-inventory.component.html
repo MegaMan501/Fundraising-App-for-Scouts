@@ -1,0 +1,95 @@
+<!-- <h2 mat-dialog-title>Delete Dialog</h2> -->
+<h2 mat-dialog-title>{{data.title}}</h2>
+<div mat-dialog-content>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Product Name</mat-label>
+    <input
+      matInput
+      #prodName="ngModel"
+      type="text"
+      placeholder="First Last"
+      [(ngModel)]="data.val.name"
+      required>
+    <mat-error *ngIf="prodName.invalid">Enter a Valid Name.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Cost</mat-label>
+    <input
+      matInput
+      #prodCost="ngModel"
+      type="number"
+      placeholder="$3.24"
+      [(ngModel)]="data.val.cost"
+      required>
+    <span matPrefix>$&nbsp;</span>
+    <mat-error *ngIf="prodCost.invalid">Enter a Valid cost.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Group Id</mat-label>
+    <mat-select
+      [(ngModel)]="data.val.groupId"
+      required>
+      <mat-option *ngFor="let e of data.groups" [value]="e.groupId">
+        {{e.groupId}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Sales Price</mat-label>
+    <input
+      matInput
+      #salePrice="ngModel"
+      type="number"
+      placeholder="$4.57"
+      [(ngModel)]="data.val.salePrice"
+      required>
+    <span matPrefix>$&nbsp;</span>
+    <mat-error *ngIf="salePrice.invalid">Enter a Valid sales price.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Weight</mat-label>
+    <input
+      matInput
+      #prodWeight="ngModel"
+      type="number"
+      placeholder="0.57 lb"
+      [(ngModel)]="data.val.weight"
+      required>
+    <span matSuffix>lb</span>
+    <mat-error *ngIf="prodWeight.invalid">Enter a Valid weight.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Quantity</mat-label>
+    <input
+      matInput
+      #prodQuantity="ngModel"
+      type="number"
+      placeholder="5023"
+      [(ngModel)]="data.val.quantity"
+      pattern="^[0-9]*$"
+      required>
+    <mat-error *ngIf="prodQuantity.invalid">Enter a Valid quantity.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Description</mat-label>
+    <input
+      matInput
+      #prodDesc="ngModel"
+      type="text"
+      placeholder="Describe the product here."
+      [(ngModel)]="data.val.desc">
+    <mat-error *ngIf="prodDesc.invalid">Enter a Valid description.</mat-error>
+  </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="primary" [mat-dialog-close]="data">Update</button>
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+</div>

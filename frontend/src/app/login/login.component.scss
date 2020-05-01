@@ -22,7 +22,9 @@ input.example-right-align {
 .forgotpassword {
   display: block;
   text-align: center;
-
+  a {
+    color: grey;
+  }
   padding-top: 0.5rem;
 }
 
@@ -38,6 +40,7 @@ mat-spinner {
 .acard {
   grid-area: acard;
   max-height: 400px;
+  min-width: 200px;
   padding: 50px 30px 50px 30px;
   margin: 8rem 2rem 8rem 2rem;
   background-color: rgb(255, 255, 255);
@@ -90,7 +93,7 @@ mat-spinner {
     }
 
     .acard {
-      min-width: 700px;
+      min-width: 500px;
     }
   }
 }

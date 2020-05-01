@@ -1,0 +1,56 @@
+<!-- <h2 mat-dialog-title>Delete Dialog</h2> -->
+<h2 mat-dialog-title>{{data.title}}</h2>
+<div mat-dialog-content>
+
+    <mat-form-field appearance="standard" class="full-width">
+      <mat-label>GroupId</mat-label>
+      <input
+        matInput
+        #groupId="ngModel"
+        type="number"
+        placeholder="EX: 1233"
+        [(ngModel)]="data.val.groupId"
+        required>
+      <mat-error *ngIf="groupId.invalid">Enter a Valid ID Number.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" class="full-width">
+      <mat-label>Group Name</mat-label>
+      <input
+        matInput
+        #groupName="ngModel"
+        [(ngModel)]="data.val.groupName"
+        type="text"
+        placeholder="EX: Some Group Name"
+        required>
+      <mat-error *ngIf="groupName.invalid">Group Name is <strong>required</strong>!</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" class="full-width">
+      <mat-label>Group Location</mat-label>
+      <input
+        matInput
+        #groupLocation="ngModel"
+        type="text"
+        placeholder="EX: 123213 Some Street, TX, ZIP"
+        [(ngModel)]="data.val.groupLocation"
+        required>
+      <mat-error *ngIf="groupLocation.invalid">Group Location is <strong>required</strong>!</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" class="full-width">
+      <mat-label>Group Description</mat-label>
+      <input
+        matInput
+        #groupDesc="ngModel"
+        type="text"
+        [(ngModel)]="data.val.groupDesc"
+        placeholder="EX: Something">
+        <mat-error *ngIf="groupDesc.invalid">Enter a Valid Description</mat-error>
+    </mat-form-field>
+
+  </div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data">Update</button>
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+</div>

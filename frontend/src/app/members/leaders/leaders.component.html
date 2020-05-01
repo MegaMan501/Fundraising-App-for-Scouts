@@ -1,0 +1,141 @@
+<div class="leader">
+
+  <!-- Card -->
+  <mat-card class="lcard">
+
+    <!-- Header -->
+    <mat-card-header>
+      <mat-card-title>Add A Leader</mat-card-title>
+      <!-- <mat-card-subtitle>GS Fundraising Platform</mat-card-subtitle> -->
+    </mat-card-header>
+
+    <!-- Content -->
+    <mat-card-content>
+      <form (submit)="onAddLeader(formDirective)" [formGroup]="leaderForm" #formDirective="ngForm">
+
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Full Name</mat-label>
+          <input
+            matInput
+            formControlName="name"
+            placeholder="EX: Jane Doe"
+            autocomplete="fname">
+          <mat-error *ngIf="leaderForm.controls.name.hasError('required')">
+            Fullname is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Email Input -->
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            name="email"
+            type="email"
+            formControlName="email"
+            placeholder="EX: email@website.com"
+            autocomplete="email">
+          <mat-error *ngIf="leaderForm.controls.email.touched && leaderForm.controls.email.errors?.email">
+            Please enter a valid <strong>email</strong> address!
+          </mat-error>
+          <mat-error *ngIf="leaderForm.controls.email.hasError('required')">
+            Email is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Password Input -->
+        <mat-form-field appearance="standard" class="full-width">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            name="password"
+            [type]="hide ? 'password' : 'text'"
+            password
+            autocomplete="current-password">
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide Password'"
+            [attr.aria-pressed]="hide"
+            >
+            <mat-icon>
+              {{hide ? 'visibility_off' : 'visibility'}}
+            </mat-icon>
+          </button>
+          <mat-error>
+            Password is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Actions -->
+        <mat-card-actions>
+            <div class="formsubmit">
+              <button
+                  type="submit"
+                  mat-raised-button
+                  [disabled]="!leaderForm.valid"
+                  color="primary">Add Leader</button>
+            </div>
+        </mat-card-actions>
+      </form>
+
+
+    </mat-card-content>
+
+    <!-- Footer -->
+    <mat-card-footer>
+      <p></p>
+    </mat-card-footer>
+  </mat-card>
+
+  <div class="ltable">
+    <div class="header">
+      <mat-form-field>
+        <input (keyup)="filter($event.target.value)" matInput placeholder="Filter">
+      </mat-form-field>
+      <span class="spacer"></span>
+      <button mat-flat-button color="primary" (click)="onRefreshLeader()">Refresh</button>
+    </div>
+    <mat-progress-bar *ngIf="isLoading" mode="query" color="primary"></mat-progress-bar>
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <!-- User Id Column -->
+      <ng-container matColumnDef="userId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>UserID</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.userId}} </mat-cell>
+      </ng-container>
+
+      <!-- Full Name Column -->
+      <ng-container matColumnDef="fullname">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Fullname</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.fullname}}  </mat-cell>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Email </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.email}}   </mat-cell>
+      </ng-container>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="onEdit(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="onDelete(row)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
