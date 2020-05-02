@@ -65,17 +65,11 @@ export class MembersComponent implements OnInit, OnDestroy{
 
   scouts: Scout[] = [];
   groups: Group[] = [];
-  leaders: Member[] = []
+  leaders: Member[] = [];
 
-
-
-  public chartTypeTrp: string = 'pie';
-  public chartTitle: string = "";
-  public chartDatasetsTrp: Array<any> = [
-    {
-      data:[],
-    }
-  ];
+  public chartTypeTrp = 'pie';
+  public chartTitle = '';
+  public chartDatasetsTrp: Array<any> = [{ data: [] }];
 
   public chartLabelsTrp: Array<any> = [];
   public chartColorsTrp: Array<any> = [

@@ -1,1 +1,89 @@
-<p>dashboard-scout works!</p>
+
+
+<div class="scout-dashboard">
+
+    <div class="small-card-1">
+      <mat-card class="example-card animation">
+
+          <!-- <div mat-card-avatar class="example-header-image"></div> -->
+          <mat-card-title >Total Sale</mat-card-title>
+          <mat-card-title><img src="https://img.icons8.com/color/48/000000/coins.png"/>
+          </mat-card-title>
+
+        <mat-card-content>
+            <h1>$500</h1>
+
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+
+
+
+    <div class="small-card-2">
+        <mat-card class="example-card animation">
+
+          <!-- <div mat-card-avatar class="example-header-image"></div> -->
+          <mat-card-title >Total Revenue</mat-card-title>
+          <mat-card-title><img src="https://img.icons8.com/color/48/000000/economic-improvement.png"/></mat-card-title>
+
+        <mat-card-content>
+            <h1>$500</h1>
+
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button>
+        </mat-card-actions>
+        </mat-card>
+
+    </div>
+
+
+
+    <div class="small-card-3">
+      <mat-card class="example-card animation">
+        <!-- <div mat-card-avatar class="example-header-image"></div> -->
+        <mat-card-title >Total Cookies</mat-card-title>
+        <mat-card-title><img src="https://img.icons8.com/color/48/000000/negative-dynamic.png"/></mat-card-title>
+
+      <mat-card-content>
+          <h1>$500</h1>
+
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+    </mat-card>
+
+    </div>
+
+    <div class="chart">
+      <mat-card >
+        <!-- <mat-spinner *ngIf="!isTrpChartReady"></mat-spinner> -->
+        <!-- <div style="display: block" *ngIf="isTrpChartReady"> -->
+          <canvas
+              mdbChart
+              [chartType]="chartTypeSal"
+              [datasets]="chartDatasetsSal"
+              [labels]="chartLabelsSal"
+              [colors]="chartColorsSal"
+              [options]="chartOptionsSal"
+              [legend]="true"
+              (chartHover)="chartHoveredSal($event)"
+              (chartClick)="chartClickedSal($event)">
+          </canvas>
+        <!-- </div> -->
+      </mat-card>
+    </div>
+
+<!-- end of class sout-dashboard -->
+</div>
+
+
+

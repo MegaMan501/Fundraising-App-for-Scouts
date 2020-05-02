@@ -1,8 +1,9 @@
 mat-card {
-  margin: 50px 50px 50px 50px;
-  padding: 100px auto 100px auto;
-  min-height: 400px;
-  width: 100%;
+  margin: 5px;
+  padding: 30px;
+  min-height: 300px;
+  min-width: 300px;
+  width: 98%;
 }
 
 mat-spinner {
@@ -36,6 +37,8 @@ table {
 .troops-overview {
   grid-area: troops-overview;
   margin: 20px auto;
+  align-self: center;
+  justify-self: center;
   canvas {
     height: 100vh;
     width: 100%;
@@ -46,7 +49,7 @@ table {
   $scoutTablePrimary: rgb(43, 94, 62);
   $scoutTableAccent: rgb(38, 182, 93);
   margin: 50px 15px auto 15px;
-  padding: 100px auto 100px auto;
+  padding: 30px auto 30px auto;
   background-color: $scoutTableAccent;
   .header {
     display: flex;
@@ -238,8 +241,8 @@ table {
     .dashboard {
       display: grid;
       height: 100vh;
-      grid-gap: 100px;
-      padding: 100px;
+      grid-gap: 20px;
+      padding: 10px;
       // align-items: center;
       grid-template-columns: 1fr 1fr;
       grid-template-areas:
@@ -265,9 +268,9 @@ table {
     .dashboard {
       display: grid;
       height: 100vh;
-      grid-gap: 100px;
+      grid-gap: 5px;
       align-items: center;
-      padding: 100px;
+      padding: 20px;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-areas:
       "troops-overview troops troops"

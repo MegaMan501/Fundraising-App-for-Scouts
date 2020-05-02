@@ -1,3 +1,16 @@
+-- Login --
+DELIMITER //
+CREATE PROCEDURE login (
+	IN userEmail VARCHAR(255)
+)
+BEGIN
+	SELECT user_id,full_name,email,hash_pass,leader_flag,admin_flag,verified 
+    FROM user WHERE email=userEmail;
+END//
+DELIMITER ;
+
+CALL login('janedoe@gmail.com');
+
 -- Groups --
 # Adding Groups
 DELIMITER //
@@ -792,7 +805,7 @@ BEGIN
     ON p.product_id=sl.product_id
     INNER JOIN user AS u
     ON u.user_id=s.user_id
-    WHERE (groupId=);
+    WHERE groupId=;
 END//
 DELIMITER ;
 

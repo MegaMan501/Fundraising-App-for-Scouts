@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, OnDestroy, OnChanges } from '@angular/core';
-import { Group, Member, Scout } from '../models/all.model';
+import { Group, Member, Scout, Inventory } from '../models/all.model';
 import { MemberService } from '../members/member.service';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
+import { InventoryService } from '../inventory/inventory.service';
 
 @Component({
   selector: 'app-dashboard-leader',
@@ -56,75 +57,28 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
   public chartDatasetsTrp: Array<any> = [{data: []}];
   public chartLabelsTrp: Array<any> = [];
   isScoutDataInit = false;
-  public chartColorsTrp: Array<any> = [
-    {
-      backgroundColor: ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
-      hoverBackgroundColor: ['#FF5A5E', '#5AD3D1', '#FFC870', '#A8B3C5', '#616774'],
-      borderWidth: 2,
-    }
-  ];
-  public chartOptionsTrp: any = { responsive: true };
+  public chartOptionsTrp: any = { responsive: true, legend: { position: 'left'} };
 
   // Inventory
-  public chartType: string = 'bar';
-  public chartDatasets: Array<any> = [
-    { data: [65, 59, 57, 20, 56, 55, 40], label: ['Sold'] },
-    { data: [96, 80, 120, 80, 60, 111, 101], label: ['Total'] },
-  ];
-  public chartLabels: Array<any> = ['Thin Mints', 'Caramel Delites', 'Peanut Butter', 'Smores', 'Chocolate Chip', 'Shortbread'];
-  public chartColors: Array<any> = [
-    {
-      backgroundColor: [
-        'maroon',
-        'dodgerblue',
-        'goldenrod',
-        'mediumseagreen',
-        'purple',
-        'darkorange'
-      ],
-      borderColor: [
-        'maroon',
-        'dodgerblue',
-        'goldenrod',
-        'mediumseagreen',
-        'purple',
-        'darkorange'
-      ],
-      borderWidth: 2,
-    },
-    {
-      backgroundColor: [
-        'red',
-        'deepskyblue',
-        'gold',
-        'mediumspringgreen',
-        'mediumpurple',
-        'orange'
-      ],
-      borderColor: [
-        'red',
-        'deepskyblue',
-        'gold',
-        'mediumspringgreen',
-        'mediumpurple',
-        'orange'
-      ],
-      borderWidth: 2,
-    },
-  ];
-  public chartOptions: any = {
+  inventory: Inventory[] = [];
+  private inventorySub: Subscription;
+  public chartTypeInv: string = 'bar';
+  public chartDatasetsInv: Array<any> = [{data: [], label: 'Total'}];
+  public chartLabelsInv: Array<any> = [];
+  public chartOptionsInv: any = {
     responsive: true,
-      scales: {
-        xAxes: [{
-          stacked: true,
+    legend: { position: 'left'},
+    scales: {
+      xAxes: [{
+        stacked: true,
+        gridLines: {
+          color: 'rgba(100,100,100,0.0)'
+        }
+      }],
+      yAxes: [{
+        stacked: true,
           gridLines: {
-            color: 'rgba(100,100,100,0.0)'
-          }
-        }],
-        yAxes: [{
-          stacked: true,
-          gridLines: {
-            color: 'rgba(100,100,100,0.0)'
+           color: 'rgba(100,100,100,0.0)'
           }
         }
       ]
@@ -202,6 +156,7 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
   constructor(
     public memberService: MemberService,
     public route: Router,
+    public inventoryService: InventoryService,
     public authService: AuthService
   ) {
     // Auth
@@ -299,6 +254,21 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
         this.isTrpChartReady = true;
       }, 500);
     });
+
+    // Inventory
+    this.inventoryService.getInventory();
+    this.inventorySub = this.inventoryService.getInventoryStatusListner()
+    .subscribe(res => {
+      this.inventory = res;
+      const temp: number[] = [];
+      this.inventory.forEach(e => {
+        temp.push(e.quantity);
+        this.chartDatasetsInv[0].data.push(e.quantity);
+        this.chartLabelsInv.push(e.name);
+      });
+
+      // this.chartDatasetsInv.push({data: temp, label: 'Total'});
+    });
   }
 
    // Refresh the list of groups
@@ -341,16 +311,6 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
     this.route.navigate(['/members-leaders']);
   }
 
-  // RNG Color
-  getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
-
   ngOnDestroy() {
     // Auth
     this.authListner.unsubscribe();
@@ -360,5 +320,7 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
     this.groupsSub.unsubscribe();
     this.leadersSub.unsubscribe();
     this.scoutsSub.unsubscribe();
+    // Inventory
+    this.inventorySub.unsubscribe();
   }
 }

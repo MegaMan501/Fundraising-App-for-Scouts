@@ -10,12 +10,11 @@
             [chartType]="chartTypeTrp"
             [datasets]="chartDatasetsTrp"
             [labels]="chartLabelsTrp"
-            [colors]="chartColorsTrp"
             [options]="chartOptionsTrp"
             [legend]="true"
             (chartHover)="chartHoveredTrp($event)"
             (chartClick)="chartClickedTrp($event)">
-        </canvas>
+          </canvas>
       </div>
     </mat-card>
   </div>
@@ -198,11 +197,10 @@
     <mat-card class="inv-overview">
       <div style="display: block">
           <canvas mdbChart
-                  [chartType]="chartType"
-                  [datasets]="chartDatasets"
-                  [labels]="chartLabels"
-                  [colors]="chartColors"
-                  [options]="chartOptions"
+                  [chartType]="chartTypeInv"
+                  [datasets]="chartDatasetsInv"
+                  [labels]="chartLabelsInv"
+                  [options]="chartOptionsInv"
                   [legend]="true"
                   (chartHover)="chartHovered($event)"
                   (chartClick)="chartClicked($event)">
