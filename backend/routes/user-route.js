@@ -11,4 +11,7 @@ router.post("/check-reset-token", UserController.userCheckResetToken);
 //router.post("/verify-acc", UserController.userVerifyAccount);
 //router.post("/check-verif-token", UserController.userCheckAccountToken);
 
+router.get("/get-user-info", checkAuth, UserController.getUserInfo);
+router.post("/update-user", checkAuth, UserController.updateUser);
+
 module.exports = router;

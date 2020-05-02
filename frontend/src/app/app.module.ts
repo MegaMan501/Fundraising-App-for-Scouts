@@ -46,6 +46,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 // Dashboard
 import { DashboardLeaderComponent } from './dashboard-leader/dashboard-leader.component';
@@ -86,6 +87,7 @@ import { DialogLogoutComponent } from './dialogs/dialog-logout/dialog-logout.com
     LoginComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent,
+    AccountSettingsComponent,
     DashboardLeaderComponent,
     DashboardScoutComponent,
     GroupComponent,

@@ -1,0 +1,89 @@
+.full-width {
+    width: 100%;
+  }
+  
+  input.example-right-align::-webkit-outer-spin-button,
+  input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  input.example-right-align {
+    -moz-appearance: textfield;
+  }
+  
+  .formsubmit {
+    display: block;
+    text-align: center;
+  
+    padding-top: 1rem;
+  }
+  
+  mat-card-footer {
+    text-align: left;
+    font-size: small;
+    
+  }
+  
+  mat-spinner {
+    margin: auto;
+  }
+  
+  .acard {
+    grid-area: acard;
+    max-height: 500px;
+    padding: 50px 30px 50px 30px;
+    margin: 8rem 2rem 8rem 2rem;
+    background-color: rgb(255, 255, 255);
+  }
+  
+  .spacer1 {
+    grid-area: spacer1;
+    width: 200px;
+  }
+  .spacer2 {
+    grid-area: spacer2;
+    width: 200px;
+  }
+  
+  @supports not (display: grid) {
+    .account-settings {
+      max-width: 50em;
+      margin: 0 auto;
+    }
+  }
+  
+  @supports (display: grid) {
+    @media screen and (min-width: 600px) {
+      .account-settings {
+        display: grid;
+        // height: 100vh;
+        // width: 100vw;
+        grid-gap: 0px;
+        margin: 0;
+        padding: 0;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+        "spacer1 spacer1"
+        "acard acard"
+        "spacer2 spacer2"
+        ;
+      }
+    }
+  
+    @media screen and (min-width: 1200px) {
+      .account-settings {
+        display: grid;
+        // height: 100vh;
+        // width: 100vw;
+        grid-gap: 0px;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas:
+        "spacer1 acard spacer2"
+        "spacer1 acard spacer2";
+      }
+  
+      .acard {
+        min-width: 700px;
+      }
+    }
+  }
