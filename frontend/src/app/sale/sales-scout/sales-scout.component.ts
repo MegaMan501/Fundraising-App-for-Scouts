@@ -28,11 +28,11 @@ export class SalesScoutComponent implements OnInit {
   productList = new Array();
   selectedProduct: number;
 
-  displayedColumns: string[] = ['productId', 'quantity', 'price', 'saleDate', 'action'];
+  displayedColumns: string[] = ['productName', 'quantity', 'price', 'saleDate', 'action'];
   dataSource = new MatTableDataSource<Sale>();
 
   sales: Sale[] = [];
-  inventory= new Array();
+  inventory = new Array();
   private inventorySub: Subscription;
   private saleSub: Subscription;
 

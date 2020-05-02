@@ -71,7 +71,7 @@ import { DialogEditGroupComponent } from './dialogs/edit-group/edit-group.compon
 import { DialogEditLeaderComponent } from './dialogs/edit-leader/edit-leader.component';
 import { DialogEditScoutComponent } from './dialogs/edit-scout/edit-scout.component';
 import { DialogEditInventoryComponent } from './dialogs/edit-inventory/edit-inventory.component';
-
+import { DialogLogoutComponent } from './dialogs/dialog-logout/dialog-logout.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +97,8 @@ import { DialogEditInventoryComponent } from './dialogs/edit-inventory/edit-inve
     DialogEditLeaderComponent,
     DialogEditScoutComponent,
     DialogEditInventoryComponent,
-    ErrorComponent
+    ErrorComponent,
+    DialogLogoutComponent
   ],
   imports: [
     BrowserModule,

@@ -57,17 +57,18 @@ export class SaleService {
     });
   }
 
-  getSales()
-  {
-    this.http.get<{rows: any}>(
+  getSales() {
+    this.http.get<{rows: any}>
+    (
       BACKEND_URL + '/get-sales'
-      ).pipe(
+    ).pipe(
       map((saleData) => {
         return {
           sales: saleData.rows.map(s => {
             return {
               saleId: s.sale_id,
-              productId: s.prod_name,
+              productId: s.prod_id,
+              productName: s.prod_name,
               quantity: s.quantity,
               price: s.price,
               saleDate: s.sale_date
@@ -78,12 +79,12 @@ export class SaleService {
   )
   .subscribe(modData => {
     this.sales = modData.sales;
+    // console.log(this.sales);
     this.allSalesStatusListner.next([...this.sales]);
   });
   }
 
-  getGroupSales()
-  {
+  getGroupSales() {
     this.http.get<{rows: any}>(
       BACKEND_URL + '/group-sales'
       ).pipe(

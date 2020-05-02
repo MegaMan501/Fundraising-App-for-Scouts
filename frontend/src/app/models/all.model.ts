@@ -30,19 +30,20 @@ export interface Inventory {
 }
 
 export interface Notification {
-  name: string,
-  message: string
+  name: string;
+  message: string;
 }
 
 export interface Sale {
   saleId: number;
   productId: string;
+  productName: string;
   quantity: number;
   price: number;
   saleDate: string;
 }
 
-export interface detailedSale{
+export interface detailedSale {
   groupId: string;
   scoutName: string;
   productName: string;
