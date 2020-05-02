@@ -138,7 +138,7 @@
                 </a>
               </mat-expansion-panel-header>
               <!-- Events Items -->
-              <a mat-list-item routerLinkActive="activeRoute" href="#">test</a>
+              <a [routerLink]="['/notifications-leader']" mat-list-item routerLinkActive="activeRoute">Notifications</a>
             </mat-expansion-panel>
             <mat-divider></mat-divider>
 
@@ -201,7 +201,7 @@
         <mat-menu #notifications="matMenu" class="notifications-menu" xPosition="before">
           <div class="notifications-item" *ngFor="let n of notificationArray; let lastItem = last;">
             <div class="notifications-meta">
-            <h3>{{n.full_name}}</h3>
+            <h3>{{n.name}}</h3>
             <!-- <h5>{{n.Date}}</h5> -->
             </div>
             <p>{{n.message}}</p>
