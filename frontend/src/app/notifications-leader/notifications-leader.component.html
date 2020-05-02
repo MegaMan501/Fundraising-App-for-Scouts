@@ -1,0 +1,139 @@
+<div class="inventory">
+
+  <!-- Card -->
+  <mat-card class="acard" id="add">
+
+    <!-- Header -->
+    <mat-card-header>
+      <mat-card-title>Send a <strong>Notification</strong></mat-card-title>
+      <!-- <mat-card-subtitle>GS Fundraising Platform</mat-card-subtitle> -->
+    </mat-card-header>
+
+    <mat-radio-group [(ngModel)]="enable" aria-label="Select recipient(s)">
+      <mat-radio-button value="1">Individual Message</mat-radio-button>
+      <mat-radio-button value="2">Group Message</mat-radio-button>
+      <mat-radio-button value="3">Global Message</mat-radio-button>
+    </mat-radio-group>
+
+    <!-- Content -->
+    <mat-card-content>
+      <form (submit)="onAddNotification(formDirective)" [formGroup]="notificationForm" #formDirective="ngForm">
+
+        <!-- Cost -->
+        <mat-form-field *ngIf="enable==1" appearance="standard" class="full-width">
+          <mat-label>User Id</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="userId"
+            placeholder="EX: 111">
+        </mat-form-field>
+
+        <!-- Sale Price -->
+        <mat-form-field *ngIf="enable==2" appearance="standard" class="full-width">
+          <mat-label>Group Id</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="groupId"
+            placeholder="EX: 111">
+        </mat-form-field>
+
+        <!-- Product Name -->
+        <mat-form-field *ngIf="enable == 1 || enable == 2 || enable == 3" appearance="standard" class="full-width">
+          <mat-label>Message</mat-label>
+          <textarea
+            matInput
+            formControlName="message"
+            placeholder="EX: Remember the Event on April 21st!"
+            required></textarea>
+          <mat-error *ngIf="notificationForm.controls.message.hasError('required')">
+            Message is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="enable == 1 || enable == 2 || enable == 3" class="full-width">
+          <mat-label>Choose an expiration date</mat-label>
+          <input matInput formControlName="date" [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker></mat-datepicker>
+          <mat-error *ngIf="notificationForm.controls.date.hasError('pattern')">
+            Sale date is <strong>required</strong>!
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Actions -->
+        <mat-card-actions>
+            <div class="formsubmit">
+              <button
+                  type="submit"
+                  mat-raised-button
+                  [disabled]="!notificationForm.valid"
+                  color="primary">Send Notification</button>
+            </div>
+        </mat-card-actions>
+      </form>
+
+    </mat-card-content>
+
+    <!-- Footer -->
+    <mat-card-footer>
+      <p></p>
+    </mat-card-footer>
+  </mat-card>
+
+  <div class="atable" id="table">
+    <div class="header">
+      <mat-form-field>
+        <input (keyup)="filter($event.target.value)" matInput placeholder="Filter">
+      </mat-form-field>
+      <span class="spacer"></span>
+      <button mat-flat-button color="accent" (click)="onRefreshNotification()">Refresh</button>
+    </div>
+    <mat-progress-bar *ngIf="isLoading" mode="query" color="accent"></mat-progress-bar>
+    <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <ng-container matColumnDef="receiverUserId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>User Id</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.receiverUserId}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="groupId">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Group Id</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupId}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="message">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Message</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.message}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="issueDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Issue Date</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.issueDate | date}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="expirationDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Expiration Date</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.expirationDate | date}} </mat-cell>
+      </ng-container>
+
+       <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="onEdit(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="onDelete(row)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

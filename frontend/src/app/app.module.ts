@@ -30,6 +30,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
 
 /* External Modules */
 import { ChartsModule } from 'ng2-charts';
@@ -61,6 +62,8 @@ import { SalesScoutComponent } from './sale/sales-scout/sales-scout.component';
 import { InventoryLeaderComponent } from './inventory/inventory-leader/inventory-leader.component';
 // Requests
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
+// Notifications
+import { NotificationsLeaderComponent } from './notifications-leader/notifications-leader.component';
 
 // Sevices
 import { AuthInterceptor } from './auth/auth.interceptor';
@@ -97,7 +100,8 @@ import { DialogEditInventoryComponent } from './dialogs/edit-inventory/edit-inve
     DialogEditLeaderComponent,
     DialogEditScoutComponent,
     DialogEditInventoryComponent,
-    ErrorComponent
+    ErrorComponent,
+    NotificationsLeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -131,8 +135,8 @@ import { DialogEditInventoryComponent } from './dialogs/edit-inventory/edit-inve
     MatSelectModule,
     MatSortModule,
     MatSnackBarModule,
-    HighchartsChartModule
-
+    HighchartsChartModule,
+    MatRadioModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

@@ -745,6 +745,39 @@ DELIMITER ;
 
 
 -- Notifications --
+# add notification
+DELIMITER //
+CREATE PROCEDURE getNotifications (
+	IN nUserId INT,
+    IN rUserId INT,
+    IN groupId INT,
+    IN nMessage varchar(255),
+    IN sTime DATE,
+    IN eTime DATE
+
+)
+BEGIN
+    IF rUserId < 0 && groupID < 0 THEN
+        INSERT INTO notification (notifier_user_id, message, start_time, expiration)
+        VALUES (nUserId, nMessage, sTime, eTime);    
+    END IF;
+
+    IF rUserId < 0 && groupID > 0 THEN
+        INSERT INTO notification (notifier_user_id, group_id, message, start_time, expiration)
+        VALUES (nUserId, groupId, nMessage, sTime, eTime);    
+    END IF;
+
+    IF rUserId > 0 && groupID < 0 THEN
+        INSERT INTO notification (notifier_user_id, receiver_user_id, message, start_time, expiration)
+        VALUES (nUserId, rUserId, nMessage, sTime, eTime);    
+    END IF;
+
+    SELECT receiver_user_id, group_id, message, start_time, expiration FROM notification WHERE notifier_user_id=nUserId;
+
+
+END//
+DELIMITER ;
+
 # get all notifications
 DELIMITER //
 CREATE PROCEDURE getNotifications (
@@ -760,6 +793,16 @@ BEGIN
     INNER JOIN user AS u
     ON u.user_id=s.user_id
     WHERE (groupId=);
+END//
+DELIMITER ;
+
+# get notifications that a user has sent
+DELIMITER //
+CREATE PROCEDURE getSentNotifications (
+    IN userId INT
+)
+BEGIN
+    SELECT receiver_user_id, group_id, message, start_time, expiration FROM notification WHERE notifier_user_id=userId;
 END//
 DELIMITER ;
 
