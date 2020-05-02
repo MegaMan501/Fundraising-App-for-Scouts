@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { InventoryService } from '../inventory/inventory.service';
 import { SaleService } from '../sale/sale.service';
+import { ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-dashboard-leader',
@@ -54,7 +55,7 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
   displayedColumnsScout: string[] = ['userId', 'groupId', 'fullname', 'email'];
   dataSourceScout: MatTableDataSource<Member>;
   private scoutsSub: Subscription;
-  public chartTypeTrp = 'doughnut';
+  public chartTypeTrp: ChartType = 'doughnut';
   public chartDatasetsTrp: Array<any> = [{data: []}];
   public chartLabelsTrp: Array<any> = [];
   isScoutDataInit = false;
@@ -64,7 +65,7 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
   inventoryTotal = 0;
   inventory: Inventory[] = [];
   private inventorySub: Subscription;
-  public chartTypeInv = 'bar';
+  public chartTypeInv: ChartType = 'bar';
   public chartDatasetsInv: Array<any> = [{data: [], label: 'Total'} ];
   public chartLabelsInv: Array<any> = [];
   public chartColorsInv: Array<any> = [ {backgroundColor: [], borderWidth: 0.1 }];
@@ -89,9 +90,10 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
   };
 
   // Sales
+  salesTotal = 0;
   sales: Sale[] = [];
   private saleSub: Subscription;
-  public chartTypeSal = 'line';
+  public chartTypeSal: ChartType = 'line';
   public chartDatasetsSal: Array<any> = [{ data: [], label: 'Items Sold' }];
   public chartLabelsSal: Array<any> = [];
   public chartColorsSal: Array<any> = [ { backgroundColor: 'rgba(105, 0, 132, .2)'}];
@@ -116,7 +118,7 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
   };
 
   // Events
-  public chartTypeEvn = 'horizontalBar';
+  public chartTypeEvn: ChartType = 'horizontalBar';
   public chartDatasetsEvn: Array<any> = [
     { data: [65, 59, 80, 81, 56, 55, 40], label: 'Attendence' }
   ];
@@ -284,6 +286,7 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
     .subscribe(res => {
       this.sales = res;
       this.sales.forEach(e => {
+        this.salesTotal += e.quantity;
         this.chartDatasetsSal[0].data.push(e.quantity);
         this.chartLabelsSal.push(e.saleDate);
       });
@@ -338,6 +341,18 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
 
   routeToLeaders() {
     this.route.navigate(['/members-leaders']);
+  }
+
+  routeToInventory() {
+    this.route.navigate(['/inventory-leader']);
+  }
+
+  routeToGroups() {
+    this.route.navigate(['/members-groups']);
+  }
+
+  routeToSales() {
+    this.route.navigate(['/sales-leader']);
   }
 
   ngOnDestroy() {

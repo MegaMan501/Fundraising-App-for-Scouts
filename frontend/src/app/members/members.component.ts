@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../auth/auth.service';
+import { ChartType } from 'chart.js';
 
 @Component({
   templateUrl: './members.component.html',
@@ -67,7 +68,7 @@ export class MembersComponent implements OnInit, OnDestroy{
   groups: Group[] = [];
   leaders: Member[] = [];
 
-  public chartTypeTrp = 'pie';
+  public chartTypeTrp: ChartType = 'pie';
   public chartTitle = '';
   public chartDatasetsTrp: Array<any> = [{ data: [] }];
 

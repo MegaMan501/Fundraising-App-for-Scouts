@@ -1,8 +1,8 @@
 mat-card {
-  margin: 10px;
+  margin: 5px;
   padding: 20px;
   min-height: 300px;
-  min-width: 300px;
+  // min-width: 300px;
   width: 98%;
 }
 
@@ -257,8 +257,8 @@ table {
       "events-overview events-overview"
       "sales sales"
       "sales-overview sales-overview"
-      "events events"
-      "events-overview events-overview"
+      // "events events"
+      // "events-overview events-overview"
       "inventory inventory"
       "inventory-overview inventory-overview"
       ;
@@ -277,9 +277,9 @@ table {
       "troops-overview troops troops"
       "inventory-overview inventory-overview inventory"
       "members members-overview members-overview"
-      "events-overview events-overview events"
-      "sales sales-overview sales-overview"
       "groups-overview groups-overview groups"
+      // "events-overview events-overview events"
+      "sales sales-overview sales-overview"
       ;
     }
   }

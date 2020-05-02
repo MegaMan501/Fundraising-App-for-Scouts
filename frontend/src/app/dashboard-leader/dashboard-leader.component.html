@@ -4,16 +4,18 @@
     <mat-card class="trp-over">
       <mat-spinner *ngIf="!isTrpChartReady"></mat-spinner>
       <div style="display: block" *ngIf="isTrpChartReady">
-        <canvas
-            mdbChart
-            [chartType]="chartTypeTrp"
-            [datasets]="chartDatasetsTrp"
-            [labels]="chartLabelsTrp"
-            [options]="chartOptionsTrp"
-            [legend]="true"
-            (chartHover)="chartHoveredTrp($event)"
-            (chartClick)="chartClickedTrp($event)">
-          </canvas>
+        <div>
+          <canvas
+              baseChart
+              [chartType]="chartTypeTrp"
+              [datasets]="chartDatasetsTrp"
+              [labels]="chartLabelsTrp"
+              [options]="chartOptionsTrp"
+              [legend]="true"
+              (chartHover)="chartHoveredTrp($event)"
+              (chartClick)="chartClickedTrp($event)">
+            </canvas>
+        </div>
       </div>
     </mat-card>
   </div>
@@ -96,7 +98,7 @@
       <h1>Total Groups</h1>
       <h2> {{this.groups.length}} </h2>
       <hr>
-      <button mat-flat-button color="accent">View</button>
+      <button mat-flat-button color="accent" (click)="routeToGroups()">View</button>
     </mat-card>
   </div>
 
@@ -145,10 +147,9 @@
     </mat-card>
   </div>
 
-  <div class="events-overview">
+  <!-- <div class="events-overview">
     <mat-card class="evn-overview">
-
-      <canvas mdbChart
+      <canvas baseChart
         [chartType]="chartTypeEvn"
         [datasets]="chartDatasetsEvn"
         [labels]="chartLabelsEvn"
@@ -158,7 +159,6 @@
         (chartHover)="chartHoveredEvn($event)"
         (chartClick)="chartClickedEvn($event)">
       </canvas>
-
     </mat-card>
   </div>
   <div class="events" id="events-d">
@@ -169,11 +169,11 @@
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis mollitia velit voluptate numquam nemo ut ipsam eum dignissimos dolores qui odio, fugit delectus similique nihil ab dolorum deleniti quos aliquid.</p>
       <button mat-flat-button color="accent">View</button>
     </mat-card>
-  </div>
+  </div> -->
 
   <div class="sales-overview">
     <mat-card class="sal-overview">
-      <canvas mdbChart
+      <canvas baseChart
         [chartType]="chartTypeSal"
         [datasets]="chartDatasetsSal"
         [labels]="chartLabelsSal"
@@ -188,15 +188,15 @@
   <div class="sales" id="sales-d">
     <mat-card class="sal">
       <h1>Total Sales</h1>
-      <h2>$45,123</h2>
-      <button mat-flat-button color="accent">View</button>
+      <h2>{{this.salesTotal}} Items</h2>
+      <button mat-flat-button color="accent" (click)="routeToSales()">View</button>
     </mat-card>
   </div>
 
   <div class="inventory-overview">
     <mat-card class="inv-overview">
       <div style="display: block">
-          <canvas mdbChart
+          <canvas baseChart
             [chartType]="chartTypeInv"
             [datasets]="chartDatasetsInv"
             [labels]="chartLabelsInv"
@@ -211,10 +211,7 @@
     <mat-card class="inv">
       <h1>Total Inventory</h1>
       <h2>{{this.inventoryTotal}} Items</h2>
-      <hr>
-      <h1>Total Items Sold</h1>
-      <h2>3259 Items</h2>
-      <button mat-flat-button color="accent">View</button>
+      <button mat-flat-button color="accent" (click)="routeToInventory()">View</button>
     </mat-card>
   </div>
 
