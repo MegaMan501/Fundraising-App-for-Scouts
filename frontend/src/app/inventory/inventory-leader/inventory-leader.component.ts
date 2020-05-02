@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogDeleteComponent } from 'src/app/dialogs/delete/dialog-delete.component';
 import { DialogEditInventoryComponent } from 'src/app/dialogs/edit-inventory/edit-inventory.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-inventory-leader',
@@ -28,6 +29,29 @@ export class InventoryLeaderComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<Inventory>;
   private inventorySub: Subscription;
   private groupSub: Subscription;
+  public chartTypeInv: ChartType = 'bar';
+  public chartDatasetsInv: Array<any> = [{data: [], label: 'Total'} ];
+  public chartLabelsInv: Array<any> = [];
+  public chartColorsInv: Array<any> = [ {backgroundColor: [], borderWidth: 0.1 }];
+  public chartOptionsInv: any = {
+    responsive: true,
+    legend: { position: 'top'},
+    scales: {
+      xAxes: [{
+        stacked: true,
+        gridLines: {
+          color: 'rgba(100,100,100,0.0)'
+        }
+      }],
+      yAxes: [{
+        stacked: true,
+          gridLines: {
+           color: 'rgba(100,100,100,0.0)'
+          }
+        }
+      ]
+    }
+  };
 
   constructor(
     private inventoryService: InventoryService,
@@ -59,6 +83,12 @@ export class InventoryLeaderComponent implements OnInit, OnDestroy {
       this.dataSource = new MatTableDataSource<Inventory>(this.inventory);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      const color = this.getRandomColor();
+      this.inventory.forEach(e => {
+        this.chartDatasetsInv[0].data.push(e.quantity);
+        this.chartColorsInv[0].backgroundColor.push(color);
+        this.chartLabelsInv.push(e.name);
+      });
       this.isLoading = false;
     });
 
@@ -74,6 +104,8 @@ export class InventoryLeaderComponent implements OnInit, OnDestroy {
   onRefreshInventory() {
     this.isLoading = true;
     this.inventoryService.getInventory();
+    this.chartDatasetsInv[0].data = [];
+    this.chartLabelsInv = [];
     this.isLoading = false;
   }
 
@@ -151,6 +183,16 @@ export class InventoryLeaderComponent implements OnInit, OnDestroy {
       }
       return;
     });
+  }
+
+   // RNG Color
+   getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 
   ngOnDestroy() {

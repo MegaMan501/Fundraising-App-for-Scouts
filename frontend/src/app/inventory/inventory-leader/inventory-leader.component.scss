@@ -18,10 +18,16 @@ mat-spinner {
   margin: auto;
 }
 
+.inventory-overview {
+  grid-area: inventory-overview;
+  justify-items: center;
+  margin: 10px;
+}
+
 .acard {
   grid-area: acard;
   max-height: 700px;
-  padding: 50px 30px 50px 30px;
+  padding: 30px;
   margin: 8rem 2rem 8rem 2rem;
   background-color: rgb(255, 255, 255);
 }
@@ -85,6 +91,7 @@ mat-spinner {
       padding: 20px;
       grid-template-columns: 1fr 1fr;
       grid-template-areas:
+      "inventory-overview inventory-overview"
       "acard acard"
       "atable atable"
       ;
@@ -96,10 +103,11 @@ mat-spinner {
       display: grid;
       grid-gap: 0px;
       padding: 20px;
+      align-items: center;
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-areas:
-      "acard atable atable"
-      "acard atable atable";
+      "acard inventory-overview inventory-overview"
+      "atable atable atable";
     }
 
     .acard {

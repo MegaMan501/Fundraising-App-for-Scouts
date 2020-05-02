@@ -153,9 +153,7 @@ export class AuthService {
   }
 
   private setAuthTimer(duration: number) {
-    // console.log(duration - 60);
     let dialogRef;
-
     // Logout dialog
     setTimeout(() => {
       dialogRef = this.dialog.open(DialogLogoutComponent, {

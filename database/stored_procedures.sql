@@ -828,6 +828,7 @@ CREATE PROCEDURE getSale (
 BEGIN
 	DECLARE isAdmin INT DEFAULT 0;
     DECLARE isLeader INT DEFAULT 0;
+    DECLARE groupId INT DEFAULT 0;
 	
     # get the status of admin
     SELECT COUNT(admin_flag) 
@@ -840,7 +841,7 @@ BEGIN
     INTO isLeader 
     FROM user WHERE user_id = userId AND leader_flag = 1;
     
-    IF isAdmin >= 1 THEN
+    IF isAdmin >= 1 || isLeader >= 1 THEN
 		# return all products
 		SELECT s.sale_id, p.prod_name, s.quantity, s.price, s.sale_date 
 		FROM sale AS s 
@@ -853,6 +854,7 @@ BEGIN
 		ON s.product_id=p.product_id 
 		WHERE s.user_id=userId;
 	END IF;
+    
 END//
 DELIMITER ;
 

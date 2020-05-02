@@ -29,7 +29,6 @@ export class NotificationService {
   getReturnedSentNotifications() { return this.sentNotifications; }
   getAllNotificationsStatusListener() { return this.notificationStatusListner.asObservable(); }
   getSentNotificationsStatusListener() { return this.sentNotificationStatusListner.asObservable(); }
-  
 
   getNotifications()
   {

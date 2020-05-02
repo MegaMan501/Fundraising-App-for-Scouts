@@ -139,6 +139,21 @@
     </mat-card-footer>
   </mat-card>
 
+  <div class="inventory-overview">
+    <mat-card class="inv-overview">
+      <div style="display: block">
+          <canvas baseChart
+            [chartType]="chartTypeInv"
+            [datasets]="chartDatasetsInv"
+            [labels]="chartLabelsInv"
+            [colors]="chartColorsInv"
+            [options]="chartOptionsInv"
+            [legend]="true">
+          </canvas>
+      </div>
+    </mat-card>
+  </div>
+
   <div class="atable" id="table">
     <div class="header">
       <mat-form-field>

@@ -21,22 +21,41 @@
 
         <!-- Cost -->
         <mat-form-field *ngIf="enable==1" appearance="standard" class="full-width">
-          <mat-label>User Id</mat-label>
+          <!-- <mat-label>User Id</mat-label>
           <input
             matInput
             type="number"
             formControlName="userId"
-            placeholder="EX: 111">
+            placeholder="EX: 111"> -->
+          <mat-label>Scout</mat-label>
+          <mat-select
+            formControlName="userId"
+            required>
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let e of scouts" [value]="e.userId">
+              USERID: {{e.userId}} | NAME: {{e.fullname}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
 
         <!-- Sale Price -->
         <mat-form-field *ngIf="enable==2" appearance="standard" class="full-width">
-          <mat-label>Group Id</mat-label>
+          <!-- <mat-label>Group Id</mat-label>
           <input
             matInput
             type="number"
             formControlName="groupId"
-            placeholder="EX: 111">
+            placeholder="EX: 111"> -->
+          <mat-label>Group</mat-label>
+          <mat-select
+            formControlName="groupId"
+            required>
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let e of groups" [value]="e.groupId">
+              GROUPID: {{e.groupId}} | NAME: {{e.groupName}}
+            </mat-option>
+          </mat-select>
+
         </mat-form-field>
 
         <!-- Product Name -->
