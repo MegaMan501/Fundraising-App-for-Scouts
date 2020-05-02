@@ -16,6 +16,7 @@ import { GroupComponent } from './members/groups/groups.component';
 import { LeaderComponent } from './members/leaders/leaders.component';
 import { ScoutComponent } from './members/scouts/scouts.component';
 import { MembersComponent } from './members/members.component';
+import { NotificationsLeaderComponent } from './notifications-leader/notifications-leader.component';
 
 const routes: Routes = [
   {
@@ -109,6 +110,12 @@ const routes: Routes = [
     component: SalesScoutComponent,
     canActivate: [AuthGuard],
     data: { roles: [2] }
+  },
+  {
+    path: 'notifications-leader',
+    component: NotificationsLeaderComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [0, 1] }
   },
   {
     path: '**',

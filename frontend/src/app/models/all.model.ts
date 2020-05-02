@@ -30,8 +30,12 @@ export interface Inventory {
 }
 
 export interface Notification {
-  name: string;
-  message: string;
+  name: string,
+  message: string,
+  receiverUserId: number,
+  groupId: number,
+  issueDate: Date,
+  expirationDate: Date
 }
 
 export interface Sale {
