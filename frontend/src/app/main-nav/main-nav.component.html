@@ -230,7 +230,7 @@
             <span>Log Out</span>
           </button>
 
-          <button mat-menu-item *ngIf="userIsAuth">
+          <button mat-menu-item *ngIf="userIsAuth" (click)="onSetting()">
             <mat-icon>settings</mat-icon>
             <span>Settings</span>
           </button>

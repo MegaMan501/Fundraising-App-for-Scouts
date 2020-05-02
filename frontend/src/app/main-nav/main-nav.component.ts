@@ -102,7 +102,7 @@ export class MainNavComponent implements OnInit, OnDestroy {
   }
 
   onSetting() {
-    this.router.navigate(['/settings']);
+    this.router.navigate(['/account-settings']);
   }
 
   onSelectGroup(id: number, name: string) {

@@ -461,3 +461,85 @@ exports.userResetPass = (req, res, next) => {
     });
 });   
 }
+
+exports.getUserInfo = (req, res, next) => {
+    db.query(
+    'SELECT full_name, admin_flag, leader_flag FROM user WHERE user_id=?', 
+    [req.userData.userId], 
+    (err, rows) => {
+        //Catching DB errors
+        if(err) {
+            console.error(err.code, err.sqlMessage);
+            return res.status(401).json({
+                message: "Database Error!"
+            });
+        }
+
+        var rolestr;
+
+        if(rows[0].admin_flag === 1) {
+            rolestr = "Admin";
+        } else if(rows[0].leader_flag === 1) {
+            rolestr = "Leader";
+        } else {
+            rolestr = "Member";
+        }
+
+        return res.status(200).json({
+            name: rows[0].full_name,
+            role: rolestr
+        });
+    });
+}
+
+// update a user
+exports.updateUser = (req, res, next) => {
+
+    //const email = req.body.email.toLowerCase();
+    const password = req.body.confirmPassword;
+
+    // Hash a password and update the user with newly hashed password
+    if (password !== '' || password.length > 0) {
+        bcrypt
+        .hash(password, 10)
+        .then(hash => {
+            pass = hash;
+            db.query('UPDATE user SET full_name = ?, hash_pass = ?  WHERE user_id = ?',
+                [
+                    req.body.name, // who is the author: leader or admin
+		    pass,
+		    parseInt(req.userData.userId)
+                ], (err, rows, fields) => {
+                if(err) {
+                    console.error(err.code, err.sqlMessage);
+                    return res.status(401).json({
+                        message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
+                    });
+                }
+                // console.log("Successfully Added a scout.", rows);
+                return res.status(201).json({
+                    message: "Succesfully updated user account!"
+                });
+            });
+        }).catch( error => {
+            console.error("HASH: ", error);
+        });
+    } else { // if no password is present
+        db.query('UPDATE user SET full_name = ? WHERE user_id = ?',
+                [
+                    req.body.name, // who is the author: leader or admin
+		    parseInt(req.userData.userId)
+                ], (err, rows, fields) => {
+                if(err) {
+                    console.error(err.code, err.sqlMessage);
+                    return res.status(401).json({
+                        message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
+                    });
+                }
+                // console.log("Successfully Added a scout.", rows);
+                return res.status(201).json({
+                    message: "Succesfully updated user account!"
+                });
+        });
+    }
+}

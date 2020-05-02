@@ -4,6 +4,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { DashboardLeaderComponent } from './dashboard-leader/dashboard-leader.component';
 import { DashboardScoutComponent } from './dashboard-scout/dashboard-scout.component';
 import { InventoryLeaderComponent } from './inventory/inventory-leader/inventory-leader.component';
@@ -38,6 +39,12 @@ const routes: Routes = [
   {
     path: 'reset-password',
     component: ResetPasswordComponent
+  },
+  {
+    path: 'account-settings',
+    component: AccountSettingsComponent,
+    canActivate: [AuthGuard],
+    data: { roles: [0, 1, 2] }
   },
   {
     path: 'dashboard-leader',
