@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Group, Member } from '../models/all.model';
 import { environment as env } from '../../environments/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogLogoutComponent } from '../dialogs/dialog-logout/dialog-logout.component';
 
 const BACKEND_URL = env.BACKEND_URL + 'users';
 
@@ -24,7 +24,11 @@ export class AuthService {
   private adminStatusListener = new Subject<boolean>();
   private leaderStatusListener = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    public dialog: MatDialog
+  ) {}
 
   getToken() { return this.token; }
   getIsAuth() { return this.isAuth; }
@@ -54,6 +58,7 @@ export class AuthService {
       this.token = token;
       if (token) {
         const expiresInDuration = res.expiresIn;
+        // console.log('Expires Duration: ', expiresInDuration);
         this.setAuthTimer(expiresInDuration);
         this.isAuth = true;
         this.userId = res.userId;
@@ -76,6 +81,7 @@ export class AuthService {
         }
         const now = new Date();
         const expirationDate = new Date(now.getTime() + expiresInDuration * 1000);
+        // console.log('Expires Date in: ', expirationDate);
         this.saveAuthData(token, expirationDate, this.userId, res.admin_flag, res.leader);
         res.admin_flag || res.leader
           ? this.router.navigate(['/dashboard-leader'])
@@ -147,7 +153,18 @@ export class AuthService {
   }
 
   private setAuthTimer(duration: number) {
+    // console.log(duration - 60);
+    let dialogRef;
+
+    // Logout dialog
+    setTimeout(() => {
+      dialogRef = this.dialog.open(DialogLogoutComponent, {
+        data: { title: 'Logout', timeout: '60sec'}, disableClose: true
+      });
+    }, (duration - 60) * 1000);
+
     this.tokenTimer = setTimeout(() => {
+      dialogRef.close();
       this.logout();
     }, duration * 1000);
   }

@@ -8,9 +8,11 @@ const async = require("async");
 
 // login a user
 exports.userLogin = (req, res, next) => {
+    const qry = 'CALL login(?)'; // 'SELECT * FROM user WHERE email=?'
+    const email = req.body.email.toLowerCase();
     db.query(
-        'SELECT * FROM user WHERE email=?', 
-        [req.body.email], 
+        qry, 
+        [email], 
         (err, rows, fields) => {
 
             // Catch and DB errors.
@@ -20,39 +22,41 @@ exports.userLogin = (req, res, next) => {
                 message: "Error! Code:" + err.code + " Desc: " + err.sqlMessage
                });
             };
-            
-            if (rows.length > 0) {
-                if (rows) {
-                    console.log("Test: ", rows[0]);
-                }
 
-                bcrypt.compare(req.body.password, rows[0].hash_pass, (err, result) => {
+            if (rows.length > 0) {
+                // if (rows) {
+                //     console.log("Test: ", rows[0][0]);
+                // }
+
+                bcrypt.compare(req.body.password, rows[0][0].hash_pass, (err, result) => {
                     if(err) {
+                        console.log(err);
                         return res.status(401).json({
                             message: "Invalid Authentication Credentials!"
                         });
                     }
                     if(!result) {
+                        console.log(result)
                         return res.status(401).json({
                             message: "Invalid Authentication Credials!"
                         });
                     }
                     const token = jwt.sign(
                         {
-                            email: rows[0].email, 
-                            userId: rows[0].user_id, 
-                            leader_flag: rows[0].leader_flag,
-                            admin_flag: rows[0].admin_flag
+                            email: rows[0][0].email, 
+                            userId: rows[0][0].user_id, 
+                            leader_flag: rows[0][0].leader_flag,
+                            admin_flag: rows[0][0].admin_flag
                         }, 
                         process.env.JWT_KEY, 
-                        {expiresIn: "1h"}
+                        {expiresIn: "2h"}
                     ); 
                     res.status(200).json({
                         token: token, 
-                        expiresIn: 3600, 
-                        userId: rows[0].user_id, 
-                        leader: rows[0].leader_flag,
-                        admin_flag: rows[0].admin_flag
+                        expiresIn: 7200, 
+                        userId: rows[0][0].user_id, 
+                        leader: rows[0][0].leader_flag,
+                        admin_flag: rows[0][0].admin_flag
                     }); 
                 });
                 
@@ -61,8 +65,6 @@ exports.userLogin = (req, res, next) => {
                     message: "Invalid Authentication Credials!"
                 }); 
             }
-
-            // console.error("User: " + req.body.email, "Pass: " + req.body.password); 
         });
 }
 
