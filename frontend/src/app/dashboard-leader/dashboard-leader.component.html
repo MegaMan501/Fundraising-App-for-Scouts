@@ -2,7 +2,6 @@
 
   <div class="troops-overview">
     <mat-card class="trp-over">
-      <h1 style="text-align: center;">Troop Groups</h1>
       <mat-spinner *ngIf="!isTrpChartReady"></mat-spinner>
       <div style="display: block" *ngIf="isTrpChartReady">
         <canvas
@@ -111,6 +110,7 @@
       <span class="spacer"></span>
       <button mat-flat-button color="primary" (click)="onRefreshLeader()">Refresh</button>
     </div>
+    <!-- <div class="title"></div> -->
     <mat-progress-bar *ngIf="isLoadingLeader" mode="query" color="primary"></mat-progress-bar>
     <mat-table [dataSource]="dataSourceLeader" #sortLeader matSort class="mat-elevation-z8">
       <!-- User Id Column -->
@@ -197,21 +197,20 @@
     <mat-card class="inv-overview">
       <div style="display: block">
           <canvas mdbChart
-                  [chartType]="chartTypeInv"
-                  [datasets]="chartDatasetsInv"
-                  [labels]="chartLabelsInv"
-                  [options]="chartOptionsInv"
-                  [legend]="true"
-                  (chartHover)="chartHovered($event)"
-                  (chartClick)="chartClicked($event)">
+            [chartType]="chartTypeInv"
+            [datasets]="chartDatasetsInv"
+            [labels]="chartLabelsInv"
+            [colors]="chartColorsInv"
+            [options]="chartOptionsInv"
+            [legend]="true">
           </canvas>
       </div>
     </mat-card>
   </div>
   <div class="inventory" id="inventory-d">
     <mat-card class="inv">
-      <h1>Total Remaining Inventory</h1>
-      <h2>453 Items</h2>
+      <h1>Total Inventory</h1>
+      <h2>{{this.inventoryTotal}} Items</h2>
       <hr>
       <h1>Total Items Sold</h1>
       <h2>3259 Items</h2>

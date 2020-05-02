@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, OnDestroy, OnChanges } from '@angular/core';
-import { Group, Member, Scout, Inventory } from '../models/all.model';
+import { Group, Member, Scout, Inventory, Sale } from '../models/all.model';
 import { MemberService } from '../members/member.service';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { InventoryService } from '../inventory/inventory.service';
+import { SaleService } from '../sale/sale.service';
 
 @Component({
   selector: 'app-dashboard-leader',
@@ -53,19 +54,48 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
   displayedColumnsScout: string[] = ['userId', 'groupId', 'fullname', 'email'];
   dataSourceScout: MatTableDataSource<Member>;
   private scoutsSub: Subscription;
-  public chartTypeTrp: string = 'doughnut';
+  public chartTypeTrp = 'doughnut';
   public chartDatasetsTrp: Array<any> = [{data: []}];
   public chartLabelsTrp: Array<any> = [];
   isScoutDataInit = false;
   public chartOptionsTrp: any = { responsive: true, legend: { position: 'left'} };
 
   // Inventory
+  inventoryTotal = 0;
   inventory: Inventory[] = [];
   private inventorySub: Subscription;
-  public chartTypeInv: string = 'bar';
-  public chartDatasetsInv: Array<any> = [{data: [], label: 'Total'}];
+  public chartTypeInv = 'bar';
+  public chartDatasetsInv: Array<any> = [{data: [], label: 'Total'} ];
   public chartLabelsInv: Array<any> = [];
+  public chartColorsInv: Array<any> = [ {backgroundColor: [], borderWidth: 0.1 }];
   public chartOptionsInv: any = {
+    responsive: true,
+    legend: { position: 'top'},
+    scales: {
+      xAxes: [{
+        stacked: true,
+        gridLines: {
+          color: 'rgba(100,100,100,0.0)'
+        }
+      }],
+      yAxes: [{
+        stacked: true,
+          gridLines: {
+           color: 'rgba(100,100,100,0.0)'
+          }
+        }
+      ]
+    }
+  };
+
+  // Sales
+  sales: Sale[] = [];
+  private saleSub: Subscription;
+  public chartTypeSal = 'line';
+  public chartDatasetsSal: Array<any> = [{ data: [], label: 'Items Sold' }];
+  public chartLabelsSal: Array<any> = [];
+  public chartColorsSal: Array<any> = [ { backgroundColor: 'rgba(105, 0, 132, .2)'}];
+  public chartOptionsSal: any = {
     responsive: true,
     legend: { position: 'left'},
     scales: {
@@ -85,31 +115,8 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
     }
   };
 
-  // Sales
-  public chartTypeSal: string = 'line';
-  public chartDatasetsSal: Array<any> = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Items Sold' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Items Requested' }
-  ];
-  public chartLabelsSal: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public chartColorsSal: Array<any> = [
-    {
-      backgroundColor: 'rgba(105, 0, 132, .2)',
-      borderColor: 'rgba(200, 99, 132, .7)',
-      borderWidth: 2,
-    },
-    {
-      backgroundColor: 'rgba(0, 137, 132, .2)',
-      borderColor: 'rgba(0, 10, 130, .7)',
-      borderWidth: 2,
-    }
-  ];
-  public chartOptionsSal: any = {
-    responsive: true
-  };
-
   // Events
-  public chartTypeEvn: string = 'horizontalBar';
+  public chartTypeEvn = 'horizontalBar';
   public chartDatasetsEvn: Array<any> = [
     { data: [65, 59, 80, 81, 56, 55, 40], label: 'Attendence' }
   ];
@@ -157,7 +164,8 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
     public memberService: MemberService,
     public route: Router,
     public inventoryService: InventoryService,
-    public authService: AuthService
+    public authService: AuthService,
+    public saleService: SaleService
   ) {
     // Auth
     this.userIsAuth = this.authService.getIsAuth();
@@ -168,8 +176,8 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
   // Chart Listners
   public chartClickedTrp(e: any): void { }
   public chartHoveredTrp(e: any): void { }
-  public chartClicked(e: any): void { }
-  public chartHovered(e: any): void { }
+  public chartClickedInv(e: any): void { }
+  public chartHoveredInv(e: any): void { }
   public chartClickedSal(e: any): void { }
   public chartHoveredSal(e: any): void { }
   public chartClickedEvn(e: any): void { }
@@ -260,14 +268,25 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
     this.inventorySub = this.inventoryService.getInventoryStatusListner()
     .subscribe(res => {
       this.inventory = res;
-      const temp: number[] = [];
+      const color = this.getRandomColor();
       this.inventory.forEach(e => {
-        temp.push(e.quantity);
+        this.inventoryTotal += e.quantity;
         this.chartDatasetsInv[0].data.push(e.quantity);
+        this.chartColorsInv[0].backgroundColor.push(color);
         this.chartLabelsInv.push(e.name);
       });
+    });
 
-      // this.chartDatasetsInv.push({data: temp, label: 'Total'});
+    // Sale
+    this.saleService.getSales();
+    this.saleSub = this.saleService
+    .getAllSalesStatusListener()
+    .subscribe(res => {
+      this.sales = res;
+      this.sales.forEach(e => {
+        this.chartDatasetsSal[0].data.push(e.quantity);
+        this.chartLabelsSal.push(e.saleDate);
+      });
     });
   }
 
@@ -307,6 +326,16 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
     this.dataSourceScout.filter = value.trim().toLowerCase();
   }
 
+  // RNG Color
+  getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
   routeToLeaders() {
     this.route.navigate(['/members-leaders']);
   }
@@ -322,5 +351,7 @@ export class DashboardLeaderComponent implements OnInit, OnDestroy {
     this.scoutsSub.unsubscribe();
     // Inventory
     this.inventorySub.unsubscribe();
+    // Sale
+    this.saleSub.unsubscribe();
   }
 }

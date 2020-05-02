@@ -35,6 +35,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { ChartsModule } from 'ng2-charts';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 /* Angular Components */
 import { MainNavComponent } from './main-nav/main-nav.component';
@@ -108,6 +110,10 @@ import { DialogLogoutComponent } from './dialogs/dialog-logout/dialog-logout.com
     ChartsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
     LayoutModule,
     ChartsModule,
     MDBBootstrapModule.forRoot(),
@@ -133,7 +139,6 @@ import { DialogLogoutComponent } from './dialogs/dialog-logout/dialog-logout.com
     MatSortModule,
     MatSnackBarModule,
     HighchartsChartModule
-
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

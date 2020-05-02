@@ -159,7 +159,7 @@ export class AuthService {
     // Logout dialog
     setTimeout(() => {
       dialogRef = this.dialog.open(DialogLogoutComponent, {
-        data: { title: 'Logout', timeout: '60sec'}, disableClose: true
+        data: { title: 'Logout', timeout: '60sec'}
       });
     }, (duration - 60) * 1000);
 
