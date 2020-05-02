@@ -59,6 +59,8 @@ export class SalesScoutComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.isLoading = false;
+
+
     });
 
     this.inventoryService.getInventory();
@@ -67,7 +69,12 @@ export class SalesScoutComponent implements OnInit {
     .subscribe(res => {
       this.inventory = Array.from(new Set(res.map(p => p.productId)));
       this.productList = Array.from(new Set(res.map(p => p.name)));
+
+
     });
+
+
+
   }
 
   onAddSale(formDirective: FormGroupDirective) {
