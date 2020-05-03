@@ -1,3 +1,18 @@
+<div class="welcome-section content-hidden">
+    <div class="content-wrap">
+      <ul class="fly-in-text">
+        <li>H</li>
+        <li>i</li>
+    </ul>
+
+
+    </div>
+</div>
+<script type="text/javascript">
+
+
+
+</script>
 
 
 <div class="scout-dashboard">
@@ -5,18 +20,18 @@
     <div class="small-card-1">
       <mat-card class="example-card animation">
 
-          <!-- <div mat-card-avatar class="example-header-image"></div> -->
-          <mat-card-title >Total Sale</mat-card-title>
+          <div mat-card-avatar class="example-header-image1"></div>
+          <mat-card-title >Total Sale <i class="fas fa-info-circle info"></i></mat-card-title>
           <mat-card-title><img src="https://img.icons8.com/color/48/000000/coins.png"/>
           </mat-card-title>
 
         <mat-card-content>
-            <h1>$500</h1>
+            <h1>{{totalSale | currency}}</h1>
 
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button>LIKE</button>
-          <button mat-button>SHARE</button>
+          <!-- <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button> -->
         </mat-card-actions>
       </mat-card>
     </div>
@@ -27,17 +42,22 @@
     <div class="small-card-2">
         <mat-card class="example-card animation">
 
-          <!-- <div mat-card-avatar class="example-header-image"></div> -->
-          <mat-card-title >Total Revenue</mat-card-title>
+          <div mat-card-avatar class="example-header-image2"></div>
+          <mat-card-title >Report Sale <i class="fas fa-info-circle info"></i></mat-card-title>
           <mat-card-title><img src="https://img.icons8.com/color/48/000000/economic-improvement.png"/></mat-card-title>
 
         <mat-card-content>
-            <h1>$500</h1>
+          <button routerLinkActive="activeRoute" [routerLink]="['/sales-scout']" mat-raised-button color="accent" >Add Sale</button>
+          <span>&nbsp;&nbsp;</span>
+          <button routerLinkActive="activeRoute" [routerLink]="['/sales-scout']" mat-raised-button color="accent" >Request Sale</button>
+
+
+
 
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button>LIKE</button>
-          <button mat-button>SHARE</button>
+          <!-- <button mat-button>LIKE</button>
+          <button mat-button>SHARE</button> -->
         </mat-card-actions>
         </mat-card>
 
@@ -47,40 +67,101 @@
 
     <div class="small-card-3">
       <mat-card class="example-card animation">
-        <!-- <div mat-card-avatar class="example-header-image"></div> -->
-        <mat-card-title >Total Cookies</mat-card-title>
-        <mat-card-title><img src="https://img.icons8.com/color/48/000000/negative-dynamic.png"/></mat-card-title>
+        <div mat-card-avatar class="example-header-image3"></div>
+        <mat-card-title >Total Cookies <i class="fas fa-info-circle info"></i></mat-card-title>
+        <mat-card-title><img src="https://img.icons8.com/color/48/000000/dropbox.png"/></mat-card-title>
 
       <mat-card-content>
-          <h1>$500</h1>
+          <h1>{{totalCookies}}</h1>
 
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button>LIKE</button>
-        <button mat-button>SHARE</button>
+        <!-- <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button> -->
       </mat-card-actions>
     </mat-card>
 
     </div>
 
-    <div class="chart">
-      <mat-card >
+    <div class="chart-sale">
+      <mat-card class="inv-sale">
         <!-- <mat-spinner *ngIf="!isTrpChartReady"></mat-spinner> -->
         <!-- <div style="display: block" *ngIf="isTrpChartReady"> -->
+          <div style="display: block">
           <canvas
-              mdbChart
+              baseChart
               [chartType]="chartTypeSal"
               [datasets]="chartDatasetsSal"
               [labels]="chartLabelsSal"
-              [colors]="chartColorsSal"
+
               [options]="chartOptionsSal"
               [legend]="true"
               (chartHover)="chartHoveredSal($event)"
               (chartClick)="chartClickedSal($event)">
           </canvas>
-        <!-- </div> -->
+        </div>
       </mat-card>
     </div>
+
+    <!-- <div class="inventory-overview">
+      <mat-card class="inv-overview">
+        <div style="display: block">
+            <canvas baseChart
+              [chartType]="chartTypeInv"
+              [datasets]="chartDatasetsInv"
+              [labels]="chartLabelsInv"
+              [colors]="chartColorsInv"
+              [options]="chartOptionsInv"
+              [legend]="true">
+            </canvas>
+        </div>
+      </mat-card>
+    </div> -->
+
+    <!-- <div class="medium-card">
+      <div class="small-card-4">
+        <mat-card >
+          <h2 class="center">place holder</h2>
+        </mat-card>
+      </div>
+
+          <div class="grid-container">
+            <div class="small-card-5">
+              <mat-card>
+                  <h2>placeholder</h2>
+                  <h2>placeholder</h2>
+                  <button routerLinkActive="activeRoute" [routerLink]="['/sales-scout']" mat-raised-button color="accent" >Add Sale</button>
+
+              </mat-card>
+
+
+          </div>
+
+            <div class="small-card-6">
+
+
+            </div>
+
+          </div>
+    </div> -->
+
+
+    <mat-card class="chart-event">
+      <canvas baseChart
+        [chartType]="chartTypeEvent"
+        [datasets]="chartDatasetsEvent"
+        [labels]="chartLabelsEvent"
+        [colors]="chartColorsEvent"
+        [options]="chartOptionsEvent"
+        [legend]="true"
+        (chartHover)="chartHoveredEvent($event)"
+        (chartClick)="chartClickedEvent($event)">
+      </canvas>
+    </mat-card>
+
+
+
+
 
 <!-- end of class sout-dashboard -->
 </div>
