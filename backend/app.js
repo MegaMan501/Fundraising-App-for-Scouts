@@ -22,6 +22,7 @@ const saleRoutes = require("./routes/sale-route");
 const inventoryRoutes = require("./routes/inventory-route");
 const memberRoutes = require("./routes/member-route");
 const notificationRoutes = require("./routes/notification-route");
+const eventRoutes = require("./routes/event-route");
 
 // settup the access controll headers and methods 
 app.use((req, res, next) => {
@@ -84,5 +85,6 @@ app.use("/api/sales", saleRoutes);
 app.use("/api/inventory", inventoryRoutes);
 app.use("/api/member", memberRoutes);
 app.use("/api/notification", notificationRoutes);
+app.use("/api/events", eventRoutes);
 
 module.exports = app; 

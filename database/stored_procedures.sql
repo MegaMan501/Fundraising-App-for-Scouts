@@ -794,18 +794,40 @@ DELIMITER ;
 # get all notifications
 DELIMITER //
 CREATE PROCEDURE getNotifications (
-	IN groupId INT
+	IN userId INT,
+    IN now datetime
 )
 BEGIN
-	SELECT u.full_name, p.prod_name, sl.quantity, sl.price, sale_date
-    FROM sale_list AS sl
-    INNER JOIN sale AS s
-    ON s.sale_id=sl.sale_id
-    INNER JOIN product AS p
-    ON p.product_id=sl.product_id
+     #get personal messages
+    SELECT u2.full_name, n.message
+    FROM user as u
+    INNER JOIN notification as n
+    ON n.receiver_user_id = u.user_id
+    INNER JOIN user as u2
+    WHERE (u.user_id = userId AND u2.user_id = n.notifier_user_id AND now <= n.expiration)
+    
+    #combine results
+    UNION
+    
+    #get group messages
+    SELECT u2.full_name, n.message
+    FROM members as m
+    INNER JOIN user as u
+		ON m.user_id=u.user_id
+	INNER JOIN notification as n
+		ON m.group_id=n.group_id
+	INNER JOIN user as u2
+	WHERE (u.user_id = userId AND u2.user_id = n.notifier_user_id AND now <= n.expiration)
+    
+    #combine results again
+    UNION
+    
+    #get global notifications
+
+    SELECT u.full_name, n.message
+    FROM notification AS n
     INNER JOIN user AS u
-    ON u.user_id=s.user_id
-    WHERE groupId=;
+    WHERE (n.group_id IS NULL AND n.receiver_user_id IS NULL AND u.user_id = n.notifier_user_id AND now <= n.expiration);
 END//
 DELIMITER ;
 
@@ -957,5 +979,79 @@ BEGIN
 		ON g.group_id=m.group_id
 		WHERE (g.user_id = userId);
 	END IF;
+END//
+DELIMITER ;
+
+-- Events
+# Get Events
+DELIMITER //
+CREATE PROCEDURE getEvents ()
+BEGIN
+	SELECT * FROM event;
+END//
+DELIMITER ;
+
+# Add Event
+DELIMITER //
+CREATE PROCEDURE addEvent (
+	IN userId INT,
+    IN evnTitle VARCHAR(64),
+	IN evnStartDate DATETIME,
+	IN evnEndDate DATETIME,
+	IN evnLoc VARCHAR(64),
+	IN evnDesc VARCHAR(255)
+)
+BEGIN
+	DECLARE isAdmin INT DEFAULT 0;
+    DECLARE isLeader INT DEFAULT 0;
+	
+    # get the status of admin
+    SELECT COUNT(admin_flag) 
+    INTO isAdmin
+    FROM user 
+    WHERE user_id = userId AND admin_flag = 1; 
+    
+	# get the status of leader
+	SELECT COUNT(leader_flag) 
+    INTO isLeader 
+    FROM user WHERE user_id = userId AND leader_flag = 1;
+	    
+    IF isAdmin >= 1 || isLeader >= 1 THEN
+		INSERT INTO event 
+        (`start_date`, `end_date`, `event_loc`, `event_desc`, `event_title`) 
+        VALUES (evnStartDate, evnEndDate, evnLoc, evnDesc, evnTitle);
+        
+        SELECT * FROM event;
+	END IF;
+    
+END//
+DELIMITER ;
+
+# Delete Event
+DELIMITER //
+CREATE PROCEDURE deleteEvent (
+	IN userId INT, 
+    IN eventId INT
+)
+BEGIN
+    DECLARE isAdmin INT DEFAULT 0;
+    DECLARE isLeader INT DEFAULT 0;
+	
+    # get the status of admin
+    SELECT COUNT(admin_flag) 
+    INTO isAdmin
+    FROM user 
+    WHERE user_id = userId AND admin_flag = 1; 
+    
+	# get the status of leader
+	SELECT COUNT(leader_flag) 
+    INTO isLeader 
+    FROM user WHERE user_id = userId AND leader_flag = 1;
+	    
+    IF isAdmin >= 1 || isLeader >= 1 THEN
+		DELETE FROM event 
+		WHERE event_id = eventId;
+	END IF;
+	
 END//
 DELIMITER ;
