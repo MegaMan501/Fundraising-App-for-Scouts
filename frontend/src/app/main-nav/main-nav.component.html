@@ -53,18 +53,18 @@
            <mat-divider></mat-divider>
 
            <mat-expansion-panel>
-            <!-- Request -->
+            <!-- Scout Events -->
             <mat-expansion-panel-header>
-              <a *ngIf="userIsAuth" [routerLink]="['/request-scout']" mat-list-item routerLinkActive="activeRoute">
+              <a *ngIf="userIsAuth" [routerLink]="['/events-scout']" mat-list-item routerLinkActive="activeRoute">
                <mat-icon >
-                 forum
+                event
                </mat-icon>
                <span class="spacer2"></span>
-               Request
+               Event
              </a>
             </mat-expansion-panel-header>
             <!-- Request items -->
-            <a mat-list-item routerLinkActive="activeRoute" href="#">test</a>
+            <a mat-list-item routerLinkActive="activeRoute" href="/events-scout#viewTable">View Calendar</a>
            </mat-expansion-panel>
            <mat-divider></mat-divider>
         </div>

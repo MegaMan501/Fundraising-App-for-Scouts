@@ -58,6 +58,7 @@ import { LeaderComponent } from './members/leaders/leaders.component';
 import { ScoutComponent } from './members/scouts/scouts.component';
 // Events
 import { EventsLeaderComponent } from './events/events-leader/events-leader.component';
+import { EventsScoutComponent } from './events/events-scout/events-scout.component';
 // Sales
 import { SalesLeaderComponent } from './sale/sales-leader/sales-leader.component';
 import { SalesScoutComponent } from './sale/sales-scout/sales-scout.component';
@@ -91,6 +92,7 @@ import { DialogAddEventComponent } from './dialogs/add-event/add-event.component
     AccountSettingsComponent,
     DashboardLeaderComponent,
     DashboardScoutComponent,
+    EventsScoutComponent,
     GroupComponent,
     MembersComponent,
     LeaderComponent,
