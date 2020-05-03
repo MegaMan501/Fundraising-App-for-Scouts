@@ -57,7 +57,7 @@ import { GroupComponent } from './members/groups/groups.component';
 import { LeaderComponent } from './members/leaders/leaders.component';
 import { ScoutComponent } from './members/scouts/scouts.component';
 // Events
-import { EventsLeaderComponent } from './events-leader/events-leader.component';
+import { EventsLeaderComponent } from './events/events-leader/events-leader.component';
 // Sales
 import { SalesLeaderComponent } from './sale/sales-leader/sales-leader.component';
 import { SalesScoutComponent } from './sale/sales-scout/sales-scout.component';
@@ -78,6 +78,7 @@ import { DialogEditLeaderComponent } from './dialogs/edit-leader/edit-leader.com
 import { DialogEditScoutComponent } from './dialogs/edit-scout/edit-scout.component';
 import { DialogEditInventoryComponent } from './dialogs/edit-inventory/edit-inventory.component';
 import { DialogLogoutComponent } from './dialogs/dialog-logout/dialog-logout.component';
+import { DialogAddEventComponent } from './dialogs/add-event/add-event.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import { DialogLogoutComponent } from './dialogs/dialog-logout/dialog-logout.com
     DialogEditInventoryComponent,
     ErrorComponent,
     NotificationsLeaderComponent,
-    DialogLogoutComponent
+    DialogLogoutComponent,
+    DialogAddEventComponent
   ],
   imports: [
     BrowserModule,
@@ -159,7 +161,8 @@ import { DialogLogoutComponent } from './dialogs/dialog-logout/dialog-logout.com
     DialogEditGroupComponent,
     DialogEditLeaderComponent,
     DialogEditScoutComponent,
-    DialogEditInventoryComponent
+    DialogEditInventoryComponent,
+    DialogAddEventComponent
   ]
 })
 export class AppModule { }

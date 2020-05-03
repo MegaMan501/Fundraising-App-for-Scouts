@@ -55,3 +55,12 @@ export interface detailedSale {
   price: number;
   saleDate: Sale;
 }
+
+export interface Event {
+  eventId: number;
+  evnTitle: string;
+  evnStartDate: Date;
+  evnEndDate: Date;
+  evnLoc: string;
+  evnDesc: string;
+}

@@ -1,0 +1,72 @@
+<h2 mat-dialog-title>{{data.title}}</h2>
+<div mat-dialog-content>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Event Title</mat-label>
+    <input
+      matInput
+      #eventTitle="ngModel"
+      type="text"
+      [(ngModel)]="event.evnTitle"
+      placeholder="Sales Event"
+      required>
+      <mat-error *ngIf="eventTitle.invalid">Enter a Valid Event Title.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Start Date</mat-label>
+    <input
+      matInput
+      #eventStartDate="ngModel"
+      [matDatepicker]="pickerStart"
+      placeholder="04/20/2020"
+      [(ngModel)]="event.evnStartDate"
+      required>
+    <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+    <mat-datepicker #pickerStart></mat-datepicker>
+    <mat-error *ngIf="eventStartDate.invalid">Enter a Valid Start Date.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>End Date</mat-label>
+    <input
+      matInput
+      #eventEndDate="ngModel"
+      [matDatepicker]="pickerEnd"
+      placeholder="04/20/2020"
+      [(ngModel)]="event.evnEndDate"
+      required>
+    <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+    <mat-datepicker #pickerEnd></mat-datepicker>
+    <mat-error *ngIf="eventEndDate.invalid">Enter a Valid End Date.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Event Location</mat-label>
+    <input
+      matInput
+      #eventLoc="ngModel"
+      type="text"
+      [(ngModel)]="event.evnLoc"
+      placeholder="1234 Main St., Plano, TX 7...."
+      required>
+      <mat-error *ngIf="eventLoc.invalid">Enter a Valid Event Location.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Event Description</mat-label>
+    <input
+      matInput
+      #eventDesc="ngModel"
+      type="text"
+      [(ngModel)]="event.evnDesc"
+      placeholder="Some Description of the Event"
+      required>
+      <mat-error *ngIf="eventDesc.invalid">Enter a Valid Description.</mat-error>
+  </mat-form-field>
+
+</div>
+<div mat-dialog-actions class="float-left-btn">
+  <button mat-button color="primary" [disabled]="isEmpty()" [mat-dialog-close]="event">Add Event</button>
+  <button mat-button color="warn" [mat-dialog-close]="false">Cancel</button>
+</div>

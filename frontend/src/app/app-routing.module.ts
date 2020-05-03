@@ -11,7 +11,7 @@ import { InventoryLeaderComponent } from './inventory/inventory-leader/inventory
 import { SalesLeaderComponent } from './sale/sales-leader/sales-leader.component';
 import { RequestsScoutComponent } from './requests-scout/requests-scout.component';
 import { AuthGuard } from './auth/auth.guard';
-import { EventsLeaderComponent } from './events-leader/events-leader.component';
+import { EventsLeaderComponent } from './events/events-leader/events-leader.component';
 import { SalesScoutComponent } from './sale/sales-scout/sales-scout.component';
 import { GroupComponent } from './members/groups/groups.component';
 import { LeaderComponent } from './members/leaders/leaders.component';

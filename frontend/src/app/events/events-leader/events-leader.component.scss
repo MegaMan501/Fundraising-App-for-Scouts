@@ -1,4 +1,6 @@
 h3 {
+  font-size: 2em;
+  color: white;
   margin: 0 0 10px;
 }
 
@@ -13,4 +15,9 @@ mat-card {
   margin-right: calc(1% + 5px);
   margin-left: calc(1% + 5px);
   margin-bottom: 50px;
+  background-color: rgb(47, 44, 56);
+
+  .addBtn {
+    float: right;
+  }
 }
