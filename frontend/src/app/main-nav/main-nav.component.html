@@ -201,8 +201,8 @@
         <mat-menu #notifications="matMenu" class="notifications-menu" xPosition="before">
           <div class="notifications-item" *ngFor="let n of notificationArray; let lastItem = last;">
             <div class="notifications-meta">
-            <h3>{{n.name}}</h3>
-            <!-- <h5>{{n.Date}}</h5> -->
+            <h3>{{n.full_name}}</h3>
+            <h5>{{n.issueDate | date}}</h5>
             </div>
             <p>{{n.message}}</p>
             <mat-divider *ngIf="!lastItem"></mat-divider>
