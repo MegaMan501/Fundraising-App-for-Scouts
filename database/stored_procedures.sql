@@ -724,7 +724,7 @@ CREATE PROCEDURE getNotifications (
 )
 BEGIN
 	#get personal messages
-    SELECT u2.full_name, n.message
+    SELECT u2.full_name, n.message, n.start_time
     FROM user as u
     INNER JOIN notification as n
     ON n.receiver_user_id = u.user_id
@@ -734,22 +734,33 @@ BEGIN
     #combine results
     UNION
     
-    #get group messages
-    SELECT u2.full_name, n.message
-    FROM members as m
-    INNER JOIN user as u
-		ON m.user_id=u.user_id
-	INNER JOIN notification as n
-		ON m.group_id=n.group_id
-	INNER JOIN user as u2
-	WHERE (u.user_id = userId AND u2.user_id = n.notifier_user_id AND now <= n.expiration)
+    #get group messages where you are a member
+	SELECT u.full_name, n.message, n.start_time
+    FROM notification AS n
+	INNER JOIN members AS m
+	ON m.group_id=n.group_id
+	INNER JOIN user AS u
+	ON u.user_id=n.notifier_user_id
+	WHERE (m.user_id=userId)
+    
+	#combine results again
+    UNION
+    
+    #get group messages where you are a leader
+    SELECT u.full_name, n.message, n.start_time
+    FROM notification AS n
+	INNER JOIN groups AS g
+	ON g.group_id=n.group_id
+	INNER JOIN user AS u
+	ON u.user_id=n.notifier_user_id
+	WHERE (g.user_id=userId)
     
     #combine results again
     UNION
     
     #get global notifications
 
-    SELECT u.full_name, n.message
+    SELECT u.full_name, n.message, n.start_time
     FROM notification AS n
     INNER JOIN user AS u
     WHERE (n.group_id IS NULL AND n.receiver_user_id IS NULL AND u.user_id = n.notifier_user_id AND now <= n.expiration);

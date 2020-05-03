@@ -1,38 +1,29 @@
 .small-card-1 {
   grid-area: small-card-1;
   padding: 5px;
-
   min-width: 250px;
-
-
 }
 
 .small-card-2 {
   grid-area: small-card-2;
   padding: 5px;
-
   min-width: 250px;
-
 }
 
 .small-card-3 {
   grid-area: small-card-3;
   padding: 5px;
-
   min-width: 250px;
-
 }
 
 
 .example-card {
   max-width: 500px;
   background-color: #2b2a46d0;
-  // background-color: white;
   color: #b5b8e5;
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
   h1 {
-    // font-weight: 600;
     font-size: 3em;
     font-family: Arial, Helvetica, sans-serif;
     // text-align: center;
@@ -40,10 +31,25 @@
 
 }
 
-.example-header-image {
+.example-header-image1 {
   background-size: cover;
   align-items: center;
+  background-image: url('https://becocapital.com/wp-content/uploads/2015/03/moneyz-1200x671-1080x671.jpg');
 }
+.example-header-image2 {
+  background-size: cover;
+  align-items: center;
+  background-image: url('https://img.icons8.com/cotton/64/000000/report-file--v1.png');
+}
+
+
+.example-header-image3 {
+  background-size: cover;
+  align-items: center;
+  background-image: url('https://www.pngitem.com/pimgs/m/567-5674923_stock-and-release-inventory-icon-png-transparent-png.png');
+}
+
+
 
 mat-card-title {
   margin-bottom: 20px;
@@ -55,31 +61,148 @@ mat-spinner {
 }
 
 
-.chart {
-  grid-area: chart;
+
+.troops-overview {
+  grid-area: troops-overview;
+  margin: 20px auto;
+  align-self: center;
+  justify-self: center;
+  canvas {
+    height: 100vh;
+    width: 100%;
+  }
+}
+
+// .inventory-overview {
+//   grid-area: inventory-overview;
+//   justify-items: center;
+// }
+// .inventory {
+//   grid-area: inventory;
+//   justify-items: center;
+//   .inv {
+//     display: flex;
+//     flex-direction: column;
+//     background-color: DarkSlateGrey;
+//     text-align: center;
+//     color: white;
+//     justify-content: center;
+//     align-items: center;
+//   };
+// }
+
+
+
+
+
+
+
+.chart-sale {
+  grid-area: chart-sale;
+  justify-items: center;
   // padding: 20px;
   // background-color: white;
   margin:5px;
 
-
-
-  canvas {
-    max-height: 500px;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+  .inventory {
+    grid-area: inventory;
+    justify-items: center;
+    .inv {
+      display: flex;
+      flex-direction: column;
+      background-color: DarkSlateGrey;
+      text-align: center;
+      color: white;
+      justify-content: center;
+      align-items: center;
+    };
   }
+
 }
 
 
-.temp {
-  grid-area:temp;
+.medium-card {
+  grid-area:medium-card;
+
+  margin:5px;
+
+
+  .small-card-4 {
+
+    min-height: 220px;
+    color: white;
+    margin-bottom: 10px;
+
+    .center {
+      top: 50%;
+      left:50%;
+      margin: 0;
+      text-align: center;
+      // position: absolute;
+    }
+
+    mat-card {
+      background-color: #2b2a46d0;
+      min-height: 220px;
+      color: #b5b8e5;
+    }
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 5px;
+
+  }
+  .small-card-5 {
+    // max-height: auto;
+    // background-color: #2b2a46d0;
+    color: #b5b8e5;
+    height: 25vh;
+    // max-height: 25vh;
+    text-align: center;
+
+    mat-card {
+      background-color: #2b2a46d0;
+      height: 25vh;
+      color: #b5b8e5;
+    }
+
+    .center {
+        position: relative;
+        top: 40%;
+
+      // position: absolute;
+    }
+
+  }
+
+  .small-card-6 {
+    max-height: auto;
+    background-color: #2b2a46d0;
+    color: #b5b8e5;
+  }
+
 }
+
+.chart-event {
+  grid-area: chart-event
+}
+
+
+
+
+
+
 
 
 .animation:hover {
   transition: transform 0.6s;
   transform: translateY(-10px);
+}
+
+.info:hover {
+  cursor: pointer;
 }
 
 
@@ -105,10 +228,14 @@ mat-spinner {
       "small-card-1"
       "small-card-2"
       "small-card-3"
-      "chart"
+      "chart-sale"
+      // "medium-card"
+      "chart-event"
       ;
 
     }
+
+
   }
 
   @media screen and (min-width: 1200px) {
@@ -120,10 +247,15 @@ mat-spinner {
       grid-template-columns: 1fr 1fr 1fr;
       grid-template-areas:
       "small-card-1 small-card-2 small-card-3"
-      "chart chart temp"
+      "chart-sale chart-sale chart-sale"
+      "chart-event chart-event chart-event"
       ;
     }
 
 
   }
+
+  // canvas {
+  //   max-width: 98%;
+  // }
 }
