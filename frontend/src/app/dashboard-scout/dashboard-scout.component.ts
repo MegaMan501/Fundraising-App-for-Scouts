@@ -235,14 +235,6 @@ export class DashboardScoutComponent implements OnInit {
 
     });
 
-
-
-
-
-
-
-
-
     this.inventoryService.getInventory();
     this.inventorySub = this.inventoryService
     .getInventoryStatusListner()
@@ -259,6 +251,8 @@ export class DashboardScoutComponent implements OnInit {
 
     });
   }
+
+
 
   ngOnDestroy() {
     this.saleSub.unsubscribe();
