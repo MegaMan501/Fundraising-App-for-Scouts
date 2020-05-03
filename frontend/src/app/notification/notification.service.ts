@@ -37,8 +37,9 @@ export class NotificationService {
         return {
           notifications: notificationData.rows.map(n => {
             return {
-              name: n.full_name,
+              full_name: n.full_name,
               message: n.message,
+              issueDate: n.start_time
             };
           }),
         };
