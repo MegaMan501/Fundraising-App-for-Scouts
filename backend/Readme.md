@@ -14,6 +14,10 @@ MYSQL_DB="<database name>"
 MYSQL_CA="/path/to/server-ca.pem"
 MYSQL_KEY="/path/to/client-key.pem"
 MYSQL_CERT="/path/to/client-cert.pem"
+OAUTH2_CLIENT_ID="given_oauth2_client_id"
+OAUTH2_CLIENT_SECRET="given_oauth2_secret"
+OAUTH2_REFRESH_TOKEN="given_oauth2_refresh_token"
+EMAIL_USER="email_account_used_for_nodemailer"
 JWT_KEY="<very very long secret password>"
 ```
 
